@@ -1,0 +1,98 @@
+{
+  "name": "04 — Transcription + Clip Detection Pipeline",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "transcribe-and-clip", "options": {} },
+      "id": "webhook-start",
+      "name": "Webhook: Video Ready",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "transcribe-and-clip"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/transcribe",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "videoId", "value": "={{ $json.body.videoId }}" },
+            { "name": "videoPath", "value": "={{ $json.body.videoPath }}" }
+          ]
+        }
+      },
+      "id": "queue-transcribe",
+      "name": "1. Queue Transcription",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    { "parameters": { "amount": 90, "unit": "seconds" }, "id": "wait-transcribe", "name": "Wait: Transcription", "type": "n8n-nodes-base.wait", "typeVersion": 1.1, "position": [540, 300] },
+    {
+      "parameters": {
+        "url": "=http://host.docker.internal:4000/api/jobs/{{ $('1. Queue Transcription').item.json.jobId }}",
+        "options": {}
+      },
+      "id": "check-transcribe",
+      "name": "Check Transcription Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [{ "leftValue": "={{ $json.status }}", "rightValue": "COMPLETED", "operator": { "type": "string", "operation": "equals" } }]
+        }
+      },
+      "id": "is-complete",
+      "name": "Transcription Done?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/clips",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "videoId", "value": "={{ $('Webhook: Video Ready').item.json.body.videoId }}" }] }
+      },
+      "id": "detect-clips",
+      "name": "2. Detect Viral Clips",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1200, 200]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/webhooks/events",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "event", "value": "TRANSCRIPTION_FAILED" },
+            { "name": "data", "value": "={ \"message\": \"Transcription timed out\", \"videoId\": \"{{ $('Webhook: Video Ready').item.json.body.videoId }}\" }" }
+          ]
+        }
+      },
+      "id": "notify-failed",
+      "name": "Notify: Transcription Failed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1200, 400]
+    }
+  ],
+  "connections": {
+    "Webhook: Video Ready": { "main": [[{ "node": "1. Queue Transcription", "type": "main", "index": 0 }]] },
+    "1. Queue Transcription": { "main": [[{ "node": "Wait: Transcription", "type": "main", "index": 0 }]] },
+    "Wait: Transcription": { "main": [[{ "node": "Check Transcription Status", "type": "main", "index": 0 }]] },
+    "Check Transcription Status": { "main": [[{ "node": "Transcription Done?", "type": "main", "index": 0 }]] },
+    "Transcription Done?": {
+      "main": [
+        [{ "node": "2. Detect Viral Clips", "type": "main", "index": 0 }],
+        [{ "node": "Notify: Transcription Failed", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Content Factory" }]
+}

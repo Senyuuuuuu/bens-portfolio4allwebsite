@@ -1,0 +1,57 @@
+{
+  "name": "02 — Business Analysis & Audit Pipeline",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "analyze-lead", "options": {} },
+      "id": "webhook-in",
+      "name": "Webhook: Analyze Lead",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "analyze-lead"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/website/audit",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "leadId", "value": "={{ $json.body.leadId }}" }] }
+      },
+      "id": "audit-website",
+      "name": "1. Website Audit",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/facebook/analyze",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "leadId", "value": "={{ $('Webhook: Analyze Lead').item.json.body.leadId }}" }] }
+      },
+      "id": "analyze-fb",
+      "name": "2. Facebook Analysis",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/business/analyze",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "leadId", "value": "={{ $('Webhook: Analyze Lead').item.json.body.leadId }}" }] }
+      },
+      "id": "generate-bi",
+      "name": "3. Business Intelligence",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [760, 300]
+    }
+  ],
+  "connections": {
+    "Webhook: Analyze Lead": { "main": [[{ "node": "1. Website Audit", "type": "main", "index": 0 }]] },
+    "1. Website Audit": { "main": [[{ "node": "2. Facebook Analysis", "type": "main", "index": 0 }]] },
+    "2. Facebook Analysis": { "main": [[{ "node": "3. Business Intelligence", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Lead Gen & Website Platform" }]
+}

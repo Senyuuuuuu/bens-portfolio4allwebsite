@@ -1,0 +1,49 @@
+{
+  "name": "06 — Outreach Preparation & Draft Gate",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "prepare-outreach", "options": {} },
+      "id": "webhook-outreach",
+      "name": "Webhook: Prepare Outreach",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "prepare-outreach"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/outreach",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "leadId", "value": "={{ $json.body.leadId }}" }] }
+      },
+      "id": "gen-outreach-drafts",
+      "name": "1. Generate Outreach Drafts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/webhooks/events",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "event", "value": "OUTREACH_DRAFTS_READY" },
+            { "name": "data", "value": "={ \"leadId\": \"{{ $('Webhook: Prepare Outreach').item.json.body.leadId }}\", \"message\": \"Drafts created and pending review in Outreach Studio.\" }" }
+          ]
+        }
+      },
+      "id": "notify-outreach-ready",
+      "name": "2. Notify Outreach Studio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [540, 300]
+    }
+  ],
+  "connections": {
+    "Webhook: Prepare Outreach": { "main": [[{ "node": "1. Generate Outreach Drafts", "type": "main", "index": 0 }]] },
+    "1. Generate Outreach Drafts": { "main": [[{ "node": "2. Notify Outreach Studio", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Lead Gen & Website Platform" }]
+}

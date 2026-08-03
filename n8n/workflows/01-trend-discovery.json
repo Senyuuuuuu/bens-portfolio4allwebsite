@@ -1,0 +1,76 @@
+{
+  "name": "01 — Trend Discovery (Cron)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": { "interval": [{ "field": "hours", "hoursInterval": 2 }] }
+      },
+      "id": "cron-trigger",
+      "name": "Every 2 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [220, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/webhooks/trigger/trend-hunter",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "input", "value": "={ \"sources\": [\"youtube\", \"reddit\", \"google_trends\"] }" },
+            { "name": "priority", "value": 3 }
+          ]
+        },
+        "options": { "timeout": 300000 }
+      },
+      "id": "trigger-trend-hunter",
+      "name": "Trigger Trend Hunter",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "url": "=http://host.docker.internal:4000/api/jobs/{{ $json.jobId }}",
+        "options": {}
+      },
+      "id": "wait-for-job",
+      "name": "Get Job Result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true },
+          "conditions": [{ "leftValue": "={{ $json.status }}", "rightValue": "COMPLETED", "operator": { "type": "string", "operation": "equals" } }]
+        }
+      },
+      "id": "check-status",
+      "name": "Job Complete?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [880, 300]
+    },
+    {
+      "parameters": {
+        "message": "=✅ Trend Discovery Complete!\nFound: {{ $json.output.count }} trends\nTop: {{ $json.output.trends[0].title }}",
+        "options": {}
+      },
+      "id": "notify-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1100, 200]
+    }
+  ],
+  "connections": {
+    "Every 2 Hours": { "main": [[{ "node": "Trigger Trend Hunter", "type": "main", "index": 0 }]] },
+    "Trigger Trend Hunter": { "main": [[{ "node": "Get Job Result", "type": "main", "index": 0 }]] },
+    "Get Job Result": { "main": [[{ "node": "Job Complete?", "type": "main", "index": 0 }]] },
+    "Job Complete?": { "main": [[{ "node": "Log Success", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Content Factory" }]
+}

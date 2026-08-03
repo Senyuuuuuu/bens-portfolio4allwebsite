@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS — AI Operating System</title>
+    <meta name="description" content="JARVIS is an intelligent AI Operating System for digital agencies — where autonomous AI employees collaborate, build, design, and automate your entire business.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<!-- ══ JARVIS CINEMATIC BOOT OVERLAY ════════════════════════════════════════ -->
+<div id="jarvis-boot-overlay">
+    <div class="boot-scanlines"></div>
+    <div class="boot-top-bar">
+        <span class="boot-logo-text">J·A·R·V·I·S</span>
+        <span class="boot-ver">v2.0 · STARK TECH</span>
+    </div>
+    <div class="boot-orb-placeholder">
+        <div class="boot-orb-ring boot-ring-1"></div>
+        <div class="boot-orb-ring boot-ring-2"></div>
+        <div class="boot-orb-ring boot-ring-3"></div>
+    </div>
+    <div class="boot-panel">
+        <div class="boot-log" id="boot-log"></div>
+        <div class="boot-progress-track">
+            <div class="boot-progress-fill" id="boot-progress-fill"></div>
+        </div>
+        <div class="boot-status-text" id="boot-status">INITIALIZING...</div>
+    </div>
+    <div class="boot-corner boot-tl"></div>
+    <div class="boot-corner boot-tr"></div>
+    <div class="boot-corner boot-bl"></div>
+    <div class="boot-corner boot-br"></div>
+</div>
+
+<!-- Animated Background -->
+<canvas id="bg-canvas"></canvas>
+<div class="bg-gradient-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+</div>
+
+<!-- Voice Activation Overlay -->
+<div class="voice-overlay" id="voice-overlay">
+    <div class="voice-ring voice-ring-1"></div>
+    <div class="voice-ring voice-ring-2"></div>
+    <div class="voice-ring voice-ring-3"></div>
+    <div class="voice-core">
+        <div class="voice-icon">🎙</div>
+        <div class="voice-text" id="voice-overlay-status">Listening...</div>
+        <canvas id="voice-spectrum-canvas" width="300" height="48" style="margin:12px auto;display:block;"></canvas>
+        <div class="voice-caption" id="voice-caption">Say "Hey JARVIS" or tap a suggestion...</div>
+        
+        <!-- Voice Proactive Suggestion Chips -->
+        <div class="voice-suggestions-chips" id="voice-suggestions-chips">
+            <button class="v-chip" onclick="if(window.jarvisVoice) jarvisVoice.processCommand('What is our monthly revenue?')">💰 Monthly Revenue</button>
+            <button class="v-chip" onclick="if(window.jarvisVoice) jarvisVoice.processCommand('Open Mission Control')">🎯 Mission Control</button>
+            <button class="v-chip" onclick="if(window.jarvisVoice) jarvisVoice.processCommand('Deploy all ready projects')">🚀 Deploy Projects</button>
+            <button class="v-chip" onclick="if(window.jarvisVoice) jarvisVoice.processCommand('What is the system status?')">📊 System Status</button>
+            <button class="v-chip" onclick="if(window.jarvisVoice) jarvisVoice.processCommand('Give me an agent briefing')">🤖 Agent Briefing</button>
+        </div>
+    </div>
+    <button class="voice-close" id="voice-close" title="Close Voice Overlay">✕</button>
+</div>
+
+<!-- App Shell -->
+<div class="jarvis-shell">
+
+    <!-- ═══ LEFT SIDEBAR ═══ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">
+                <div class="brand-core-ring"></div>
+                <span class="brand-icon">⬡</span>
+            </div>
+            <div class="brand-text">
+                <span class="brand-name">JARVIS</span>
+                <span class="brand-sub">AI Operating System</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">CORE</div>
+            <a href="#" class="nav-item active" data-view="dashboard" id="nav-dashboard">
+                <span class="nav-icon">⬡</span>
+                <span class="nav-label">Dashboard</span>
+                <span class="nav-badge live">LIVE</span>
+            </a>
+            <a href="#" class="nav-item" data-view="mission" id="nav-mission">
+                <span class="nav-icon">🎯</span>
+                <span class="nav-label">Mission Control</span>
+            </a>
+            <a href="#" class="nav-item" data-view="workforce" id="nav-workforce">
+                <span class="nav-icon">🤖</span>
+                <span class="nav-label">Agents</span>
+                <span class="nav-count">26</span>
+            </a>
+
+            <div class="nav-section-label">BUSINESS</div>
+            <a href="#" class="nav-item" data-view="projects" id="nav-projects">
+                <span class="nav-icon">📁</span>
+                <span class="nav-label">Projects</span>
+                <span class="nav-count">8</span>
+            </a>
+            <a href="#" class="nav-item" data-view="clients" id="nav-clients">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Clients</span>
+            </a>
+            <a href="#" class="nav-item" data-view="crm" id="nav-crm">
+                <span class="nav-icon">💼</span>
+                <span class="nav-label">CRM</span>
+            </a>
+            <a href="#" class="nav-item" data-view="sales" id="nav-sales">
+                <span class="nav-icon">🚀</span>
+                <span class="nav-label">Sales & Leads</span>
+                <span class="nav-badge hot">HOT</span>
+            </a>
+
+            <div class="nav-section-label">STUDIO</div>
+            <a href="#" class="nav-item" data-view="development" id="nav-development">
+                <span class="nav-icon">💻</span>
+                <span class="nav-label">Development</span>
+            </a>
+            <a href="#" class="nav-item" data-view="design" id="nav-design">
+                <span class="nav-icon">🎨</span>
+                <span class="nav-label">Design</span>
+            </a>
+            <a href="#" class="nav-item" data-view="automation" id="nav-automation">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-label">Automations</span>
+                <span class="nav-badge pulse">5 FLOWS</span>
+            </a>
+            <a href="#" class="nav-item" data-view="video" id="nav-video">
+                <span class="nav-icon">🎬</span>
+                <span class="nav-label">Video Studio</span>
+            </a>
+
+            <div class="nav-section-label">INTELLIGENCE</div>
+            <a href="#" class="nav-item" data-view="analytics" id="nav-analytics">
+                <span class="nav-icon">📈</span>
+                <span class="nav-label">Analytics</span>
+            </a>
+            <a href="#" class="nav-item" data-view="knowledge" id="nav-knowledge">
+                <span class="nav-icon">📚</span>
+                <span class="nav-label">Knowledge</span>
+            </a>
+            <a href="#" class="nav-item" data-view="memory" id="nav-memory">
+                <span class="nav-icon">🧠</span>
+                <span class="nav-label">Memory</span>
+            </a>
+
+            <div class="nav-section-label">SYSTEM</div>
+            <a href="#" class="nav-item" data-view="notifications" id="nav-notifications">
+                <span class="nav-icon">🔔</span>
+                <span class="nav-label">Notifications</span>
+                <span class="nav-count">3</span>
+            </a>
+            <a href="#" class="nav-item" data-view="settings" id="nav-settings">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-label">Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="system-health">
+                <div class="health-label">SYSTEM</div>
+                <div class="health-bars">
+                    <div class="health-bar" title="CPU">
+                        <span>CPU</span>
+                        <div class="bar"><div class="fill" id="cpu-bar" style="width:34%"></div></div>
+                        <span id="cpu-val">34%</span>
+                    </div>
+                    <div class="health-bar" title="MEM">
+                        <span>MEM</span>
+                        <div class="bar"><div class="fill" id="mem-bar" style="width:58%"></div></div>
+                        <span id="mem-val">58%</span>
+                    </div>
+                    <div class="health-bar" title="GPU">
+                        <span>GPU</span>
+                        <div class="bar"><div class="fill green" id="gpu-bar" style="width:21%"></div></div>
+                        <span id="gpu-val">21%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="jarvis-status-pill">
+                <span class="status-dot"></span>
+                <span>All Systems Nominal</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ═══ CENTER WORKSPACE ═══ -->
+    <main class="workspace" id="workspace">
+
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <div class="breadcrumb">
+                    <span class="breadcrumb-root">JARVIS</span>
+                    <span class="breadcrumb-sep">›</span>
+                    <span class="breadcrumb-current" id="breadcrumb-view">Dashboard</span>
+                </div>
+                <div class="topbar-clock" id="topbar-clock">00:00:00</div>
+            </div>
+            <div class="topbar-center">
+                <div class="search-bar" id="search-bar">
+                    <span class="search-icon">⌕</span>
+                    <input type="text" placeholder="Ask JARVIS anything..." id="search-input">
+                    <kbd class="search-kbd">⌘K</kbd>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="topbar-metrics">
+                    <div class="tm-item">
+                        <span class="tm-label">AGENTS</span>
+                        <span class="tm-val cyan" id="active-agents-count">26</span>
+                    </div>
+                    <div class="tm-divider"></div>
+                    <div class="tm-item">
+                        <span class="tm-label">TASKS</span>
+                        <span class="tm-val" id="active-tasks-count">47</span>
+                    </div>
+                    <div class="tm-divider"></div>
+                    <div class="tm-item">
+                        <span class="tm-label">REVENUE</span>
+                        <span class="tm-val green">$124k</span>
+                    </div>
+                </div>
+                <button class="reboot-btn" id="reboot-trigger" onclick="if(window.rebootJarvis) window.rebootJarvis()" title="Re-run 9-Stage Boot Sequence">
+                    <span class="reboot-icon">⚡</span>
+                    <span>RE-BOOT JARVIS</span>
+                </button>
+                <button class="voice-btn" id="voice-trigger" title="Hey JARVIS">
+                    <span class="voice-pulse"></span>
+                    <span class="voice-mic">🎙</span>
+                    <span>Hey JARVIS</span>
+                </button>
+                <div class="topbar-avatar">
+                    <div class="avatar-ring"></div>
+                    <span>J</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- VIEWS CONTAINER -->
+        <div class="views-container">
+
+            <!-- ── DASHBOARD VIEW ── -->
+            <div class="view active" id="view-dashboard">
+
+                <!-- HERO: JARVIS Core -->
+                <section class="jarvis-hero">
+                    <div class="hero-core-wrap">
+                        <div class="hero-rings" data-state="boot">
+                            <div class="hero-ring ring-1"></div>
+                            <div class="hero-ring ring-2"></div>
+                            <div class="hero-ring ring-3"></div>
+                            <div class="hero-ring ring-4"></div>
+                        </div>
+                        <div class="hero-sphere orb-boot" id="hero-sphere">
+                            <canvas id="sphere-canvas"></canvas>
+                            <div class="sphere-glow"></div>
+                        </div>
+                        <div class="hero-particles" id="hero-particles"></div>
+                        <div class="hero-pulse-wave"></div>
+                        <!-- STATE BADGE -->
+                        <div class="jarvis-state-badge state-boot" id="jarvis-state-badge">BOOTING</div>
+                    </div>
+
+                    <!-- HUD COMMUNICATION PANEL -->
+                    <div class="hud-comm-panel" id="hud-comm-panel">
+                        <div class="hud-comm-header">
+                            <span class="hud-comm-dot"></span>
+                            <span class="hud-comm-label">COMMUNICATION LINK</span>
+                            <span class="hud-comm-dot"></span>
+                        </div>
+                        <div class="hud-comm-user" id="hud-comm-user"></div>
+                        <div class="hud-comm-divider"></div>
+                        <div class="hud-comm-response" id="hud-comm-response"></div>
+                    </div>
+
+                    <div class="hero-info">
+                        <div class="hero-status">
+                            <span class="status-dot lg"></span>
+                            <span>JARVIS ONLINE — All 26 agents operational</span>
+                        </div>
+                        <h1 class="hero-title"><span id="hero-greeting">Good afternoon</span>,<br><span class="gradient-text">Sir</span></h1>
+                        <p class="hero-subtitle">All systems are operational. 14 automations currently running. 8 active projects in pipeline.</p>
+                        <div class="hero-actions">
+                            <button class="btn-primary" id="new-project-btn">+ New Project</button>
+                            <button class="btn-ghost" id="view-workforce-btn">View AI Team →</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- KPI GRID -->
+                <section class="kpi-grid">
+                    <div class="kpi-card" data-color="cyan">
+                        <div class="kpi-icon">💰</div>
+                        <div class="kpi-body">
+                            <div class="kpi-value" id="kpi-revenue">$124,800</div>
+                            <div class="kpi-label">Monthly Revenue</div>
+                            <div class="kpi-delta up">+18.4% MoM</div>
+                        </div>
+                        <svg class="kpi-spark" viewBox="0 0 80 30">
+                            <polyline points="0,25 10,20 20,22 30,15 40,18 50,10 60,12 70,6 80,8" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="kpi-card" data-color="purple">
+                        <div class="kpi-icon">📁</div>
+                        <div class="kpi-body">
+                            <div class="kpi-value">8</div>
+                            <div class="kpi-label">Active Projects</div>
+                            <div class="kpi-delta up">+2 this week</div>
+                        </div>
+                        <div class="kpi-progress">
+                            <div class="kpi-progress-fill" style="width:65%"></div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" data-color="green">
+                        <div class="kpi-icon">⚡</div>
+                        <div class="kpi-body">
+                            <div class="kpi-value">340h</div>
+                            <div class="kpi-label">Automation Saved</div>
+                            <div class="kpi-delta up">This month</div>
+                        </div>
+                        <div class="kpi-donut">
+                            <svg viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#1e293b" stroke-width="3"/>
+                                <circle cx="18" cy="18" r="15.9" fill="none" stroke="#22c55e" stroke-width="3"
+                                    stroke-dasharray="72 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                            </svg>
+                            <span>72%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-card" data-color="blue">
+                        <div class="kpi-icon">🚀</div>
+                        <div class="kpi-body">
+                            <div class="kpi-value">47</div>
+                            <div class="kpi-label">Deployments</div>
+                            <div class="kpi-delta up">+5 today</div>
+                        </div>
+                        <svg class="kpi-spark" viewBox="0 0 80 30">
+                            <polyline points="0,28 10,24 20,26 30,20 40,22 50,16 60,14 70,10 80,5" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="kpi-card" data-color="orange">
+                        <div class="kpi-icon">👥</div>
+                        <div class="kpi-body">
+                            <div class="kpi-value">24</div>
+                            <div class="kpi-label">Active Clients</div>
+                            <div class="kpi-delta up">+3 this month</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card" data-color="pink">
+                        <div class="kpi-icon">🤖</div>
+                        <div class="kpi-body">
+                            <div class="kpi-value">26/26</div>
+                            <div class="kpi-label">AI Agents Online</div>
+                            <div class="kpi-delta neutral">100% uptime</div>
+                        </div>
+                        <div class="kpi-agents-dot-row">
+                            <span class="dot active"></span><span class="dot active"></span><span class="dot active"></span>
+                            <span class="dot active"></span><span class="dot active"></span><span class="dot active"></span>
+                            <span class="dot active"></span><span class="dot active"></span><span class="dot active"></span>
+                            <span class="dot active"></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BOTTOM GRID: Agent Activity + Pipeline + Calendar -->
+                <section class="dashboard-grid">
+                    <!-- Live Agent Activity -->
+                    <div class="dash-card agent-activity-card">
+                        <div class="card-header">
+                            <h3>Live Agent Activity</h3>
+                            <span class="badge-live">● LIVE</span>
+                        </div>
+                        <div class="agent-activity-list" id="live-activity-list">
+                            <!-- populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Project Pipeline -->
+                    <div class="dash-card pipeline-card">
+                        <div class="card-header">
+                            <h3>Project Pipeline</h3>
+                            <span class="card-action" onclick="document.getElementById('nav-projects').click()">View All →</span>
+                        </div>
+                        <div class="pipeline-stages">
+                            <div class="pipeline-stage">
+                                <div class="stage-label">Discovery</div>
+                                <div class="pipeline-task-stack">
+                                    <div class="pipeline-task" style="--c:#8B5CF6">Nexus SaaS</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-arrow">›</div>
+                            <div class="pipeline-stage">
+                                <div class="stage-label">Design</div>
+                                <div class="pipeline-task-stack">
+                                    <div class="pipeline-task" style="--c:#38BDF8">TechFlow UI</div>
+                                    <div class="pipeline-task" style="--c:#38BDF8">Brand Kit</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-arrow">›</div>
+                            <div class="pipeline-stage">
+                                <div class="stage-label">Dev</div>
+                                <div class="pipeline-task-stack">
+                                    <div class="pipeline-task active" style="--c:#00E5FF">Alpha App</div>
+                                    <div class="pipeline-task" style="--c:#00E5FF">API v2</div>
+                                    <div class="pipeline-task" style="--c:#00E5FF">Portal</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-arrow">›</div>
+                            <div class="pipeline-stage">
+                                <div class="stage-label">QA</div>
+                                <div class="pipeline-task-stack">
+                                    <div class="pipeline-task" style="--c:#22C55E">MetaShop</div>
+                                </div>
+                            </div>
+                            <div class="pipeline-arrow">›</div>
+                            <div class="pipeline-stage">
+                                <div class="stage-label">Deploy</div>
+                                <div class="pipeline-task-stack">
+                                    <div class="pipeline-task" style="--c:#FACC15">LandingX</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming -->
+                    <div class="dash-card calendar-card">
+                        <div class="card-header">
+                            <h3>Today's Schedule</h3>
+                            <span class="card-action">Full Calendar →</span>
+                        </div>
+                        <div class="schedule-list">
+                            <div class="schedule-item">
+                                <div class="sched-time">09:00</div>
+                                <div class="sched-dot" style="background:#00E5FF"></div>
+                                <div class="sched-body">
+                                    <div class="sched-title">Client Review — Alpha App</div>
+                                    <div class="sched-meta">Design Team · 45 min</div>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="sched-time">11:30</div>
+                                <div class="sched-dot" style="background:#8B5CF6"></div>
+                                <div class="sched-body">
+                                    <div class="sched-title">Sprint Planning</div>
+                                    <div class="sched-meta">Dev Team · 1h</div>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="sched-time">14:00</div>
+                                <div class="sched-dot" style="background:#22C55E"></div>
+                                <div class="sched-body">
+                                    <div class="sched-title">SEO Strategy Call</div>
+                                    <div class="sched-meta">Marketing · 30 min</div>
+                                </div>
+                            </div>
+                            <div class="schedule-item">
+                                <div class="sched-time">16:00</div>
+                                <div class="sched-dot" style="background:#FACC15"></div>
+                                <div class="sched-body">
+                                    <div class="sched-title">Deploy MetaShop v2.1</div>
+                                    <div class="sched-meta">DevOps Agent · Auto</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Feed -->
+                    <div class="dash-card activity-feed-card">
+                        <div class="card-header">
+                            <h3>Activity Feed</h3>
+                            <span class="badge-live">● LIVE</span>
+                        </div>
+                        <div class="activity-feed" id="activity-feed">
+                            <!-- populated by JS -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ── WORKFORCE VIEW ── -->
+            <div class="view" id="view-workforce">
+                <div class="view-header">
+                    <h2>AI Workforce</h2>
+                    <p>Your autonomous AI digital employees — each with specialized skills, telemetry, and live status.</p>
+                    <div class="view-controls">
+                        <div class="filter-pills">
+                            <button class="filter-pill active" data-dept="all">All</button>
+                            <button class="filter-pill" data-dept="development">Development</button>
+                            <button class="filter-pill" data-dept="design">Design</button>
+                            <button class="filter-pill" data-dept="automation">Automation</button>
+                            <button class="filter-pill" data-dept="strategy">Strategy</button>
+                            <button class="filter-pill" data-dept="operations">Operations</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="departments-grid" id="departments-grid">
+                    <!-- populated by JS -->
+                </div>
+
+                <!-- Agent Detail Modal -->
+                <div class="agent-modal-backdrop" id="agent-modal-backdrop">
+                    <div class="agent-modal" id="agent-modal">
+                        <button class="modal-close" id="modal-close">✕</button>
+                        <div id="modal-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── MISSION CONTROL VIEW ── -->
+            <div class="view" id="view-mission">
+                <div class="view-header">
+                    <h2>Mission Control</h2>
+                    <p>Real-time agent coordination graph — watch your AI team collaborate live.</p>
+                </div>
+                <div class="mission-canvas-wrap">
+                    <canvas id="mission-canvas"></canvas>
+                    <div class="mission-agent-nodes" id="mission-nodes">
+                        <!-- populated by JS -->
+                    </div>
+                    <div class="mission-legend">
+                        <div class="legend-item"><span class="legend-dot active"></span>Active</div>
+                        <div class="legend-item"><span class="legend-dot idle"></span>Idle</div>
+                        <div class="legend-item"><span class="legend-dot processing"></span>Processing</div>
+                    </div>
+                </div>
+                <div class="mission-bottom-strip">
+                    <div class="mission-log-panel">
+                        <div class="card-header"><h3>Agent Communication Log</h3><span class="badge-live">● LIVE</span></div>
+                        <div class="mission-log-list" id="mission-log-list"></div>
+                    </div>
+                    <div class="mission-queue-panel">
+                        <div class="card-header"><h3>Task Queue</h3></div>
+                        <div class="task-queue-list" id="task-queue-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── AUTOMATION VIEW ── -->
+            <div class="view" id="view-automation">
+                <div class="view-header">
+                    <h2>Automation Factory</h2>
+                    <p>n8n workflows and autonomous automation pipelines running 24/7.</p>
+                </div>
+                <div class="automation-grid" id="automation-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── PROJECTS VIEW ── -->
+            <div class="view" id="view-projects">
+                <div class="view-header">
+                    <h2>Projects</h2>
+                    <p>Active and upcoming client builds managed by autonomous development squads.</p>
+                </div>
+                <div class="projects-grid" id="projects-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── CLIENTS VIEW ── -->
+            <div class="view" id="view-clients">
+                <div class="view-header">
+                    <h2>Clients</h2>
+                    <p>Client roster, account health, active contracts, and AI Health Scores.</p>
+                </div>
+                <div class="clients-grid" id="clients-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── CRM VIEW ── -->
+            <div class="view" id="view-crm">
+                <div class="view-header">
+                    <h2>CRM & Pipeline</h2>
+                    <p>AI-assisted deal management, sales pipeline, and automated revenue ops.</p>
+                </div>
+                <div class="crm-pipeline-grid" id="crm-pipeline-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── SALES VIEW ── -->
+            <div class="view" id="view-sales">
+                <div class="view-header">
+                    <h2>Lead Intelligence & Sales</h2>
+                    <p>Leads Gorilla intake, Gemini AI scoring engine, and automated email sequences.</p>
+                </div>
+                <div class="sales-dashboard-grid" id="sales-dashboard-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── DEVELOPMENT VIEW ── -->
+            <div class="view" id="view-development">
+                <div class="view-header">
+                    <h2>Development Studio</h2>
+                    <p>Code editor, deployment pipelines, test coverage, and Vercel status.</p>
+                </div>
+                <div class="dev-studio-grid" id="dev-studio-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── DESIGN VIEW ── -->
+            <div class="view" id="view-design">
+                <div class="view-header">
+                    <h2>Design Studio</h2>
+                    <p>UI/UX tokens, design system assets, Figma sync, and brand identity tools.</p>
+                </div>
+                <div class="design-studio-grid" id="design-studio-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── VIDEO STUDIO VIEW ── -->
+            <div class="view" id="view-video">
+                <div class="view-header">
+                    <h2>Video Studio</h2>
+                    <p>AI video generation, automated social shorts, scriptwriting, and voice synthesis.</p>
+                </div>
+                <div class="video-studio-grid" id="video-studio-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── ANALYTICS VIEW ── -->
+            <div class="view" id="view-analytics">
+                <div class="view-header">
+                    <h2>Analytics & Insights</h2>
+                    <p>Real-time agency revenue, agent productivity metrics, and ROI telemetry.</p>
+                </div>
+                <div class="analytics-grid" id="analytics-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── KNOWLEDGE VIEW ── -->
+            <div class="view" id="view-knowledge">
+                <div class="view-header">
+                    <h2>Knowledge Base</h2>
+                    <p>Semantic vector memory, company documentation, and engineering guidelines.</p>
+                </div>
+                <div class="knowledge-grid" id="knowledge-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── MEMORY VIEW ── -->
+            <div class="view" id="view-memory">
+                <div class="view-header">
+                    <h2>JARVIS Memory</h2>
+                    <p>System memory index, entity context storage, and historical decision graph.</p>
+                </div>
+                <div class="memory-grid" id="memory-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── NOTIFICATIONS VIEW ── -->
+            <div class="view" id="view-notifications">
+                <div class="view-header">
+                    <h2>Notifications & Telemetry</h2>
+                    <p>Full real-time system event log and alert stream.</p>
+                </div>
+                <div class="notifications-grid" id="notifications-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+            <!-- ── SETTINGS VIEW ── -->
+            <div class="view" id="view-settings">
+                <div class="view-header">
+                    <h2>Settings & Integrations</h2>
+                    <p>System configuration, API keys, credentials, and backup controls.</p>
+                </div>
+                <div class="settings-grid" id="settings-grid">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+
+        </div><!-- /views-container -->
+    </main><!-- /workspace -->
+
+    <!-- ═══ RIGHT PANEL ═══ -->
+    <aside class="right-panel" id="right-panel">
+
+        <!-- JARVIS Chat -->
+        <div class="rp-section jarvis-chat-section">
+            <div class="rp-header">
+                <div class="rp-title-row">
+                    <div class="jarvis-mini-core">
+                        <div class="jmc-ring"></div>
+                        <span>⬡</span>
+                    </div>
+                    <span class="rp-title">JARVIS</span>
+                    <span class="rp-badge thinking" id="jarvis-status">READY</span>
+                </div>
+            </div>
+            <div class="jarvis-messages" id="jarvis-messages">
+                <div class="msg jarvis">
+                    <div class="msg-content">Hello Director. All 26 AI agents are operational. 8 projects active. What would you like me to do?</div>
+                    <div class="msg-time">Just now</div>
+                </div>
+            </div>
+            <div class="jarvis-input-row">
+                <input type="text" class="jarvis-input" id="jarvis-input" placeholder="Command JARVIS...">
+                <button class="jarvis-send-btn" id="jarvis-send">→</button>
+            </div>
+        </div>
+
+        <!-- Running Tasks -->
+        <div class="rp-section">
+            <div class="rp-header">
+                <span class="rp-title">Running Tasks</span>
+                <span class="rp-badge" id="tasks-count-badge">47</span>
+            </div>
+            <div class="running-tasks-list" id="running-tasks-list">
+                <!-- populated by JS -->
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="rp-section">
+            <div class="rp-header">
+                <span class="rp-title">Notifications</span>
+                <span class="rp-badge urgent">3 NEW</span>
+            </div>
+            <div class="notifications-list" id="notifications-list">
+                <div class="notif-item success">
+                    <span class="notif-icon">✅</span>
+                    <div class="notif-body">
+                        <div class="notif-title">MetaShop v2 deployed</div>
+                        <div class="notif-meta">2 min ago · DevOps Agent</div>
+                    </div>
+                </div>
+                <div class="notif-item warning">
+                    <span class="notif-icon">⚠</span>
+                    <div class="notif-body">
+                        <div class="notif-title">API rate limit at 80%</div>
+                        <div class="notif-meta">5 min ago · System</div>
+                    </div>
+                </div>
+                <div class="notif-item info">
+                    <span class="notif-icon">📩</span>
+                    <div class="notif-body">
+                        <div class="notif-title">New client inquiry</div>
+                        <div class="notif-meta">12 min ago · Sales Agent</div>
+                    </div>
+                </div>
+                <div class="notif-item success">
+                    <span class="notif-icon">🚀</span>
+                    <div class="notif-body">
+                        <div class="notif-title">Alpha App QA passed</div>
+                        <div class="notif-meta">18 min ago · QA Agent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Memory -->
+        <div class="rp-section">
+            <div class="rp-header">
+                <span class="rp-title">JARVIS Memory</span>
+                <span class="rp-badge">ACTIVE</span>
+            </div>
+            <div class="memory-list">
+                <div class="memory-item">
+                    <span class="memory-icon">🧠</span>
+                    <div class="memory-text">Client TechFlow prefers minimalist dark UI</div>
+                </div>
+                <div class="memory-item">
+                    <span class="memory-icon">📋</span>
+                    <div class="memory-text">Alpha App uses Next.js 15 + PostgreSQL</div>
+                </div>
+                <div class="memory-item">
+                    <span class="memory-icon">⚙</span>
+                    <div class="memory-text">Deploy every Friday after QA sign-off</div>
+                </div>
+                <div class="memory-item">
+                    <span class="memory-icon">💰</span>
+                    <div class="memory-text">Q3 revenue target: $180k</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Commands -->
+        <div class="rp-section">
+            <div class="rp-header">
+                <span class="rp-title">Quick Commands</span>
+            </div>
+            <div class="quick-cmds">
+                <button class="quick-cmd" data-cmd="status">📊 System Status</button>
+                <button class="quick-cmd" data-cmd="deploy">🚀 Deploy All Ready</button>
+                <button class="quick-cmd" data-cmd="report">📋 Weekly Report</button>
+                <button class="quick-cmd" data-cmd="agents">🤖 Agent Briefing</button>
+                <button class="quick-cmd" data-cmd="backup">💾 Backup Now</button>
+                <button class="quick-cmd" data-cmd="meeting">📅 Schedule Meeting</button>
+            </div>
+        </div>
+
+    </aside><!-- /right-panel -->
+
+</div><!-- /jarvis-shell -->
+
+<!-- Command Palette Modal (⌘K) -->
+<div class="cmd-palette-backdrop" id="cmd-palette-backdrop">
+    <div class="cmd-palette-modal" id="cmd-palette-modal">
+        <div class="cmd-palette-input-wrap">
+            <span class="cmd-palette-icon">⌕</span>
+            <input type="text" id="cmd-palette-input" placeholder="Type a command, search agents, projects, or workflows..." />
+            <kbd class="cmd-palette-esc">ESC</kbd>
+        </div>
+        <div class="cmd-palette-results" id="cmd-palette-results">
+            <!-- populated by JS -->
+        </div>
+    </div>
+</div>
+
+<script src="jarvis-hud.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

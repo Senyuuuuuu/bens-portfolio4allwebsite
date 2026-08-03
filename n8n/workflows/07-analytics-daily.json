@@ -1,0 +1,84 @@
+{
+  "name": "07 — Analytics Collection (Scheduled Daily)",
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [{ "field": "cronExpression", "expression": "0 8 * * *" }] } },
+      "id": "daily-cron",
+      "name": "Daily at 8 AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/publish",
+        "options": {}
+      },
+      "id": "get-publications",
+      "name": "Get All Publications",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "publications",
+        "options": {}
+      },
+      "id": "split-pubs",
+      "name": "Split Publications",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/analytics",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "publicationId", "value": "={{ $json.id }}" }] }
+      },
+      "id": "collect-analytics",
+      "name": "Collect Analytics Per Publication",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/analytics/summary",
+        "options": {}
+      },
+      "id": "get-summary",
+      "name": "Get Summary Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/webhooks/events",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "event", "value": "DAILY_ANALYTICS_COMPLETE" },
+            { "name": "data", "value": "={{ JSON.stringify({ summary: $json.summary, timestamp: new Date().toISOString() }) }}" }
+          ]
+        }
+      },
+      "id": "broadcast-summary",
+      "name": "Broadcast to Dashboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1200, 300]
+    }
+  ],
+  "connections": {
+    "Daily at 8 AM": { "main": [[{ "node": "Get All Publications", "type": "main", "index": 0 }]] },
+    "Get All Publications": { "main": [[{ "node": "Split Publications", "type": "main", "index": 0 }]] },
+    "Split Publications": { "main": [[{ "node": "Collect Analytics Per Publication", "type": "main", "index": 0 }]] },
+    "Collect Analytics Per Publication": { "main": [[{ "node": "Get Summary Report", "type": "main", "index": 0 }]] },
+    "Get Summary Report": { "main": [[{ "node": "Broadcast to Dashboard", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Content Factory" }]
+}

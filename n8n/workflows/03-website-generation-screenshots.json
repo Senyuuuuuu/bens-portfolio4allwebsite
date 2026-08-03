@@ -1,0 +1,46 @@
+{
+  "name": "03 — AI Website & Screenshot Generation",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "generate-website", "options": {} },
+      "id": "webhook-gen",
+      "name": "Webhook: Generate Website",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "generate-website"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/website/generate",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "leadId", "value": "={{ $json.body.leadId }}" }] }
+      },
+      "id": "gen-site",
+      "name": "1. Generate AI Demo Website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    { "parameters": { "amount": 5, "unit": "seconds" }, "id": "wait-gen", "name": "Wait 5s", "type": "n8n-nodes-base.wait", "typeVersion": 1.1, "position": [540, 300] },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/screenshots",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "leadId", "value": "={{ $('Webhook: Generate Website').item.json.body.leadId }}" }] }
+      },
+      "id": "gen-shots",
+      "name": "2. Generate Screenshots",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [760, 300]
+    }
+  ],
+  "connections": {
+    "Webhook: Generate Website": { "main": [[{ "node": "1. Generate AI Demo Website", "type": "main", "index": 0 }]] },
+    "1. Generate AI Demo Website": { "main": [[{ "node": "Wait 5s", "type": "main", "index": 0 }]] },
+    "Wait 5s": { "main": [[{ "node": "2. Generate Screenshots", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Lead Gen & Website Platform" }]
+}

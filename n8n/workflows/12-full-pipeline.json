@@ -1,0 +1,93 @@
+{
+  "name": "12 — Full Content Pipeline (End-to-End)",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "full-pipeline", "options": {} },
+      "id": "webhook-start",
+      "name": "Start: URL Input",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 400],
+      "webhookId": "full-pipeline"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/download",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "url", "value": "={{ $json.body.url }}" }] }
+      },
+      "id": "download",
+      "name": "1. Download Video",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 400]
+    },
+    { "parameters": { "amount": 30, "unit": "seconds" }, "id": "wait-download", "name": "Wait: Download", "type": "n8n-nodes-base.wait", "typeVersion": 1.1, "position": [540, 400] },
+    {
+      "parameters": {
+        "url": "=http://host.docker.internal:4000/api/jobs/{{ $('1. Download Video').item.json.jobId }}",
+        "options": {}
+      },
+      "id": "get-download-result",
+      "name": "Get Download Result",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [760, 400]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/transcribe",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "videoId", "value": "={{ $json.output.videoId }}" },
+            { "name": "videoPath", "value": "={{ $json.output.path }}" }
+          ]
+        }
+      },
+      "id": "transcribe",
+      "name": "2. Transcribe",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [980, 400]
+    },
+    { "parameters": { "amount": 60, "unit": "seconds" }, "id": "wait-transcribe", "name": "Wait: Transcription", "type": "n8n-nodes-base.wait", "typeVersion": 1.1, "position": [1200, 400] },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/clips",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "videoId", "value": "={{ $('Get Download Result').item.json.output.videoId }}" }] }
+      },
+      "id": "detect-clips",
+      "name": "3. Detect Clips",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1420, 400]
+    },
+    { "parameters": { "amount": 30, "unit": "seconds" }, "id": "wait-clips", "name": "Wait: Clip Detection", "type": "n8n-nodes-base.wait", "typeVersion": 1.1, "position": [1640, 400] },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/upload",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "setup", "value": "true" }] }
+      },
+      "id": "upload-drive",
+      "name": "4. Upload to Drive",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1860, 400]
+    }
+  ],
+  "connections": {
+    "Start: URL Input": { "main": [[{ "node": "1. Download Video", "type": "main", "index": 0 }]] },
+    "1. Download Video": { "main": [[{ "node": "Wait: Download", "type": "main", "index": 0 }]] },
+    "Wait: Download": { "main": [[{ "node": "Get Download Result", "type": "main", "index": 0 }]] },
+    "Get Download Result": { "main": [[{ "node": "2. Transcribe", "type": "main", "index": 0 }]] },
+    "2. Transcribe": { "main": [[{ "node": "Wait: Transcription", "type": "main", "index": 0 }]] },
+    "Wait: Transcription": { "main": [[{ "node": "3. Detect Clips", "type": "main", "index": 0 }]] },
+    "3. Detect Clips": { "main": [[{ "node": "Wait: Clip Detection", "type": "main", "index": 0 }]] },
+    "Wait: Clip Detection": { "main": [[{ "node": "4. Upload to Drive", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Content Factory" }]
+}

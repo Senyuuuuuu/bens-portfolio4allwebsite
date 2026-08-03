@@ -1,0 +1,15 @@
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/jarvis/*"
+  to = "/:splat"
+  status = 200

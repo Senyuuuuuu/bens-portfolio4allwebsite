@@ -1,0 +1,81 @@
+{
+  "name": "08 — System Health Monitor (Every 15 Min)",
+  "nodes": [
+    {
+      "parameters": { "rule": { "interval": [{ "field": "minutes", "minutesInterval": 15 }] } },
+      "id": "health-cron",
+      "name": "Every 15 Minutes",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": { "url": "http://host.docker.internal:4000/api/system", "options": {} },
+      "id": "get-system",
+      "name": "Get System Status",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = $input.first().json;\nconst agents = data.agents || {};\nconst queue = data.queue || {};\nconst mem = data.system?.memory || {};\n\nconst issues = [];\nif ((agents.error || 0) > 0) issues.push(`${agents.error} agent(s) in ERROR state`);\nif ((queue.failed || 0) > 10) issues.push(`${queue.failed} failed jobs in queue`);\nif ((mem.usedPercent || 0) > 85) issues.push(`Memory at ${mem.usedPercent}%`);\n\nreturn [{ json: { ...data, issues, hasIssues: issues.length > 0, checkedAt: new Date().toISOString() } }];"
+      },
+      "id": "analyze-health",
+      "name": "Analyze Health",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [{ "leftValue": "={{ $json.hasIssues }}", "rightValue": true, "operator": { "type": "boolean", "operation": "equals" } }]
+        }
+      },
+      "id": "check-issues",
+      "name": "Any Issues?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/webhooks/events",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "event", "value": "HEALTH_ALERT" },
+            { "name": "data", "value": "={{ JSON.stringify({ issues: $json.issues, agents: $json.agents, queue: $json.queue, memory: $json.system?.memory, timestamp: $json.checkedAt }) }}" }
+          ]
+        }
+      },
+      "id": "alert-issues",
+      "name": "Broadcast Health Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [980, 200]
+    },
+    {
+      "parameters": { "mode": "passThrough" },
+      "id": "all-good",
+      "name": "All Good (No Action)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [980, 400]
+    }
+  ],
+  "connections": {
+    "Every 15 Minutes": { "main": [[{ "node": "Get System Status", "type": "main", "index": 0 }]] },
+    "Get System Status": { "main": [[{ "node": "Analyze Health", "type": "main", "index": 0 }]] },
+    "Analyze Health": { "main": [[{ "node": "Any Issues?", "type": "main", "index": 0 }]] },
+    "Any Issues?": {
+      "main": [
+        [{ "node": "Broadcast Health Alert", "type": "main", "index": 0 }],
+        [{ "node": "All Good (No Action)", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Content Factory" }]
+}

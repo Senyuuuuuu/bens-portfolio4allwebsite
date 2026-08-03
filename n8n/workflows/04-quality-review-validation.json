@@ -1,0 +1,68 @@
+{
+  "name": "04 — Quality Review & Validation",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "quality-review", "options": {} },
+      "id": "webhook-review",
+      "name": "Webhook: Quality Review",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "quality-review"
+    },
+    {
+      "parameters": {
+        "url": "=http://host.docker.internal:4000/api/leads/{{ $json.body.leadId }}",
+        "options": {}
+      },
+      "id": "get-lead-details",
+      "name": "1. Fetch Lead & Website Data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "conditions": [
+            { "leftValue": "={{ $json.websiteDemos.length }}", "rightValue": 0, "operator": { "type": "number", "operation": "gt" } }
+          ]
+        }
+      },
+      "id": "check-website-exists",
+      "name": "2. Demo Website Exists?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/crm/update",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "leadId", "value": "={{ $('Webhook: Quality Review').item.json.body.leadId }}" },
+            { "name": "stage", "value": "WEBSITE_GENERATED" },
+            { "name": "notes", "value": "Quality review passed successfully." }
+          ]
+        }
+      },
+      "id": "pass-review",
+      "name": "3. Mark Validated",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [760, 200]
+    }
+  ],
+  "connections": {
+    "Webhook: Quality Review": { "main": [[{ "node": "1. Fetch Lead & Website Data", "type": "main", "index": 0 }]] },
+    "1. Fetch Lead & Website Data": { "main": [[{ "node": "2. Demo Website Exists?", "type": "main", "index": 0 }]] },
+    "2. Demo Website Exists?": {
+      "main": [
+        [{ "node": "3. Mark Validated", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Lead Gen & Website Platform" }]
+}

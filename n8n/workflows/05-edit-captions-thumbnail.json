@@ -1,0 +1,85 @@
+{
+  "name": "05 — AI Video Editor + Captions + Thumbnail",
+  "nodes": [
+    {
+      "parameters": { "httpMethod": "POST", "path": "process-clip", "options": {} },
+      "id": "webhook-clip",
+      "name": "Webhook: Clip Ready",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [100, 300],
+      "webhookId": "process-clip"
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/edit",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "clipId", "value": "={{ $json.body.clipId }}" },
+            { "name": "videoPath", "value": "={{ $json.body.videoPath }}" }
+          ]
+        }
+      },
+      "id": "edit-video",
+      "name": "1. Edit Video (FFmpeg)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [320, 300]
+    },
+    { "parameters": { "amount": 45, "unit": "seconds" }, "id": "wait-edit", "name": "Wait: Edit", "type": "n8n-nodes-base.wait", "typeVersion": 1.1, "position": [540, 300] },
+    {
+      "parameters": {
+        "mode": "passThrough",
+        "type": "parallel"
+      },
+      "id": "parallel-split",
+      "name": "Process in Parallel",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/captions",
+        "sendBody": true,
+        "bodyParameters": { "parameters": [{ "name": "clipId", "value": "={{ $('Webhook: Clip Ready').item.json.body.clipId }}" }] }
+      },
+      "id": "gen-captions",
+      "name": "2a. Generate Captions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [980, 200]
+    },
+    {
+      "parameters": {
+        "url": "http://host.docker.internal:4000/api/thumbnail",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            { "name": "videoId", "value": "={{ $('Webhook: Clip Ready').item.json.body.videoId }}" },
+            { "name": "style", "value": "viral" }
+          ]
+        }
+      },
+      "id": "gen-thumbnail",
+      "name": "2b. Generate Thumbnail (DALL-E)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [980, 400]
+    }
+  ],
+  "connections": {
+    "Webhook: Clip Ready": { "main": [[{ "node": "1. Edit Video (FFmpeg)", "type": "main", "index": 0 }]] },
+    "1. Edit Video (FFmpeg)": { "main": [[{ "node": "Wait: Edit", "type": "main", "index": 0 }]] },
+    "Wait: Edit": { "main": [[{ "node": "Process in Parallel", "type": "main", "index": 0 }]] },
+    "Process in Parallel": {
+      "main": [
+        [{ "node": "2a. Generate Captions", "type": "main", "index": 0 }],
+        [{ "node": "2b. Generate Thumbnail (DALL-E)", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "tags": [{ "name": "AI Content Factory" }]
+}
