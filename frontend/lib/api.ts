@@ -120,6 +120,14 @@ export const api = {
     summary: () => request<{ summary: Record<string, unknown> }>('/api/analytics/summary'),
   },
 
+  // Trends
+  trends: {
+    hunt: () => request<{ jobId: string }>('/api/trending/hunt', { method: 'POST' }),
+  },
+
+  // System
+  system: () => request<Record<string, unknown>>('/api/status'),
+
   // Logs
   logs: (params?: { level?: string; agentId?: string; limit?: number }) => {
     const q = new URLSearchParams();
@@ -196,3 +204,4 @@ export interface QueueStats {
 }
 
 export interface Setting { id: string; key: string; value: string; category?: string; encrypted: boolean; }
+export interface LogEntry { id: string; level: string; message: string; agentId?: string; jobId?: string; timestamp: string; }
