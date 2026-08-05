@@ -1,57 +1,25 @@
 import {
   AbsoluteFill,
   Audio,
-  CalculateMetadataFunction,
-  Composition,
   interpolate,
   spring,
   staticFile,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { z } from "zod";
-import { zColor } from "@remotion/zod-types";
 
-// --- REMOTION & ZOD SCHEMA FOR LIVE VISUAL PROPS EDITING ---
-export const manualPainSchema = z.object({
-  accentColor: zColor().default("#EF4444"), // Red accent for friction/pain
-  greenColor: zColor().default("#10B981"),
-  bgColor: zColor().default("#06080E"),
-  headline: z.string().default("MANUAL SYNC IN PROGRESS"),
-});
-
-export type ManualPainProps = z.infer<typeof manualPainSchema>;
-
-const calculateMetadata: CalculateMetadataFunction<ManualPainProps> = () => {
-  return {};
-};
-
-export const MyComposition = () => {
-  return (
-    <Composition
-      id="MyComp"
-      component={ManualPainSequence}
-      durationInFrames={480} // 8 Seconds @ 60 FPS
-      fps={60}
-      width={1920}
-      height={1080}
-      schema={manualPainSchema}
-      defaultProps={{
-        accentColor: "#EF4444",
-        greenColor: "#10B981",
-        bgColor: "#06080E",
-        headline: "MANUAL SYNC IN PROGRESS",
-      }}
-      calculateMetadata={calculateMetadata}
-    />
-  );
-};
+export interface ManualPainProps {
+  accentColor?: string;
+  greenColor?: string;
+  bgColor?: string;
+  headline?: string;
+}
 
 export const ManualPainSequence: React.FC<ManualPainProps> = ({
-  accentColor,
-  greenColor,
-  bgColor,
-  headline,
+  accentColor = "#EF4444",
+  greenColor = "#10B981",
+  bgColor = "#06080E",
+  headline = "MANUAL SYNC IN PROGRESS",
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
