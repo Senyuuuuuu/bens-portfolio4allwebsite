@@ -1210,7 +1210,7 @@ export const CleanKineticN8nAd: React.FC = () => {
                 transform: `translateY(${ctaY}px)`,
               }}
             >
-              Hire an n8n Expert on Fiverr.
+              Hire Benyamin today.
             </h2>
           </div>
 
