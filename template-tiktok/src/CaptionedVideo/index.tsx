@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AbsoluteFill,
   CalculateMetadataFunction,
-  cancelRender,
   getStaticFiles,
   OffthreadVideo,
   Sequence,
@@ -19,10 +18,19 @@ import { chunkCaptionsIntoPages } from "./chunking";
 import { NoCaptionFile } from "./NoCaptionFile";
 import SubtitlePage from "./SubtitlePage";
 
+export const captionTokenSchema = z.object({
+  text: z.string(),
+  startMs: z.number(),
+  endMs: z.number(),
+  timestampMs: z.number().nullable(),
+  confidence: z.number().nullable(),
+});
+
 export const captionedVideoSchema = z.object({
   src: z.string(),
   clipStartMs: z.number().optional(),
   clipEndMs: z.number().optional(),
+  subtitles: z.array(captionTokenSchema).optional(),
 });
 
 export const calculateCaptionedVideoMetadata: CalculateMetadataFunction<
@@ -64,8 +72,9 @@ export const CaptionedVideo: React.FC<{
   src: string;
   clipStartMs?: number;
   clipEndMs?: number;
-}> = ({ src, clipStartMs = 0 }) => {
-  const [subtitles, setSubtitles] = useState<Caption[]>([]);
+  subtitles?: Caption[];
+}> = ({ src, clipStartMs = 0, subtitles: propsSubtitles }) => {
+  const [subtitles, setSubtitles] = useState<Caption[]>(propsSubtitles ?? []);
   const { delayRender, continueRender } = useDelayRender();
   const [handle] = useState(() => delayRender());
   const { fps } = useVideoConfig();
@@ -93,6 +102,15 @@ export const CaptionedVideo: React.FC<{
   const fetchSubtitles = useCallback(async () => {
     try {
       await loadFont();
+
+      // Priority 1: Direct subtitles prop passed in inputProps
+      if (propsSubtitles && propsSubtitles.length > 0) {
+        setSubtitles(propsSubtitles);
+        continueRender(handle);
+        return;
+      }
+
+      // Priority 2: Fetch subtitle JSON file
       if (!getFileExists(rawSubtitlesFile)) {
         setSubtitles([]);
         continueRender(handle);
@@ -100,13 +118,20 @@ export const CaptionedVideo: React.FC<{
       }
 
       const res = await fetch(subtitlesFileUrl);
+      if (!res.ok) {
+        setSubtitles([]);
+        continueRender(handle);
+        return;
+      }
       const data = (await res.json()) as Caption[];
       setSubtitles(data);
       continueRender(handle);
     } catch (e) {
-      cancelRender(e);
+      console.warn(`[CaptionedVideo] Error loading subtitles:`, e);
+      setSubtitles(propsSubtitles ?? []);
+      continueRender(handle);
     }
-  }, [continueRender, handle, rawSubtitlesFile, subtitlesFileUrl]);
+  }, [continueRender, handle, propsSubtitles, rawSubtitlesFile, subtitlesFileUrl]);
 
   useEffect(() => {
     fetchSubtitles();
@@ -117,7 +142,7 @@ export const CaptionedVideo: React.FC<{
         fetchSubtitles();
       });
     } catch (_e) {
-      // Ignored during server-side headless render
+      // Ignored in headless render mode
     }
 
     return () => {
@@ -125,7 +150,7 @@ export const CaptionedVideo: React.FC<{
     };
   }, [fetchSubtitles, rawSubtitlesFile]);
 
-  // Chunk captions into maximum 6 words per screen to avoid clutter
+  // Chunk captions into max 6 words per screen to avoid visual clutter
   const pages = useMemo(() => {
     return chunkCaptionsIntoPages(subtitles ?? [], { maxWordsPerPage: 6 });
   }, [subtitles]);
@@ -156,7 +181,9 @@ export const CaptionedVideo: React.FC<{
           </Sequence>
         );
       })}
-      {getFileExists(rawSubtitlesFile) ? null : <NoCaptionFile />}
+      {pages.length > 0 || (propsSubtitles && propsSubtitles.length > 0) || getFileExists(rawSubtitlesFile) ? null : (
+        <NoCaptionFile />
+      )}
     </AbsoluteFill>
   );
 };

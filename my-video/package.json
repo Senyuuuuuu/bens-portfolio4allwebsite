@@ -6,16 +6,21 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@react-three/drei": "^9.105.6",
+    "@react-three/fiber": "^8.17.10",
     "@remotion/cli": "4.0.504",
     "@remotion/media-utils": "4.0.504",
     "@remotion/paths": "^4.0.504",
     "@remotion/sfx": "4.0.504",
+    "@remotion/three": "^4.0.506",
     "@remotion/transitions": "4.0.504",
     "@remotion/zod-types": "4.0.504",
+    "@types/three": "^0.185.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "remotion": "4.0.504",
     "tailwindcss": "4.0.0",
+    "three": "^0.164.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {

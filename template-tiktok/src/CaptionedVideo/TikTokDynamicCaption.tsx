@@ -21,8 +21,8 @@ interface TikTokDynamicCaptionProps {
 // Visual design tokens
 const HIGHLIGHT_COLOR = "#FFE600"; // Vibrant TikTok yellow
 const UPCOMING_COLOR = "#FFFFFF"; // Pure white
-const PAST_COLOR = "rgba(255, 255, 255, 0.75)"; // Slightly dimmed white
-const BACKGROUND_BG = "rgba(0, 0, 0, 0.65)"; // Dark glass backdrop
+const PAST_COLOR = "rgba(255, 255, 255, 0.75)"; // Dimmed white
+const BACKGROUND_BG = "rgba(0, 0, 0, 0.7)"; // Dark glass backdrop
 const DESIRED_FONT_SIZE = 100;
 
 /**
@@ -31,18 +31,18 @@ const DESIRED_FONT_SIZE = 100;
  */
 export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
   page,
-  clipStartMs = 0,
 }) => {
   const frame = useCurrentFrame();
   const { width, fps } = useVideoConfig();
 
   // =========================================================================
   // FRAME TO MILLISECOND MATHEMATICS:
-  // currentTimeMs represents absolute playback time in milliseconds.
-  // Formula: clipStartMs + (currentFrame / fps) * 1000
-  // Example: Frame 15 at 30 fps = (15 / 30) * 1000 = 500ms offset.
+  // Inside a Remotion <Sequence from={subtitleStartFrame}>, useCurrentFrame() returns
+  // 0-indexed frames starting from the beginning of THIS page.
+  // Therefore, current playback time in milliseconds is:
+  // currentTimeMs = page.startMs + (frame / fps) * 1000
   // =========================================================================
-  const currentTimeMs = clipStartMs + (frame / fps) * 1000;
+  const currentTimeMs = page.startMs + (frame / fps) * 1000;
 
   // Spring physics for entrance transition (stiffness: 120, damping: 14 as per standards)
   const springEntrance = spring({
@@ -54,7 +54,7 @@ export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
     },
   });
 
-  // Calculate dynamic font size based on container width limit (90% screen width)
+  // Calculate dynamic font size based on container width limit (88% screen width)
   const fittedText = fitText({
     fontFamily,
     text: page.text,
@@ -78,6 +78,7 @@ export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
         height: 220,
         paddingLeft: 40,
         paddingRight: 40,
+        zIndex: 9999,
       }}
     >
       {/* Morphing Bounding Box Container with Glassmorphism */}
@@ -85,9 +86,9 @@ export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
         style={{
           backgroundColor: BACKGROUND_BG,
           borderRadius: 24,
-          padding: "20px 40px",
-          backdropFilter: "blur(12px)",
-          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 2px rgba(255, 255, 255, 0.3)",
+          padding: "24px 44px",
+          backdropFilter: "blur(16px)",
+          boxShadow: "0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 2px rgba(255, 255, 255, 0.4)",
           transform: makeTransform([
             scale(containerScale),
             translateY(containerTranslateY),
@@ -96,11 +97,11 @@ export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
           flexWrap: "wrap",
           justifyContent: "center",
           alignItems: "center",
-          gap: "12px",
+          gap: "14px",
         }}
       >
         {page.tokens.map((token, index) => {
-          // Token start/end timestamps in milliseconds
+          // Word-level active & past state evaluation
           const isWordActive =
             currentTimeMs >= token.fromMs && currentTimeMs < token.toMs;
           const isWordPast = currentTimeMs >= token.toMs;
@@ -120,9 +121,9 @@ export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
             },
           });
 
-          // Scale active word up slightly (1.0 -> 1.18) for punchy dynamic impact
+          // Scale active word up (1.0 -> 1.20) for punchy dynamic impact
           const wordScale = isWordActive
-            ? interpolate(activePulseSpring, [0, 1], [1.0, 1.18])
+            ? interpolate(activePulseSpring, [0, 1], [1.0, 1.20])
             : 1.0;
 
           // Color selection
@@ -147,9 +148,8 @@ export const TikTokDynamicCaption: React.FC<TikTokDynamicCaptionProps> = ({
                 WebkitTextStroke: isWordActive ? "8px black" : "4px black",
                 paintOrder: "stroke fill",
                 textShadow: isWordActive
-                  ? "0 0 25px rgba(255, 230, 0, 0.8), 0 10px 20px rgba(0,0,0,0.9)"
+                  ? "0 0 30px rgba(255, 230, 0, 0.9), 0 10px 20px rgba(0,0,0,0.9)"
                   : "0 4px 10px rgba(0,0,0,0.8)",
-                transition: "color 0.1s ease-out",
               }}
             >
               {token.text}

@@ -1,5 +1,25 @@
 {
   "src": "sample-video.mp4",
   "clipStartMs": 0,
-  "clipEndMs": 10000
+  "clipEndMs": 10000,
+  "subtitles": [
+    { "text": "Welcome", "startMs": 500, "endMs": 1000, "timestampMs": 500, "confidence": 1.0 },
+    { "text": "to", "startMs": 1020, "endMs": 1200, "timestampMs": 1020, "confidence": 1.0 },
+    { "text": "the", "startMs": 1220, "endMs": 1400, "timestampMs": 1220, "confidence": 1.0 },
+    { "text": "future", "startMs": 1420, "endMs": 2000, "timestampMs": 1420, "confidence": 1.0 },
+    { "text": "of", "startMs": 2020, "endMs": 2200, "timestampMs": 2020, "confidence": 1.0 },
+    { "text": "automated", "startMs": 2220, "endMs": 3000, "timestampMs": 2220, "confidence": 1.0 },
+    { "text": "video", "startMs": 3020, "endMs": 3500, "timestampMs": 3020, "confidence": 1.0 },
+    { "text": "creation.", "startMs": 3520, "endMs": 4200, "timestampMs": 3520, "confidence": 1.0 },
+    { "text": "JARVIS", "startMs": 4500, "endMs": 5200, "timestampMs": 4500, "confidence": 1.0 },
+    { "text": "will", "startMs": 5220, "endMs": 5500, "timestampMs": 5220, "confidence": 1.0 },
+    { "text": "convert", "startMs": 5520, "endMs": 6100, "timestampMs": 5520, "confidence": 1.0 },
+    { "text": "your", "startMs": 6120, "endMs": 6400, "timestampMs": 6120, "confidence": 1.0 },
+    { "text": "YouTube", "startMs": 6420, "endMs": 7000, "timestampMs": 6420, "confidence": 1.0 },
+    { "text": "videos", "startMs": 7020, "endMs": 7600, "timestampMs": 7020, "confidence": 1.0 },
+    { "text": "into", "startMs": 7620, "endMs": 7900, "timestampMs": 7620, "confidence": 1.0 },
+    { "text": "viral", "startMs": 7920, "endMs": 8500, "timestampMs": 7920, "confidence": 1.0 },
+    { "text": "TikTok", "startMs": 8520, "endMs": 9200, "timestampMs": 8520, "confidence": 1.0 },
+    { "text": "shorts!", "startMs": 9220, "endMs": 10000, "timestampMs": 9220, "confidence": 1.0 }
+  ]
 }
