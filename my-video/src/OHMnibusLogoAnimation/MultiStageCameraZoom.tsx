@@ -5,7 +5,7 @@ import {
   spring,
   useCurrentFrame,
   useVideoConfig,
-  easing,
+  Easing,
 } from "remotion";
 import { UICardScene } from "./UICardScene";
 import { OhmPrefix } from "./OhmPrefix";
@@ -27,14 +27,14 @@ export const MultiStageCameraZoom: React.FC = () => {
   // Phase 1: Floating cards zoom-out scale (1.30 -> 1.00)
   const phase1Scale = interpolate(frame, [0, 45], [1.3, 1.0], {
     extrapolateRight: "clamp",
-    easing: easing.bezier(0.25, 1, 0.5, 1),
+    easing: Easing.bezier(0.25, 1, 0.5, 1),
   });
 
   // Phase 2: Macro Whip Zoom Punch-In scale (1.00 -> 4.50) & opacity transition
   const phase2WhipZoom = interpolate(frame, [45, 60], [1.0, 4.5], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easing.bezier(0.7, 0, 0.84, 0),
+    easing: Easing.bezier(0.7, 0, 0.84, 0),
   });
 
   // Phase 2 Lens Motion Blur (0px -> 14px -> 0px)
@@ -92,7 +92,7 @@ export const MultiStageCameraZoom: React.FC = () => {
   const taglineTracking = interpolate(frame, [72, 110], [0.12, 0.30], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
-    easing: easing.out(easing.ease),
+    easing: Easing.out(Easing.ease),
   });
 
   // Responsive font scaling for OHMnibus logo text
