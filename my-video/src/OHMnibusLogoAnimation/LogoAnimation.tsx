@@ -9,24 +9,27 @@ export const LogoAnimation: React.FC = () => {
   const { fps, width, height } = useVideoConfig();
   const isVertical = height > width;
 
-  // Ultra-Smooth Spring Physics for Zoom Out (Scale 2.4 -> 1.0)
+  // 1. Start State (Macro Close-Up) & Zoom-Out Physics
+  // spring({ mass: 1, damping: 12, stiffness: 100 })
   const zoomSpring = spring({
     frame,
     fps,
     config: {
-      stiffness: 120,
-      damping: 14,
-      mass: 0.9,
+      mass: 1,
+      damping: 12,
+      stiffness: 100,
     },
   });
 
-  // Smooth mathematical zoom out interpolation
-  const scale = interpolate(zoomSpring, [0, 1], [2.4, 1.0]);
+  // Scale down smoothly from 2.5 (macro close up on OHMni) to 1.0 (settled logo)
+  const scale = interpolate(zoomSpring, [0, 1], [2.5, 1.0]);
 
-  // Lens blur clearing smoothly as logo zooms out (12px -> 0px)
-  const blur = interpolate(zoomSpring, [0, 1], [12, 0]);
+  // 2. Focus Pull (Blur Clearing): blur(12px) down to blur(0px) over first 20 frames
+  const blur = interpolate(frame, [0, 20], [12, 0], {
+    extrapolateRight: "clamp",
+  });
 
-  // Ambient breathing radial pulse based on sine wave
+  // Ambient breathing pulse based on sine wave (0.5 Hz frequency)
   const pulseFactor = Math.sin((frame / fps) * Math.PI * 2 * 0.5);
   const glowScale = 1.0 + 0.22 * pulseFactor;
   const glowOpacity = 0.5 + 0.25 * pulseFactor;
@@ -70,7 +73,7 @@ export const LogoAnimation: React.FC = () => {
         }}
       />
 
-      {/* 3. Main Smooth Zoom Out Container */}
+      {/* 3. Main Macro Zoom-Out Container */}
       <div
         style={{
           display: "flex",
