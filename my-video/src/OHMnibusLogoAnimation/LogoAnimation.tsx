@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { OhmPrefix } from "./OhmPrefix";
 import { NibusSuffix } from "./NibusSuffix";
 import { Tagline } from "./Tagline";
@@ -9,11 +9,28 @@ export const LogoAnimation: React.FC = () => {
   const { fps, width, height } = useVideoConfig();
   const isVertical = height > width;
 
-  // Ambient breathing pulse based on sine wave (0.5 Hz frequency = 1 pulse every 2 seconds)
+  // Ultra-Smooth Spring Physics for Zoom Out (Scale 2.4 -> 1.0)
+  const zoomSpring = spring({
+    frame,
+    fps,
+    config: {
+      stiffness: 120,
+      damping: 14,
+      mass: 0.9,
+    },
+  });
+
+  // Smooth mathematical zoom out interpolation
+  const scale = interpolate(zoomSpring, [0, 1], [2.4, 1.0]);
+
+  // Lens blur clearing smoothly as logo zooms out (12px -> 0px)
+  const blur = interpolate(zoomSpring, [0, 1], [12, 0]);
+
+  // Ambient breathing radial pulse based on sine wave
   const pulseFactor = Math.sin((frame / fps) * Math.PI * 2 * 0.5);
   const glowScale = 1.0 + 0.22 * pulseFactor;
   const glowOpacity = 0.5 + 0.25 * pulseFactor;
-  const glowSize = (isVertical ? 240 : 340) * glowScale;
+  const glowSize = (isVertical ? 260 : 360) * glowScale;
 
   const logoFontSize = isVertical ? 115 : 170;
 
@@ -34,7 +51,8 @@ export const LogoAnimation: React.FC = () => {
           pointerEvents: "none",
         }}
       />
-      {/* 2. Central Breathing Glow Sphere (Alpha Preserved) */}
+
+      {/* 2. Central Breathing Glow Sphere */}
       <div
         style={{
           position: "absolute",
@@ -51,7 +69,8 @@ export const LogoAnimation: React.FC = () => {
           pointerEvents: "none",
         }}
       />
-      {/* 3. Main Brand Logo Container */}
+
+      {/* 3. Main Smooth Zoom Out Container */}
       <div
         style={{
           display: "flex",
@@ -59,6 +78,9 @@ export const LogoAnimation: React.FC = () => {
           alignItems: "center",
           justifyContent: "center",
           zIndex: 10,
+          transform: `scale(${scale.toFixed(4)})`,
+          filter: `blur(${blur.toFixed(2)}px)`,
+          willChange: "transform, filter",
         }}
       >
         {/* Logo Text Group: OHM + nibus */}
