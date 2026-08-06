@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PODIUM STUDIO - Services</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Design System Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#008d1f",
+                        "on-primary": "#313030",
+                        "secondary": "#c8c6c5",
+                        "inverse-primary": "#5f5e5e",
+                        "on-surface": "#e3e2e2",
+                        "tertiary-container": "#000e01",
+                        "primary-fixed": "#e5e2e1",
+                        "on-error-container": "#ffdad6",
+                        "on-primary-fixed": "#1c1b1b",
+                        "surface-tint": "#c9c6c5",
+                        "primary-fixed-dim": "#c9c6c5",
+                        "tertiary": "#00e639",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#00530e",
+                        "surface-container-lowest": "#0d0e0f",
+                        "surface-container-highest": "#343535",
+                        "on-tertiary": "#003907",
+                        "surface-bright": "#383939",
+                        "tertiary-fixed-dim": "#00e639",
+                        "on-surface-variant": "#c4c7c7",
+                        "on-secondary": "#313030",
+                        "outline-variant": "#444748",
+                        "surface-variant": "#343535",
+                        "secondary-container": "#4a4949",
+                        "on-secondary-container": "#bab8b7",
+                        "inverse-surface": "#e3e2e2",
+                        "surface-dim": "#121414",
+                        "on-primary-fixed-variant": "#474646",
+                        "inverse-on-surface": "#303031",
+                        "error": "#ffb4ab",
+                        "surface-container": "#1f2020",
+                        "secondary-fixed": "#e5e2e1",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "surface": "#121414",
+                        "error-container": "#93000a",
+                        "background": "#121414",
+                        "on-primary-container": "#7b7979",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "outline": "#8e9192",
+                        "primary": "#c9c6c5",
+                        "surface-container-low": "#1b1c1c",
+                        "surface-container-high": "#292a2a",
+                        "on-background": "#e3e2e2",
+                        "on-tertiary-fixed": "#002203",
+                        "tertiary-fixed": "#72ff70",
+                        "primary-container": "#0a0a0a",
+                        "on-secondary-fixed-variant": "#474646"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "gutter": "24px",
+                        "unit": "4px",
+                        "section-gap": "160px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "mono-ui": ["Space Grotesk"],
+                        "label-caps": ["Space Grotesk"],
+                        "headline-lg": ["Bebas Neue"],
+                        "display-xl": ["Bebas Neue"],
+                        "body-md": ["Space Grotesk"],
+                        "headline-lg-mobile": ["Bebas Neue"],
+                        "headline-md": ["Bebas Neue"],
+                        "body-lg": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "mono-ui": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-lg": ["64px", { "lineHeight": "60px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+                        "display-xl": ["120px", { "lineHeight": "100px", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["48px", { "lineHeight": "44px", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "32px", "letterSpacing": "0.05em", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Grain texture for background */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* Continuous Ticker Animation */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-content {
+            display: inline-block;
+            white-space: nowrap;
+            animation: ticker 20s linear infinite;
+        }
+        
+        /* Spotlight Effect Base */
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+        }
+        .spotlight-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.05), transparent 80%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .spotlight-card:hover::after {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen selection:bg-tertiary selection:text-on-tertiary antialiased flex flex-col">
+<!-- TopNavBar component -->
+<nav class="fixed top-0 w-full z-50 bg-background dark:bg-background border-b border-outline-variant/20 flex justify-between items-center px-margin-desktop py-4 flat no shadows transition-transform duration-300">
+<div class="font-headline-md text-headline-md text-on-background tracking-tighter">
+            PODIUM
+        </div>
+<div class="hidden md:flex gap-8">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors hover:text-tertiary transition-all duration-300 uppercase scale-95 active:scale-90 transition-transform" href="#">Work</a>
+<a class="font-label-caps text-label-caps text-tertiary border-b border-tertiary pb-1 hover:text-tertiary transition-all duration-300 uppercase scale-95 active:scale-90 transition-transform" href="#">Services</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors hover:text-tertiary transition-all duration-300 uppercase scale-95 active:scale-90 transition-transform" href="#">About</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-on-surface transition-colors hover:text-tertiary transition-all duration-300 uppercase scale-95 active:scale-90 transition-transform" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center gap-2 border border-outline-variant/30 px-3 py-1 rounded-full text-primary">
+<span class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(0,230,57,0.8)] animate-pulse"></span>
+<span class="font-label-caps text-label-caps uppercase text-on-surface-variant">Available worldwide</span>
+</div>
+<button class="text-primary dark:text-primary scale-95 active:scale-90 transition-transform hover:text-tertiary transition-all duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">language</span>
+</button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-section-gap">
+<!-- Hero Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-20 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-gutter relative">
+<div class="md:col-start-2 md:col-span-9 lg:col-start-2 lg:col-span-8 flex flex-col gap-6 relative z-10">
+<div class="flex items-center gap-4 text-on-surface-variant font-mono-ui text-mono-ui uppercase">
+<span class="w-8 border-t border-outline-variant"></span>
+<span>Capabilities</span>
+</div>
+<h1 class="font-display-xl text-headline-lg-mobile md:text-display-xl text-on-surface leading-[0.9] uppercase">
+                    Capabilities &<br/>Production Services
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-4">
+                    End-to-end creative direction, research, and fieldwork execution for global athletic brands.
+                </p>
+</div>
+<div class="absolute right-0 top-1/2 -translate-y-1/2 hidden lg:block opacity-10 pointer-events-none">
+<span class="font-display-xl text-[240px] text-surface-container-highest tracking-tighter">SVC</span>
+</div>
+</section>
+<!-- Capabilities Grid -->
+<section class="px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-outline-variant/30 border border-outline-variant/30 mx-auto max-w-7xl">
+<!-- Service 01 -->
+<div class="bg-primary-container p-10 md:p-16 spotlight-card group h-full flex flex-col justify-between min-h-[400px]">
+<div class="font-mono-ui text-mono-ui text-on-surface-variant mb-12">01</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mb-4 group-hover:text-tertiary transition-colors duration-300">
+                            Creative Direction & Narrative Strategy
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Concepting, storytelling, campaign architecture.
+                        </p>
+</div>
+<div class="mt-8 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">Explore</span>
+<span class="material-symbols-outlined text-tertiary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Service 02 -->
+<div class="bg-primary-container p-10 md:p-16 spotlight-card group h-full flex flex-col justify-between min-h-[400px]">
+<div class="font-mono-ui text-mono-ui text-on-surface-variant mb-12">02</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mb-4 group-hover:text-tertiary transition-colors duration-300">
+                            On-Location Fieldwork & Film Production
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Camera crews, remote location management, talent direction.
+                        </p>
+</div>
+<div class="mt-8 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">Explore</span>
+<span class="material-symbols-outlined text-tertiary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Service 03 -->
+<div class="bg-primary-container p-10 md:p-16 spotlight-card group h-full flex flex-col justify-between min-h-[400px]">
+<div class="font-mono-ui text-mono-ui text-on-surface-variant mb-12">03</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mb-4 group-hover:text-tertiary transition-colors duration-300">
+                            Archival & Technical Research
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Historical sports research, gear analysis, authentic verification.
+                        </p>
+</div>
+<div class="mt-8 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">Explore</span>
+<span class="material-symbols-outlined text-tertiary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+<!-- Service 04 -->
+<div class="bg-primary-container p-10 md:p-16 spotlight-card group h-full flex flex-col justify-between min-h-[400px]">
+<div class="font-mono-ui text-mono-ui text-on-surface-variant mb-12">04</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface uppercase mb-4 group-hover:text-tertiary transition-colors duration-300">
+                            Post-Production & Color Grading
+                        </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Editorial cutting, sound design, cinematic color.
+                        </p>
+</div>
+<div class="mt-8 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="font-label-caps text-label-caps uppercase text-tertiary">Explore</span>
+<span class="material-symbols-outlined text-tertiary group-hover:translate-x-2 transition-transform">arrow_forward</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Image Break / Ticker -->
+<div class="w-full bg-tertiary text-on-tertiary overflow-hidden py-4 border-y border-tertiary">
+<div class="ticker-content font-headline-md text-headline-md uppercase flex gap-8 items-center whitespace-nowrap">
+<span>///</span>
+<span>PRODUCTION SERVICES</span>
+<span>///</span>
+<span>GLOBAL EXECUTION</span>
+<span>///</span>
+<span>CREATIVE DIRECTION</span>
+<span>///</span>
+<span>TECHNICAL RESEARCH</span>
+<span>///</span>
+<span>POST-PRODUCTION</span>
+<span>///</span>
+<span>PRODUCTION SERVICES</span>
+<span>///</span>
+<span>GLOBAL EXECUTION</span>
+</div>
+</div>
+<!-- Process Section -->
+<section class="px-margin-mobile md:px-margin-desktop py-section-gap">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-4 flex flex-col gap-8 pr-8">
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface uppercase">
+                        The Process
+                    </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant border-l-2 border-tertiary pl-4">
+                        A rigorous, three-stage approach ensuring raw authenticity and technical precision in every frame.
+                    </p>
+</div>
+<div class="md:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 md:mt-0">
+<div class="flex flex-col gap-4 border-t border-outline-variant/30 pt-6">
+<div class="font-mono-ui text-mono-ui text-tertiary">01</div>
+<h4 class="font-headline-md text-headline-md text-on-surface uppercase">Research</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Deep dive into archives, technical specifications, and historical context.</p>
+</div>
+<div class="flex flex-col gap-4 border-t border-outline-variant/30 pt-6">
+<div class="font-mono-ui text-mono-ui text-tertiary">02</div>
+<h4 class="font-headline-md text-headline-md text-on-surface uppercase">Fieldwork</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Raw, on-location execution with specialized crews and authentic talent.</p>
+</div>
+<div class="flex flex-col gap-4 border-t border-outline-variant/30 pt-6">
+<div class="font-mono-ui text-mono-ui text-tertiary">03</div>
+<h4 class="font-headline-md text-headline-md text-on-surface uppercase">Post</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Gritty editorial, cinematic grading, and precise sound design architecture.</p>
+</div>
+</div>
+</div>
+<!-- Gritty Photography Grid -->
+<div class="mt-20 grid grid-cols-1 md:grid-cols-12 gap-gutter h-[600px]">
+<div class="md:col-span-7 h-full relative group overflow-hidden bg-primary-container">
+<div class="w-full h-full bg-cover bg-center absolute inset-0 mix-blend-luminosity opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" data-alt="A gritty, high-contrast, black and white documentary-style photograph of a camera operator filming an athlete in a dimly lit, raw urban industrial space. Heavy film grain, cinematic lighting, emphasizing sweat and intense focus. The mood is authentic, raw, and professional." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkD75lcPGRuK1nN6DjK8ai23M7gwi_C7kRiCl6BMRmztfE-yyuIGR0wC0DSRo7KLOezItmN_VKA9o4lFc2LI09MB9tz_S1NoWPxbd-3DKuYq3em_zSVdF5bCENKFm1IhfmJxSV05LBEd_JzBhPDZ8bstW-KAaIpdRM0fs_e3hXvXyoovXjrXoxuy0JMytmUsYX2VCXjUZjjFpbsFFWKkrXcTbfFYyRFi7IriGlyaCH_YnECbUTKKtfBmxihzdxeqhpyFQfu9DQ-TNE')"></div>
+<div class="absolute bottom-6 left-6 font-mono-ui text-mono-ui text-on-surface uppercase bg-background/80 backdrop-blur-sm px-3 py-1">Fieldwork // LOC: NYC</div>
+</div>
+<div class="md:col-span-5 h-full relative group overflow-hidden bg-primary-container hidden md:block">
+<div class="w-full h-full bg-cover bg-center absolute inset-0 mix-blend-luminosity opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" data-alt="A high-contrast, moody close-up photograph of technical camera gear and production equipment resting on a weathered concrete surface in a dark studio. Harsh directional lighting highlights the textures of metal and glass. Aesthetic is minimalist, technical, and engineered." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAyJbQ3WjatpzJVyFjVjX3TTQBRwnIp-wK2Elj12QQuBadw-6LiOOEjM5yguiggE3jAvLl2W3n9Kf5dHfFRfN07dIm2A84dYmiLZGVL--lPr162EYEX7v6QTy9UEaIYUgymqwUZ_a93c_ZFhkmN7lt25GTyCh2W_Z0-_vRGPI1b8Ja7N0ZDwRTLxkoSF90AfYEtscoXEID-kDSg1ybovvyL1NXAu_QMttMra-hZgi9dPaMnEFOhsjwg8eJ5rB8qK0xgRxCdfpuB-FEQ')"></div>
+<div class="absolute bottom-6 left-6 font-mono-ui text-mono-ui text-on-surface uppercase bg-background/80 backdrop-blur-sm px-3 py-1">GEAR // ARRI</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer component -->
+<footer class="w-full mt-section-gap bg-surface-container-lowest dark:bg-surface-container-lowest flex flex-col gap-gutter px-margin-desktop py-20 flat no shadows text-primary dark:text-primary">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-outline-variant/20 pt-12">
+<div>
+<div class="font-headline-lg text-headline-lg text-on-surface uppercase mb-8">
+                    PODIUM STUDIO
+                </div>
+<div class="font-body-md text-body-md text-on-surface-variant flex flex-col gap-2">
+<p>Montreal, QC</p>
+<a class="hover:text-tertiary transition-colors" href="mailto:hello@podium.studio">hello@podium.studio</a>
+</div>
+</div>
+<div class="flex flex-col md:items-end justify-between">
+<div class="grid grid-cols-2 gap-x-12 gap-y-4">
+<div class="flex flex-col gap-3">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80 uppercase" href="#">Work</a>
+<a class="font-label-caps text-label-caps text-on-surface font-bold hover:text-tertiary underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80 uppercase" href="#">Services</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80 uppercase" href="#">About</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80 uppercase" href="#">Contact</a>
+</div>
+<div class="flex flex-col gap-3">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80 uppercase" href="#">Instagram</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-tertiary underline-offset-4 hover:underline transition-opacity duration-200 hover:opacity-80 uppercase" href="#">LinkedIn</a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-20 pt-8 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="font-mono-ui text-mono-ui text-on-surface-variant">© 2024 PODIUM STUDIO. NOT THE FINISH LINE.</span>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-mono-ui text-mono-ui uppercase text-[10px]">System Online</span>
+</div>
+</div>
+</footer>
+<!-- Interactive Scripts -->
+<script>
+        // Spotlight Effect Logic
+        document.querySelectorAll('.spotlight-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

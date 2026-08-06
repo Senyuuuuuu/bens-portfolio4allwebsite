@@ -1,29 +1,17 @@
-import { TikTokPage } from "@remotion/captions";
 import React from "react";
-import {
-  AbsoluteFill,
-  spring,
-  useCurrentFrame,
-  useVideoConfig,
-} from "remotion";
-import { Page } from "./Page";
+import { AbsoluteFill } from "remotion";
+import { TikTokDynamicCaption } from "./TikTokDynamicCaption";
+import { ChunkedPage } from "./chunking";
 
-const SubtitlePage: React.FC<{ readonly page: TikTokPage }> = ({ page }) => {
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+interface SubtitlePageProps {
+  readonly page: ChunkedPage;
+  readonly clipStartMs?: number;
+}
 
-  const enter = spring({
-    frame,
-    fps,
-    config: {
-      damping: 200,
-    },
-    durationInFrames: 5,
-  });
-
+export const SubtitlePage: React.FC<SubtitlePageProps> = ({ page, clipStartMs = 0 }) => {
   return (
     <AbsoluteFill>
-      <Page enterProgress={enter} page={page} />
+      <TikTokDynamicCaption page={page} clipStartMs={clipStartMs} />
     </AbsoluteFill>
   );
 };

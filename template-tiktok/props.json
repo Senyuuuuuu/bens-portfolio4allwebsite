@@ -1,0 +1,5 @@
+{
+  "src": "sample-video.mp4",
+  "clipStartMs": 0,
+  "clipEndMs": 10000
+}

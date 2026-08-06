@@ -1,4 +1,4 @@
-import { Caption, createTikTokStyleCaptions } from "@remotion/captions";
+import { Caption } from "@remotion/captions";
 import { getVideoMetadata } from "@remotion/media-utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -8,30 +8,42 @@ import {
   getStaticFiles,
   OffthreadVideo,
   Sequence,
+  staticFile,
   useDelayRender,
   useVideoConfig,
   watchStaticFile,
 } from "remotion";
 import { z } from "zod";
 import { loadFont } from "../load-font";
+import { chunkCaptionsIntoPages } from "./chunking";
 import { NoCaptionFile } from "./NoCaptionFile";
 import SubtitlePage from "./SubtitlePage";
 
-export type SubtitleProp = {
-  startInSeconds: number;
-  text: string;
-};
-
 export const captionedVideoSchema = z.object({
   src: z.string(),
+  clipStartMs: z.number().optional(),
+  clipEndMs: z.number().optional(),
 });
 
 export const calculateCaptionedVideoMetadata: CalculateMetadataFunction<
   z.infer<typeof captionedVideoSchema>
 > = async ({ props }) => {
   const fps = 30;
-  const metadata = await getVideoMetadata(props.src);
 
+  if (props.clipStartMs !== undefined && props.clipEndMs !== undefined) {
+    const clipDurationSec = (props.clipEndMs - props.clipStartMs) / 1000;
+    return {
+      fps,
+      durationInFrames: Math.floor(clipDurationSec * fps),
+    };
+  }
+
+  const resolvedVideoSrc =
+    props.src.startsWith("http://") || props.src.startsWith("https://")
+      ? props.src
+      : staticFile(props.src);
+
+  const metadata = await getVideoMetadata(resolvedVideoSrc);
   return {
     fps,
     durationInFrames: Math.floor(metadata.durationInSeconds * fps),
@@ -39,91 +51,100 @@ export const calculateCaptionedVideoMetadata: CalculateMetadataFunction<
 };
 
 const getFileExists = (file: string) => {
-  const files = getStaticFiles();
-  const fileExists = files.find((f) => {
-    return f.src === file;
-  });
-  return Boolean(fileExists);
+  try {
+    const files = getStaticFiles();
+    const fileExists = files.find((f) => f.src === file);
+    return Boolean(fileExists);
+  } catch (_e) {
+    return true;
+  }
 };
-
-// How many captions should be displayed at a time?
-// Try out:
-// - 1500 to display a lot of words at a time
-// - 200 to only display 1 word at a time
-const SWITCH_CAPTIONS_EVERY_MS = 1200;
 
 export const CaptionedVideo: React.FC<{
   src: string;
-}> = ({ src }) => {
+  clipStartMs?: number;
+  clipEndMs?: number;
+}> = ({ src, clipStartMs = 0 }) => {
   const [subtitles, setSubtitles] = useState<Caption[]>([]);
   const { delayRender, continueRender } = useDelayRender();
   const [handle] = useState(() => delayRender());
   const { fps } = useVideoConfig();
 
-  const subtitlesFile = src
-    .replace(/.mp4$/, ".json")
-    .replace(/.mkv$/, ".json")
-    .replace(/.mov$/, ".json")
-    .replace(/.webm$/, ".json");
+  const resolvedVideoSrc = useMemo(() => {
+    return src.startsWith("http://") || src.startsWith("https://")
+      ? src
+      : staticFile(src);
+  }, [src]);
+
+  const rawSubtitlesFile = useMemo(() => {
+    return src
+      .replace(/.mp4$/, ".json")
+      .replace(/.mkv$/, ".json")
+      .replace(/.mov$/, ".json")
+      .replace(/.webm$/, ".json");
+  }, [src]);
+
+  const subtitlesFileUrl = useMemo(() => {
+    return rawSubtitlesFile.startsWith("http://") || rawSubtitlesFile.startsWith("https://")
+      ? rawSubtitlesFile
+      : staticFile(rawSubtitlesFile);
+  }, [rawSubtitlesFile]);
 
   const fetchSubtitles = useCallback(async () => {
     try {
       await loadFont();
-      if (!getFileExists(subtitlesFile)) {
+      if (!getFileExists(rawSubtitlesFile)) {
         setSubtitles([]);
         continueRender(handle);
         return;
       }
 
-      const res = await fetch(subtitlesFile);
+      const res = await fetch(subtitlesFileUrl);
       const data = (await res.json()) as Caption[];
       setSubtitles(data);
       continueRender(handle);
     } catch (e) {
       cancelRender(e);
     }
-  }, [continueRender, handle, subtitlesFile]);
+  }, [continueRender, handle, rawSubtitlesFile, subtitlesFileUrl]);
 
   useEffect(() => {
     fetchSubtitles();
 
-    const c = watchStaticFile(subtitlesFile, () => {
-      fetchSubtitles();
-    });
+    let c: { cancel: () => void } | null = null;
+    try {
+      c = watchStaticFile(rawSubtitlesFile, () => {
+        fetchSubtitles();
+      });
+    } catch (_e) {
+      // Ignored during server-side headless render
+    }
 
     return () => {
-      c.cancel();
+      c?.cancel();
     };
-  }, [fetchSubtitles, src, subtitlesFile]);
+  }, [fetchSubtitles, rawSubtitlesFile]);
 
-  const { pages } = useMemo(() => {
-    return createTikTokStyleCaptions({
-      combineTokensWithinMilliseconds: SWITCH_CAPTIONS_EVERY_MS,
-      captions: subtitles ?? [],
-    });
+  // Chunk captions into maximum 6 words per screen to avoid clutter
+  const pages = useMemo(() => {
+    return chunkCaptionsIntoPages(subtitles ?? [], { maxWordsPerPage: 6 });
   }, [subtitles]);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "white" }}>
+    <AbsoluteFill style={{ backgroundColor: "black" }}>
       <AbsoluteFill>
         <OffthreadVideo
           style={{
             objectFit: "cover",
           }}
-          src={src}
+          src={resolvedVideoSrc}
+          startFrom={Math.floor((clipStartMs / 1000) * fps)}
         />
       </AbsoluteFill>
       {pages.map((page, index) => {
-        const nextPage = pages[index + 1] ?? null;
-        const subtitleStartFrame = (page.startMs / 1000) * fps;
-        const subtitleEndFrame = Math.min(
-          nextPage ? (nextPage.startMs / 1000) * fps : Infinity,
-          subtitleStartFrame + SWITCH_CAPTIONS_EVERY_MS,
-        );
-        const durationInFrames = subtitleEndFrame - subtitleStartFrame;
-        if (durationInFrames <= 0) {
-          return null;
-        }
+        const subtitleStartFrame = Math.max(0, ((page.startMs - clipStartMs) / 1000) * fps);
+        const subtitleEndFrame = Math.max(0, ((page.endMs - clipStartMs) / 1000) * fps);
+        const durationInFrames = Math.max(1, subtitleEndFrame - subtitleStartFrame);
 
         return (
           <Sequence
@@ -131,11 +152,11 @@ export const CaptionedVideo: React.FC<{
             from={subtitleStartFrame}
             durationInFrames={durationInFrames}
           >
-            <SubtitlePage key={index} page={page} />;
+            <SubtitlePage page={page} clipStartMs={clipStartMs} />
           </Sequence>
         );
       })}
-      {getFileExists(subtitlesFile) ? null : <NoCaptionFile />}
+      {getFileExists(rawSubtitlesFile) ? null : <NoCaptionFile />}
     </AbsoluteFill>
   );
 };
