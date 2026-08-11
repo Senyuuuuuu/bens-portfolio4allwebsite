@@ -64,7 +64,7 @@
 
     body {
       font-family: var(--font-main);
-      background-color: var(--color-black);
+      background-color: var(--color-white);
       color: var(--color-black);
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
@@ -184,29 +184,17 @@
        ═════════════════════════════════════════════════════════════════════════ */
     .hero-container {
       position: relative;
-      background: var(--color-sky-gradient);
-      border-bottom-left-radius: var(--radius-hero);
-      border-bottom-right-radius: var(--radius-hero);
-      padding: 24px 32px 100px 32px;
+      background: url('hero-sky-bg.jpg') center/cover no-repeat, var(--color-sky-gradient);
+      border-radius: 40px;
+      margin: 16px 20px 0 20px;
+      padding: 24px 32px 80px 32px;
       overflow: hidden;
       box-shadow: var(--shadow-lg);
     }
 
     /* Cloud Visual Layer */
     .hero-clouds-bg {
-      position: absolute;
-      bottom: -40px;
-      left: 0;
-      width: 100%;
-      height: 380px;
-      pointer-events: none;
-      background: 
-        radial-gradient(ellipse at 20% 100%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 70%),
-        radial-gradient(ellipse at 50% 90%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.6) 45%, transparent 75%),
-        radial-gradient(ellipse at 80% 100%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 40%, transparent 70%);
-      filter: blur(10px);
-      opacity: 0.85;
-      z-index: 1;
+      display: none;
     }
 
     /* Clouds SVG Details overlay */
@@ -220,6 +208,8 @@
       z-index: 2;
       opacity: 0.9;
     }
+
+
 
     /* Navigation */
     .navbar {
@@ -315,106 +305,138 @@
     .hero-3d-stage {
       position: relative;
       max-width: 1320px;
+      height: 340px;
       margin: 0 auto;
       perspective: 1200px;
       z-index: 10;
-      padding: 20px 0 40px 0;
+      padding: 10px 0 20px 0;
+      overflow: visible;
     }
 
     .hero-cards-track {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
+      position: relative;
+      width: 100%;
+      height: 100%;
       transform-style: preserve-3d;
     }
 
     .stage-card {
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: var(--shadow-md);
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      transition: box-shadow 0.3s ease;
       flex-shrink: 0;
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      will-change: transform, opacity;
+      will-change: transform, filter, opacity;
+      transform-style: preserve-3d;
+      box-sizing: border-box;
     }
 
     .stage-card:hover {
-      box-shadow: var(--shadow-lg);
-      z-index: 20;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+      z-index: 50;
     }
 
     /* Card 1: Faded Small Chart Screen */
     .card-faded-chart {
-      width: 140px;
-      height: 180px;
-      background: rgba(255, 255, 255, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      transform: rotateY(25deg) translateZ(-40px);
-      opacity: 0.7;
+      width: 180px;
+      height: 210px;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     /* Card 2: White Card Line Chart */
     .card-line-chart {
       width: 230px;
-      height: 220px;
+      height: 230px;
       background: var(--color-white);
       border: 1px solid var(--color-border);
-      transform: rotateY(15deg) translateZ(-10px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
-    /* Card 3: Photo Card Smiling Woman */
+    /* Card 3: Photo Card Smiling Person with Financial Badges */
     .card-photo-woman {
-      width: 210px;
+      width: 220px;
       height: 250px;
-      background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%), 
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 20%, rgba(0,0,0,0.85) 100%), 
                   url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80') center/cover;
-      border: 2px solid rgba(255, 255, 255, 0.8);
-      transform: rotateY(8deg) translateZ(10px);
+      border: 2px solid rgba(255, 255, 255, 0.9);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       color: var(--color-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge-float {
+      position: absolute;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 12px;
+      font-weight: 800;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+      z-index: 3;
+    }
+
+    .badge-top-left {
+      top: 14px;
+      left: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--color-black);
+      border: 1px solid rgba(255, 255, 255, 1);
+    }
+
+    .badge-bottom-right {
+      top: 52px;
+      right: 14px;
+      background: rgba(204, 255, 0, 0.95);
+      color: var(--color-black);
+      border: 1px solid rgba(204, 255, 0, 1);
     }
 
     /* Card 4: Prominent Hero Black Card */
     .card-hero-black {
-      width: 280px;
-      height: 280px;
+      width: 270px;
+      height: 270px;
       background: var(--color-black);
       color: var(--color-white);
-      transform: rotateY(0deg) translateZ(30px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Card 5: Glowing Blue Card */
+    /* Card 5: Glowing Sky-Blue Card */
     .card-glowing-blue {
-      width: 190px;
+      width: 210px;
       height: 230px;
       background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       color: var(--color-white);
-      transform: rotateY(-10deg) translateZ(0px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      box-shadow: 0 12px 30px rgba(2, 132, 199, 0.35);
     }
 
     /* Card 6: White Stat Card 520k+ */
     .card-stat-white {
-      width: 160px;
-      height: 190px;
+      width: 190px;
+      height: 210px;
       background: var(--color-white);
       border: 1px solid var(--color-border);
-      transform: rotateY(-20deg) translateZ(-30px);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -425,7 +447,7 @@
     /* Hero Social Proof */
     .hero-social-proof {
       text-align: center;
-      margin-top: 30px;
+      margin-top: 24px;
       position: relative;
       z-index: 10;
     }
@@ -767,21 +789,24 @@
     }
 
     /* ═════════════════════════════════════════════════════════════════════════
-       6. SECTION 1: OUR SERVICES (BENTO GRID)
+       6. OUR SERVICES: HIGH-CONTRAST 3D STACKED DECK (BUTTERY 60FPS SMOOTH)
        ═════════════════════════════════════════════════════════════════════════ */
-    .services-section {
+    .stacked-deck-section {
       background-color: var(--color-bg-light);
-      padding: 120px 32px;
+      padding: 90px 32px 140px 32px;
       border-radius: var(--radius-hero);
+      position: relative;
+      overflow: hidden;
+      perspective: 1200px;
     }
 
-    .services-header {
+    .stacked-deck-header {
       text-align: center;
       max-width: 800px;
-      margin: 0 auto 60px auto;
+      margin: 0 auto 40px auto;
     }
 
-    .services-headline {
+    .stacked-deck-headline {
       font-size: 48px;
       font-weight: 800;
       letter-spacing: -1.5px;
@@ -789,100 +814,159 @@
       color: var(--color-black);
     }
 
-    .services-grid {
-      max-width: 1280px;
+    .stacked-deck-stage {
+      max-width: 1080px;
+      height: 520px;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      grid-template-rows: 220px 220px;
-      gap: 24px;
+      position: relative;
+      perspective: 1200px;
     }
 
-    /* Services Card 1: Large Black Square (Left) */
-    .svc-card-black {
-      grid-column: 1 / 2;
-      grid-row: 1 / 3;
-      background-color: var(--color-black);
-      color: var(--color-white);
-      border-radius: var(--radius-card);
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .svc-card-title {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .svc-card-bottom {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .svc-graph-svg {
+    .deck-card-3d {
+      position: absolute;
+      inset: 0;
       width: 100%;
-      height: 80px;
-    }
-
-    .svc-graph-path {
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .svc-card-desc {
-      font-size: 15px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    /* Services Card 2: Top Right Wide Light Gray */
-    .svc-card-gray {
-      grid-column: 2 / 3;
-      grid-row: 1 / 2;
-      background-color: var(--color-white);
-      border-radius: var(--radius-card);
-      padding: 32px;
+      height: 100%;
+      border-radius: 32px;
+      padding: 48px 56px;
+      transform-origin: top center;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      will-change: transform, filter, opacity;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      box-shadow: var(--shadow-sm);
+      overflow: hidden;
     }
 
-    .svc-card-header-row {
+    /* Card 1: Premium Solid Black (#0C1016) */
+    .card-black-1 {
+      background-color: #0C1016;
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      z-index: 1;
+    }
+
+    /* Card 2: High-Contrast Light Gray (#F0F2F6) */
+    .card-gray-2 {
+      background-color: #F0F2F6;
+      color: #0C1016;
+      border: 2px solid rgba(12, 16, 22, 0.15);
+      z-index: 2;
+    }
+
+    /* Card 3: Electric Lime Green (#CCFF00) */
+    .card-lime-3 {
+      background-color: #CCFF00;
+      color: #0C1016;
+      border: 2px solid rgba(12, 16, 22, 0.25);
+      z-index: 3;
+    }
+
+    /* Card 4: Deep Charcoal (#12161F) */
+    .card-charcoal-4 {
+      background-color: #12161F;
+      color: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.22);
+      z-index: 4;
+    }
+
+    /* Internal Content Layer for Parallax Lag */
+    .deck-card-content {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-between;
+      height: 100%;
+      will-change: transform;
     }
 
-    .badge-new {
-      background-color: var(--color-sky-light);
-      color: var(--color-sky-solid);
-      font-size: 11px;
+    .deck-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .deck-card-num {
+      font-size: 13px;
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 2.5px;
       text-transform: uppercase;
-      padding: 4px 12px;
-      border-radius: var(--radius-pill);
     }
 
-    /* Services Card 3: Bottom Right Wide Lime Green */
-    .svc-card-lime {
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
-      background-color: var(--color-lime);
-      color: var(--color-black);
-      border-radius: var(--radius-card);
-      padding: 32px;
+    .deck-card-title {
+      font-size: 48px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      margin-top: 10px;
+      line-height: 1.08;
+    }
+
+    .pill-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .skill-tag-pill {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .skill-tag-pill-dark {
+      background: rgba(12, 16, 22, 0.08);
+      border: 1px solid rgba(12, 16, 22, 0.18);
+      color: #0C1016;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .skill-tag-pill-black {
+      background: #0C1016;
+      color: #CCFF00;
+      padding: 8px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .deck-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 30px;
+    }
+
+    .deck-card-desc {
+      max-width: 580px;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .deck-card-arrow-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
-    .svc-card-lime:hover .icon-circle-black {
-      transform: rotate(45deg);
+    .deck-card-3d:hover .deck-card-arrow-circle {
+      transform: rotate(45deg) scale(1.1);
     }
 
     /* ═════════════════════════════════════════════════════════════════════════
@@ -1114,6 +1198,9 @@
          ═════════════════════════════════════════════════════════════════════════ -->
     <header class="hero-container">
 
+      <!-- Soft Fluffy Cloud Ambient Background -->
+      <div class="hero-clouds-bg"></div>
+
       <!-- Navigation Header -->
       <nav class="navbar">
         <!-- Logo (Left) -->
@@ -1168,33 +1255,31 @@
       <div class="hero-3d-stage">
         <div class="hero-cards-track">
           
-          <!-- 1. Faded small chart screen -->
-          <div class="stage-card card-faded-chart">
-            <div style="font-size:10px; font-weight:800; color:#0284c7;">PREVIEW</div>
-            <div style="height:60px; margin-top:20px; background:rgba(2,132,199,0.1); border-radius:8px;"></div>
-          </div>
-
-          <!-- 2. White card line chart -->
+          <!-- 1. White card line chart -->
           <div class="stage-card card-line-chart">
             <div>
-              <div style="font-size:11px; font-weight:800; color:#64748b;">INTELLIGENCE</div>
-              <div style="font-size:15px; font-weight:800; color:#0f172a; margin-top:4px;">Intelligence in Every Decision</div>
+              <div style="font-size:11px; font-weight:800; color:#64748b; letter-spacing:0.5px;">INTELLIGENCE</div>
+              <div style="font-size:15px; font-weight:800; color:#0f172a; margin-top:4px; line-height:1.2;">Intelligence in Every Decision</div>
             </div>
             <svg viewBox="0 0 100 40" style="width:100%; height:50px;">
               <path d="M0,35 Q25,5 50,20 T100,5" fill="none" stroke="#0284c7" stroke-width="4" stroke-linecap="round"/>
             </svg>
           </div>
 
-          <!-- 3. Photo card woman -->
+          <!-- 2. Photo card smiling person with overlaying financial badges -->
           <div class="stage-card card-photo-woman">
-            <div style="font-size:12px; font-weight:700;">REVENUE GENERATED</div>
-            <div style="font-size:22px; font-weight:900; color:#ccff00;">$2,670 / $1,200</div>
+            <div class="badge-float badge-top-left">$2,670</div>
+            <div class="badge-float badge-bottom-right">$1,200</div>
+            <div style="position:relative; z-index:2;">
+              <div style="font-size:11px; font-weight:800; color:rgba(255,255,255,0.85); letter-spacing:0.5px;">FINANCIAL BADGES</div>
+              <div style="font-size:22px; font-weight:900; color:#ccff00; margin-top:2px;">$2,670 / $1,200</div>
+            </div>
           </div>
 
-          <!-- 4. Prominent Black Hero Card -->
+          <!-- 3. Solid Black Card with high-contrast text -->
           <div class="stage-card card-hero-black">
-            <div style="font-size:12px; font-weight:800; color:#ccff00; letter-spacing:1px;">CORE ENGINE</div>
-            <div style="font-size:18px; font-weight:800; line-height:1.3;">
+            <div style="font-size:11px; font-weight:800; color:#ccff00; letter-spacing:1px;">STRATEGY & DATA</div>
+            <div style="font-size:18px; font-weight:800; line-height:1.35; color:#ffffff;">
               Expertise that Combines Strategy, Data, and Artificial Intelligence
             </div>
             <div style="font-size:12px; color:#94a3b8; display:flex; align-items:center; gap:6px;">
@@ -1203,35 +1288,51 @@
             </div>
           </div>
 
-          <!-- 5. Glowing Blue Card -->
+          <!-- 4. Glowing Sky-Blue Card -->
           <div class="stage-card card-glowing-blue">
-            <div style="font-size:11px; font-weight:800; opacity:0.8;">AUTOMATION</div>
-            <div style="font-size:20px; font-weight:800;">Data training</div>
-            <div style="font-size:12px; opacity:0.9;">99.4% Accuracy</div>
+            <div style="font-size:11px; font-weight:800; opacity:0.85; letter-spacing:0.5px;">AUTOMATION</div>
+            <div style="font-size:22px; font-weight:900; line-height:1.2;">Data training</div>
+            <div style="font-size:12px; opacity:0.95; font-weight:600;">99.4% Model Accuracy</div>
           </div>
 
-          <!-- 6. White Stat Card 520k+ -->
+          <!-- 5. White Stat Card 520k+ -->
           <div class="stage-card card-stat-white">
-            <div style="font-size:36px; font-weight:900; color:#0f172a; line-height:1;">520k+</div>
-            <div style="font-size:11px; font-weight:700; color:#64748b; margin-top:6px;">DATA POINTS</div>
+            <div style="font-size:42px; font-weight:900; color:#0f172a; line-height:1; letter-spacing:-1px;">520k+</div>
+            <div style="font-size:11px; font-weight:800; color:#64748b; margin-top:8px; letter-spacing:1px;">DATA POINTS</div>
           </div>
 
-          <!-- 7. White Card Line Chart Duo -->
+          <!-- 6. White Card Bar Chart UI -->
           <div class="stage-card card-line-chart">
             <div>
-              <div style="font-size:11px; font-weight:800; color:#64748b;">ANALYTICS</div>
-              <div style="font-size:15px; font-weight:800; color:#0f172a; margin-top:4px;">Real-Time Growth Tracking</div>
+              <div style="font-size:11px; font-weight:800; color:#64748b; letter-spacing:0.5px;">ANALYTICS</div>
+              <div style="font-size:15px; font-weight:800; color:#0f172a; margin-top:4px; line-height:1.2;">Real-Time Growth Tracking</div>
             </div>
-            <svg viewBox="0 0 100 40" style="width:100%; height:50px;">
-              <path d="M0,30 Q30,38 60,10 T100,2" fill="none" stroke="#ccff00" stroke-width="4" stroke-linecap="round"/>
-            </svg>
+            <div style="display:flex; align-items:flex-end; gap:6px; height:45px; margin-top:10px;">
+              <div style="flex:1; height:40%; background:#e2e8f0; border-radius:4px;"></div>
+              <div style="flex:1; height:70%; background:#38bdf8; border-radius:4px;"></div>
+              <div style="flex:1; height:55%; background:#e2e8f0; border-radius:4px;"></div>
+              <div style="flex:1; height:90%; background:#0284c7; border-radius:4px;"></div>
+              <div style="flex:1; height:100%; background:#ccff00; border-radius:4px;"></div>
+            </div>
           </div>
 
-          <!-- 8. Glowing Blue Card Duo -->
+          <!-- 7. Solid Black Card Duo -->
+          <div class="stage-card card-hero-black">
+            <div style="font-size:11px; font-weight:800; color:#ccff00; letter-spacing:1px;">INTELLIGENT AI</div>
+            <div style="font-size:18px; font-weight:800; line-height:1.35; color:#ffffff;">
+              Empowering Decision Engine Through Deep Data Models
+            </div>
+            <div style="font-size:12px; color:#94a3b8; display:flex; align-items:center; gap:6px;">
+              <span style="width:8px; height:8px; border-radius:50%; background-color:#ccff00;"></span>
+              Active Pipeline
+            </div>
+          </div>
+
+          <!-- 8. Glowing Sky-Blue Card Duo -->
           <div class="stage-card card-glowing-blue">
-            <div style="font-size:11px; font-weight:800; opacity:0.8;">AI STRATEGY</div>
-            <div style="font-size:20px; font-weight:800;">Predictive Models</div>
-            <div style="font-size:12px; opacity:0.9;">Instant Execution</div>
+            <div style="font-size:11px; font-weight:800; opacity:0.85; letter-spacing:0.5px;">AI STRATEGY</div>
+            <div style="font-size:22px; font-weight:900; line-height:1.2;">Data training</div>
+            <div style="font-size:12px; opacity:0.95; font-weight:600;">Instant Execution</div>
           </div>
 
         </div>
@@ -1240,14 +1341,10 @@
       <!-- Hero Social Proof -->
       <div class="hero-social-proof">
         <div class="social-proof-text">Rated 4.9/5 by 4,900+ clients</div>
-        <div class="social-proof-stars">★★★★★</div>
+        <div class="social-proof-stars">★ ★ ★ ★ ★</div>
       </div>
 
-      <!-- Cloud Graphic Overlay -->
-      <div class="hero-clouds-bg"></div>
-      <svg class="hero-clouds-svg" viewBox="0 0 1440 220" fill="none" preserveAspectRatio="none">
-        <path d="M0,220 C180,140 320,180 500,120 C700,60 900,160 1100,100 C1280,40 1380,120 1440,220 Z" fill="#ffffff"/>
-      </svg>
+
 
     </header>
 
@@ -1371,50 +1468,133 @@
     </section>
 
     <!-- ═════════════════════════════════════════════════════════════════════════
-       6. SECTION 1: OUR SERVICES (BENTO GRID)
+       6. OUR SERVICES: ADVANCED 3D STACKED DECK WITH DEPTH-OF-FIELD & PARALLAX
        ═════════════════════════════════════════════════════════════════════════ -->
-    <section class="services-section" id="services">
-      <div class="services-header">
-        <span class="tag-kicker">• OUR SERVICES</span>
-        <h2 class="services-headline">
-          Intelligent solutions for 
-          <span style="color:#ccff00; text-shadow:0 0 10px rgba(0,0,0,0.2);">❇</span> 
-          modern challenges
+    <section class="stacked-deck-section" id="services">
+      <div class="stacked-deck-header">
+        <span class="tag-kicker" style="color: var(--color-sky-solid);">• OUR SERVICES</span>
+        <h2 class="stacked-deck-headline">
+          Intelligent systems built for 
+          <span style="color: var(--color-sky-solid);">scale & depth</span>
         </h2>
       </div>
 
-      <div class="services-grid">
+      <!-- 3D Stacked Deck Stage -->
+      <div class="stacked-deck-stage">
         
-        <!-- Card 1 (Left - Large Square) -->
-        <div class="bento-card svc-card-black">
-          <div class="svc-card-title">AI Automation</div>
-          
-          <div class="svc-card-bottom">
-            <svg class="svc-graph-svg" viewBox="0 0 300 80" fill="none">
-              <path class="svc-graph-path" d="M10,65 Q75,10 150,45 T290,15" stroke="#ffffff" stroke-width="4.5" fill="none"/>
-            </svg>
-            <p class="svc-card-desc">Streamline workflows with zero friction.</p>
+        <!-- Card 1: Solid Black (#111111 / #0C1016) -->
+        <div class="deck-card-3d card-black-1" id="card-3d-1">
+          <div class="deck-card-content">
+            <div class="deck-card-top">
+              <div>
+                <div class="deck-card-num" style="color: var(--color-lime);">01 / SERVICE</div>
+                <h3 class="deck-card-title" style="color: var(--color-white);">AI Automation</h3>
+                <div class="pill-tags-row">
+                  <span class="skill-tag-pill">Neural Workflows</span>
+                  <span class="skill-tag-pill">Multi-Agent Systems</span>
+                  <span class="skill-tag-pill">LLM Pipelines</span>
+                  <span class="skill-tag-pill">Autonomous Ops</span>
+                </div>
+              </div>
+            </div>
+            <div class="deck-card-bottom">
+              <p class="deck-card-desc" style="color: rgba(255, 255, 255, 0.75);">
+                Deploying self-learning multi-agent workflows and high-throughput AI automation pipelines that scale enterprise efficiency.
+              </p>
+              <div class="deck-card-arrow-circle" style="background: var(--color-lime); color: var(--color-black);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Card 2 (Top Right - Wide Rectangle) -->
-        <div class="bento-card svc-card-gray">
-          <div class="svc-card-header-row">
-            <div class="svc-card-title" style="color:var(--color-black);">Data Analytics</div>
-            <span class="badge-new">New</span>
+        <!-- Card 2: Light Gray (#F5F5F5) -->
+        <div class="deck-card-3d card-gray-2" id="card-3d-2">
+          <div class="deck-card-content">
+            <div class="deck-card-top">
+              <div>
+                <div class="deck-card-num" style="color: var(--color-text-muted);">02 / SERVICE</div>
+                <h3 class="deck-card-title" style="color: var(--color-black);">Data Analytics</h3>
+                <div class="pill-tags-row">
+                  <span class="skill-tag-pill-dark">Predictive Models</span>
+                  <span class="skill-tag-pill-dark">Real-Time Telemetry</span>
+                  <span class="skill-tag-pill-dark">Big Data Architecture</span>
+                  <span class="skill-tag-pill-dark">BI Intelligence</span>
+                </div>
+              </div>
+            </div>
+            <div class="deck-card-bottom">
+              <p class="deck-card-desc" style="color: var(--color-text-muted);">
+                Predictive data modeling and real-time metric processing that transform raw telemetry into high-conviction decision authority.
+              </p>
+              <div class="deck-card-arrow-circle" style="background: var(--color-black); color: var(--color-white);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
           </div>
-          <p style="font-size:14px; color:var(--color-text-muted);">Turn complex datasets into actionable growth metrics.</p>
         </div>
 
-        <!-- Card 3 (Bottom Right - Wide Rectangle) -->
-        <div class="bento-card svc-card-lime">
-          <div class="svc-card-title" style="color:var(--color-black);">Strategic Consulting</div>
-          
-          <div class="icon-circle-black">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
+        <!-- Card 3: Lime Green (#ccff00) -->
+        <div class="deck-card-3d card-lime-3" id="card-3d-3">
+          <div class="deck-card-content">
+            <div class="deck-card-top">
+              <div>
+                <div class="deck-card-num" style="color: var(--color-black);">03 / SERVICE</div>
+                <h3 class="deck-card-title" style="color: var(--color-black);">Strategic Growth</h3>
+                <div class="pill-tags-row">
+                  <span class="skill-tag-pill-black">Conversion CRO</span>
+                  <span class="skill-tag-pill-black">Scale Consulting</span>
+                  <span class="skill-tag-pill-black">Product Strategy</span>
+                  <span class="skill-tag-pill-black">Growth Engine</span>
+                </div>
+              </div>
+            </div>
+            <div class="deck-card-bottom">
+              <p class="deck-card-desc" style="color: rgba(17, 17, 17, 0.85);">
+                Bespoke technical roadmaps, architecture auditing, and market scaling designed for venture-backed hypergrowth.
+              </p>
+              <div class="deck-card-arrow-circle" style="background: var(--color-black); color: var(--color-lime);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Dark Charcoal / Black (#111111) -->
+        <div class="deck-card-3d card-charcoal-4" id="card-3d-4">
+          <div class="deck-card-content">
+            <div class="deck-card-top">
+              <div>
+                <div class="deck-card-num" style="color: #0284c7;">04 / SERVICE</div>
+                <h3 class="deck-card-title" style="color: var(--color-white);">3D Web Experiences</h3>
+                <div class="pill-tags-row">
+                  <span class="skill-tag-pill">WebGL Shaders</span>
+                  <span class="skill-tag-pill">GSAP ScrollTrigger</span>
+                  <span class="skill-tag-pill">Spatial Motion</span>
+                  <span class="skill-tag-pill">Three.js Engine</span>
+                </div>
+              </div>
+            </div>
+            <div class="deck-card-bottom">
+              <p class="deck-card-desc" style="color: rgba(255, 255, 255, 0.75);">
+                Immersive 3D environments and photorealistic motion assets that turn complex digital products into captivating visual experiences.
+              </p>
+              <div class="deck-card-arrow-circle" style="background: var(--color-lime); color: var(--color-black);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1807,16 +1987,6 @@
         ease: "back.out(1.5)"
       }, "-=0.5");
 
-      // Continuous 3D Suspending Float Effect (Sine Ease Loops)
-      gsap.to(".card-faded-chart", { y: "+=12", duration: 3.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
-      gsap.to(".card-line-chart", { y: "-=14", duration: 2.8, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.2 });
-      gsap.to(".card-photo-woman", { y: "+=16", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.4 });
-      gsap.to(".card-hero-black", { y: "-=10", duration: 3.0, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.1 });
-      gsap.to(".card-glowing-blue", { y: "+=14", duration: 3.3, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.3 });
-      gsap.to(".card-stat-white", { y: "-=12", duration: 2.9, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
-
-      // 3D Card Stage Interactive Pitch-Shifted Audio Hum
-      const stageTrack = document.querySelector(".hero-cards-track");
       // ───────────────────────────────────────────────────────────────────────
       // 1B. HERO 3D CURVED PANORAMIC MARQUEE INFINITE LOOP (GSAP TICKER, 60FPS, DEPTH-OF-FIELD BLUR)
       // ───────────────────────────────────────────────────────────────────────
@@ -1826,7 +1996,7 @@
         const spacing = 1.0 / totalCards;
         let progress = 0;
         let isPaused = false;
-        const speed = 0.0007; // 60fps smooth right-to-left marquee speed
+        const speed = 0.0006; // 60fps smooth right-to-left marquee speed
 
         const updateMarquee = () => {
           if (!isPaused) {
@@ -1835,32 +2005,40 @@
 
           stageCards.forEach((card, index) => {
             let normPos = (progress + index * spacing) % 1;
-            if (normPos > 0.5) normPos -= 1; // Center normalized domain around 0 (-0.5 to 0.5)
+            if (normPos > 0.5) normPos -= 1; // Center normalized domain around 0 (-0.5 to +0.5)
 
-            // 3D Curved Arc Geometry Math:
-            const translateX = normPos * 1050; // Spread across 1050px 3D stage width
-            const absNorm = Math.abs(normPos * 2); // 0 at center, 1 at extreme edges
-            const translateZ = 135 - absNorm * 175; // +135px (closest to camera) -> -40px (receded edges)
-            const translateY = Math.pow(absNorm, 2) * 18; // Curved arc trajectory dip
+            // 3D Panoramic Curve Trajectory Math:
+            const translateX = normPos * 1150; // Spread across 1150px 3D stage width
+            const absNorm = Math.abs(normPos * 2); // 0 at center, 1.0 at extreme edges
+            
+            // 3D Elevation & Z-Depth (+140px closest to camera at center, receding to -60px at edges)
+            const translateZ = 140 - absNorm * 200;
+            
+            // Horizon Arc Elevation (Drops down by 22px at outer edges to form curved horizon arc)
+            const translateY = Math.pow(absNorm, 2) * 22;
 
-            // Spatial Scaling receding into vanishing point (1.0 at center -> 0.84 at edges)
-            const scaleVal = 1.0 - absNorm * 0.16;
+            // Inward Rotational Arc (0deg at center, +40deg on left inward, -40deg on right inward)
+            const rotateY = -normPos * 80;
 
-            // Inward rotational arc (0deg at center, up to +38deg on left, -38deg on right)
-            const rotateY = -normPos * 76;
+            // Spatial Scaling receding into vanishing point (1.0 at center -> 0.82 at edges)
+            const scaleVal = 1.0 - absNorm * 0.18;
 
-            // Realistic Camera Depth-of-Field Dynamic Blur (0px dead-center, up to 9px at extreme edges)
-            const blurPx = Math.pow(absNorm, 1.8) * 9.5;
-            const filterBlur = blurPx > 0.3 ? `blur(${blurPx.toFixed(1)}px)` : "none";
+            // Zero Blur Directive: All cards remain 100% sharp, crisp, and fully in focus at all times
+            // Smooth Edge Opacity: Gently fade down to 45% (40%-50%) at extreme left/right edges
+            const opacityVal = gsap.utils.clamp(0.45, 1.0, 1.0 - Math.pow(absNorm, 2.0) * 0.55);
 
-            // Smooth Edge Opacity (Fade to 45% at extreme edges)
-            const opacityVal = gsap.utils.clamp(0.45, 1.0, 1.0 - Math.pow(absNorm, 2.2) * 0.55);
+            // Dynamic Realistic Box-Shadow lifting center cards visually off background
+            const shadowElevation = (1 - absNorm);
+            const shadowBlur = 10 + shadowElevation * 45;
+            const shadowOpacity = 0.08 + shadowElevation * 0.25;
+            const boxShadowStr = `0 ${10 + shadowElevation * 15}px ${shadowBlur}px rgba(0, 0, 0, ${shadowOpacity.toFixed(2)})`;
 
             gsap.set(card, {
               transformOrigin: "center center",
-              transform: `translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotateY(${rotateY}deg) scale(${scaleVal})`,
-              filter: filterBlur,
-              opacity: opacityVal
+              transform: `translate(-50%, -50%) translate3d(${translateX}px, ${translateY}px, ${translateZ}px) rotateY(${rotateY}deg) scale(${scaleVal})`,
+              filter: "none",
+              opacity: opacityVal,
+              boxShadow: boxShadowStr
             });
           });
         };
@@ -1871,17 +2049,23 @@
         if (heroStage) {
           heroStage.addEventListener("mouseenter", () => {
             isPaused = true;
-            audioEngine.startHum(110);
+            if (typeof audioEngine !== "undefined" && audioEngine.startHum) {
+              audioEngine.startHum(110);
+            }
           });
           heroStage.addEventListener("mousemove", (e) => {
             const rect = heroStage.getBoundingClientRect();
             const mouseRatio = (e.clientX - rect.left) / rect.width;
             const targetFreq = 110 + mouseRatio * 140;
-            audioEngine.updateHumPitch(targetFreq);
+            if (typeof audioEngine !== "undefined" && audioEngine.updateHumPitch) {
+              audioEngine.updateHumPitch(targetFreq);
+            }
           });
           heroStage.addEventListener("mouseleave", () => {
             isPaused = false;
-            audioEngine.stopHum();
+            if (typeof audioEngine !== "undefined" && audioEngine.stopHum) {
+              audioEngine.stopHum();
+            }
           });
         }
       }
@@ -1960,47 +2144,71 @@
       }
 
       // ───────────────────────────────────────────────────────────────────────
-      // 4. OUR SERVICES SECTION (ScrollTrigger & SVG Path Drawing)
+      // 4. OUR SERVICES: ADVANCED 3D STACKED DECK (3D PUSH-BACK, DOF BLUR & PARALLAX)
       // ───────────────────────────────────────────────────────────────────────
-      gsap.from(".services-headline, .services-header .tag-kicker", {
-        scrollTrigger: {
-          trigger: ".services-section",
-          start: "top 75%"
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.15,
-        ease: "power3.out"
-      });
+      const deckSection = document.querySelector(".stacked-deck-section");
+      const deck3dCards = gsap.utils.toArray(".deck-card-3d");
 
-      gsap.from(".services-grid .bento-card", {
-        scrollTrigger: {
-          trigger: ".services-grid",
-          start: "top 75%",
-          onEnter: () => audioEngine.playSwoosh()
-        },
-        y: 50,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.2,
-        ease: "power3.out"
-      });
-
-      // SVG Line Drawing Animation for "AI Automation" Card
-      const svgPath = document.querySelector(".svc-graph-path");
-      if (svgPath) {
-        const pathLen = svgPath.getTotalLength();
-        gsap.set(svgPath, { strokeDasharray: pathLen, strokeDashoffset: pathLen });
-
-        gsap.to(svgPath, {
+      if (deckSection && deck3dCards.length > 0) {
+        const deckTl = gsap.timeline({
           scrollTrigger: {
-            trigger: ".svc-card-black",
-            start: "top 75%"
-          },
-          strokeDashoffset: 0,
-          duration: 1.8,
-          ease: "power2.inOut"
+            trigger: deckSection,
+            start: "top top",
+            end: () => `+=${deck3dCards.length * 1000}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            onEnter: () => {
+              if (typeof audioEngine !== "undefined" && audioEngine.playSwoosh) {
+                audioEngine.playSwoosh();
+              }
+            }
+          }
+        });
+
+        deck3dCards.forEach((card, index) => {
+          const cardContent = card.querySelector(".deck-card-content");
+          
+          if (index > 0) {
+            // Incoming Card slides UP from bottom to lock over pinned stack
+            deckTl.fromTo(card, 
+              { yPercent: 100 }, 
+              { yPercent: 0, ease: "none", duration: 1 }, 
+              index - 1
+            );
+
+            // Phase 3: Incoming Card Content Micro-Interaction (Parallax Lag)
+            if (cardContent) {
+              deckTl.fromTo(cardContent,
+                { y: 30 },
+                { y: 0, ease: "power1.out", duration: 1 },
+                index - 1
+              );
+            }
+
+            // Phase 2: 3D Push-Back (Depth, RotateX, Brightness & Blur) on ALL underlying cards
+            for (let i = 0; i < index; i++) {
+              const depthIndex = index - i;
+              const prevCard = deck3dCards[i];
+              
+              // Scale down (0.90, 0.80, 0.70), tilt backward (-4deg, -8deg, -12deg), push upward (-5%, -10%), darken & blur
+              const targetScale = Math.max(0.70, 1.0 - depthIndex * 0.10);
+              const targetYPercent = -depthIndex * 5;
+              const targetRotateX = -depthIndex * 4;
+              const targetBrightness = Math.max(0.2, 1.0 - depthIndex * 0.5);
+              const targetBlur = depthIndex * 4;
+
+              deckTl.to(prevCard, {
+                scale: targetScale,
+                yPercent: targetYPercent,
+                rotateX: targetRotateX,
+                filter: `brightness(${targetBrightness}) blur(${targetBlur}px)`,
+                transformOrigin: "top center",
+                ease: "power1.inOut",
+                duration: 1
+              }, index - 1);
+            }
+          }
         });
       }
 

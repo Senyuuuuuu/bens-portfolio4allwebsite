@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support & FAQ — Meditation & Yoga</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #faf9f6; color: #1c1d21; overflow-x: hidden; }
+    .physics-body-active { transition: none !important; user-select: none; will-change: transform; cursor: grab; }
+    .physics-body-active:active { cursor: grabbing; }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.6), 0 0 30px rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.9), 0 0 50px rgba(16, 185, 129, 0.5); }
+    }
+    .animate-glow { animation: pulse-glow 3s infinite ease-in-out; }
+  </style>
+</head>
+<body class="relative antialiased selection:bg-emerald-500 selection:text-white">
+
+  <!-- GLOBAL NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-white/80 border-b border-gray-200/60 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      
+      <a href="index.html" class="physics-element flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+        <span class="font-bold text-xl tracking-tight text-gray-900">Meditation</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="physics-element text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">Home</a>
+        <a href="classes.html" class="physics-element text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">Classes</a>
+        <a href="community.html" class="physics-element text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">Community</a>
+        <a href="faq.html" class="physics-element text-sm font-bold text-emerald-600 border-b-2 border-emerald-600 pb-1">FAQ</a>
+        <a href="contact.html" class="physics-element text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="#login" class="physics-element text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors">Log in</a>
+        <button class="physics-element bg-gray-900 hover:bg-emerald-600 text-white font-semibold text-sm px-6 py-2.5 rounded-full transition-all duration-300 shadow-md">
+          Sign up
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- PAGE 4: FAQ SECTION -->
+  <section class="max-w-7xl mx-auto px-6 py-16 sm:py-24">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Column (CTA Image) -->
+      <div class="lg:col-span-5 relative">
+        <div class="physics-element relative rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/5] group border-4 border-white">
+          <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=1000&q=80" alt="Advanced Yoga Pose" class="w-full h-full object-cover">
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/30 to-transparent p-8 flex flex-col justify-end items-start text-white">
+            <h3 class="text-2xl font-bold mb-3">Need any help? Don't hesitate to join us.</h3>
+            <a href="contact.html" class="bg-white text-gray-900 hover:bg-emerald-400 hover:text-white font-bold text-xs px-6 py-3 rounded-full transition-all shadow-lg flex items-center gap-2">
+              <span>Get In Touch</span>
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column (Accordion) -->
+      <div class="lg:col-span-7 space-y-4">
+        <span class="physics-element text-xs font-extrabold uppercase tracking-widest text-emerald-600">Help Center</span>
+        <h1 class="physics-element text-3xl sm:text-5xl font-extrabold text-gray-900 mb-8 tracking-tight mt-1">
+          Common Questions
+        </h1>
+
+        <!-- FAQ Accordion Items -->
+        <div class="space-y-4">
+          
+          <!-- Item 1 (Expanded) -->
+          <div class="physics-element bg-white border border-gray-200/80 rounded-3xl p-6 shadow-md transition-all">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between text-left font-bold text-lg text-gray-900 gap-4">
+              <span>What do I need to start meditating?</span>
+              <span class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 font-bold">-</span>
+            </button>
+            <div class="mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+              As a beginner, all you need is a comfortable, quiet space to sit for a few minutes each day. Wear loose clothing and optionally use a yoga mat or meditation cushion for spine support.
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="physics-element bg-white border border-gray-200/80 rounded-3xl p-6 shadow-md transition-all">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between text-left font-bold text-lg text-gray-900 gap-4">
+              <span>What is the difference between guided and unguided meditation?</span>
+              <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0 font-bold">+</span>
+            </button>
+            <div class="hidden mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+              Guided meditation provides an instructor's voice leading your visualization and breath, whereas unguided meditation relies on silent personal focus.
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="physics-element bg-white border border-gray-200/80 rounded-3xl p-6 shadow-md transition-all">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between text-left font-bold text-lg text-gray-900 gap-4">
+              <span>How long should a beginner meditate daily?</span>
+              <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0 font-bold">+</span>
+            </button>
+            <div class="hidden mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+              We recommend starting with just 5 to 10 minutes daily. Consistency is far more valuable than session duration when building the habit.
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="physics-element bg-white border border-gray-200/80 rounded-3xl p-6 shadow-md transition-all">
+            <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between text-left font-bold text-lg text-gray-900 gap-4">
+              <span>There are so many poses and techniques. Where and how should I start?</span>
+              <span class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center flex-shrink-0 font-bold">+</span>
+            </button>
+            <div class="hidden mt-4 text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4">
+              Start with our foundational "Easy Fitness Setup" path, which introduces fundamental seated postures, deep diaphragmatic breathing, and gentle spinal warmups.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- GLOBAL FOOTER -->
+  <footer class="w-full bg-[#111217] text-gray-300 rounded-t-[3rem] pt-16 pb-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 border-b border-gray-800">
+      
+      <div class="lg:col-span-5 space-y-6">
+        <div class="physics-element flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold">🧘</div>
+          <span class="font-bold text-2xl text-white">Meditation</span>
+        </div>
+
+        <p class="physics-element text-sm text-gray-400 max-w-sm leading-relaxed">
+          Subscribe to our newsletter for weekly mindfulness tips and class updates.
+        </p>
+
+        <div class="physics-element relative max-w-sm">
+          <input type="email" placeholder="Enter email address" class="w-full bg-gray-900 text-white placeholder-gray-500 text-sm px-6 py-3.5 rounded-full border border-gray-800 focus:outline-none focus:border-emerald-500 pr-14 transition">
+          <button class="absolute right-1.5 top-1.5 bottom-1.5 w-10.5 h-10.5 rounded-full bg-emerald-500 text-white flex items-center justify-center hover:bg-emerald-400 transition shadow-md">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-4 pt-2">
+          <a href="#" class="physics-element w-9 h-9 rounded-full bg-gray-900 text-gray-400 hover:text-white hover:bg-emerald-600 flex items-center justify-center transition">FB</a>
+          <a href="#" class="physics-element w-9 h-9 rounded-full bg-gray-900 text-gray-400 hover:text-white hover:bg-emerald-600 flex items-center justify-center transition">IG</a>
+          <a href="#" class="physics-element w-9 h-9 rounded-full bg-gray-900 text-gray-400 hover:text-white hover:bg-emerald-600 flex items-center justify-center transition">TW</a>
+          <a href="#" class="physics-element w-9 h-9 rounded-full bg-gray-900 text-gray-400 hover:text-white hover:bg-emerald-600 flex items-center justify-center transition">LN</a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
+        <div class="space-y-4">
+          <h4 class="physics-element text-sm font-bold text-white uppercase tracking-wider">Contacts</h4>
+          <ul class="space-y-2.5 text-sm text-gray-400">
+            <li class="physics-element">E-108 Brooklyn, New York</li>
+            <li class="physics-element">+1 888 456 7890</li>
+            <li class="physics-element">support@meditation.org</li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h4 class="physics-element text-sm font-bold text-white uppercase tracking-wider">Services</h4>
+          <ul class="space-y-2.5 text-sm text-gray-400">
+            <li class="physics-element"><a href="classes.html" class="hover:text-emerald-400 transition">Meditation Classes</a></li>
+            <li class="physics-element"><a href="classes.html" class="hover:text-emerald-400 transition">Yoga Flow</a></li>
+            <li class="physics-element"><a href="classes.html" class="hover:text-emerald-400 transition">Sound Bath</a></li>
+            <li class="physics-element"><a href="classes.html" class="hover:text-emerald-400 transition">Personal Coaching</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-4">
+          <h4 class="physics-element text-sm font-bold text-white uppercase tracking-wider">Explore</h4>
+          <ul class="space-y-2.5 text-sm text-gray-400">
+            <li class="physics-element"><a href="community.html" class="hover:text-emerald-400 transition">Instructors</a></li>
+            <li class="physics-element"><a href="community.html" class="hover:text-emerald-400 transition">Reviews</a></li>
+            <li class="physics-element"><a href="faq.html" class="hover:text-emerald-400 transition">FAQ</a></li>
+            <li class="physics-element"><a href="contact.html" class="hover:text-emerald-400 transition">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-8 flex items-center justify-between text-xs text-gray-500">
+      <p class="physics-element">© 2026 Meditation. All Rights Reserved.</p>
+      <p class="physics-element">Powered by Matter.js Physics Engine</p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('span:last-child');
+      const isHidden = content.classList.contains('hidden');
+      if (isHidden) {
+        content.classList.remove('hidden');
+        icon.textContent = '-';
+        icon.classList.replace('bg-gray-100', 'bg-emerald-100');
+        icon.classList.replace('text-gray-600', 'text-emerald-700');
+      } else {
+        content.classList.add('hidden');
+        icon.textContent = '+';
+        icon.classList.replace('bg-emerald-100', 'bg-gray-100');
+        icon.classList.replace('text-emerald-700', 'text-gray-600');
+      }
+    }
+  </script>
+
+  <script src="antigravity.js"></script>
+
+</body>
+</html>

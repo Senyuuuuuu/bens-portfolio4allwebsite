@@ -8,6 +8,8 @@ import { calculateFrameTiming, getAudioPath } from "../lib/utils";
 import { Background } from "./Background";
 import Subtitle from "./Subtitle";
 
+import { MorphingBox } from "./MorphingTransition";
+
 export const aiVideoSchema = z.object({
   timeline: TimelineSchema.nullable(),
 });
@@ -35,22 +37,31 @@ export const AIVideo: React.FC<z.infer<typeof aiVideoSchema>> = ({
             zIndex: 10,
           }}
         >
-          <div
-            style={{
-              fontSize: 120,
-              lineHeight: "122px",
-              width: "87%",
-              color: "black",
-              fontFamily,
-              textTransform: "uppercase",
-              backgroundColor: "yellow",
-              paddingTop: 20,
-              paddingBottom: 20,
-              border: "10px solid black",
-            }}
+          <MorphingBox
+            fromWidth="70%"
+            toWidth="90%"
+            fromHeight={140}
+            toHeight={220}
+            fromBorderRadius={0}
+            toBorderRadius={24}
+            fromBgColor="#facc15"
+            toBgColor="#eab308"
+            fromY={80}
+            toY={0}
           >
-            {timeline.shortTitle}
-          </div>
+            <div
+              style={{
+                fontSize: 100,
+                lineHeight: "105px",
+                color: "black",
+                fontFamily,
+                textTransform: "uppercase",
+                padding: "10px 20px",
+              }}
+            >
+              {timeline.shortTitle}
+            </div>
+          </MorphingBox>
         </AbsoluteFill>
       </Sequence>
 

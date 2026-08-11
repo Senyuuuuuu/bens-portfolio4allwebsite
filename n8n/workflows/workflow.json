@@ -1,0 +1,241 @@
+{
+  "name": "YouTube Clipping Automation Studio Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "yt-clip-trigger",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "1. Trigger (Webhook/Schedule)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.vodUrl || 'https://api.streamer.vods/latest' }}",
+        "options": {}
+      },
+      "name": "2. Data Ingestion (Fetch VOD & Chat)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "systemMessage": "=You are an expert AI video editor and B-roll prompt engineer for Remotion automated video clipping. Analyze the input transcript and chat log to generate a JSON array of video scenes and B-roll image prompts.\n\nSTRICT VISUAL CONSTRAINTS FOR B-ROLL IMAGE GENERATION:\n1. All generated image prompts must dictate a realistic photographic style using natural lighting, rather than randomly generated environments or strictly sun-drenched settings.\n2. Frame the shots using candid angles, such as selfies or shots taken from across a table.\n3. You must detail exactly how the model poses in the prompt (e.g., whether they are standing, sitting, or leaning; where their hands are placed). Everything must be highly detailed.\n4. Include precise haircut naming conventions for the subjects, strictly selecting from: jellyfish cut, octopus cut, mohawk, faux hawk, Deva cut, rezo cut, or TWA cut.\n\nOutput format MUST strictly be a JSON object with a 'scenes' array matching the Remotion input props."
+        },
+        "prompt": "={{ $json.body.transcript || $json.data }}"
+      },
+      "name": "3. LLM Scene & Prompt Synthesis",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "command": "=cd \"C:\\Users\\USER\\Downloads\\Ai agent Automation\\my-video\" && npx remotion render YouTubeShorts out/short.mp4 --props=\"{{ JSON.stringify($json).replace(/\"/g, '\\\"') }}\""
+      },
+      "name": "4. Local Remotion CLI Render",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "resource": "channel",
+        "operation": "sendMessage",
+        "channelId": "={{ $env.DISCORD_CHANNEL_ID || '1234567890' }}",
+        "content": "🎬 **YouTube Short Preview Ready for Review!**\nPlease watch the attached preview and choose whether to publish or cancel.",
+        "options": {
+          "attachments": [
+            {
+              "filePath": "C:\\Users\\USER\\Downloads\\Ai agent Automation\\my-video\\out\\short.mp4"
+            }
+          ],
+          "components": [
+            {
+              "type": 1,
+              "components": [
+                {
+                  "type": 2,
+                  "style": 3,
+                  "label": "Approve & Publish",
+                  "custom_id": "approve_upload"
+                },
+                {
+                  "type": 2,
+                  "style": 4,
+                  "label": "Reject & Cancel",
+                  "custom_id": "reject_upload"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "name": "5a. Discord Notification (MP4 + Buttons)",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "resume": "onWebhook",
+        "webhookSuffix": "discord-approval",
+        "limit": 1
+      },
+      "name": "5b. Wait for Discord Button Approval",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1200, 300]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.body.custom_id || $json.action }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "approve_upload",
+              "output": 0
+            },
+            {
+              "value2": "reject_upload",
+              "output": 1
+            }
+          ]
+        }
+      },
+      "name": "5c. Switch Approval Decision",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1420, 300]
+    },
+    {
+      "parameters": {
+        "resource": "video",
+        "operation": "upload",
+        "title": "={{ $node['3. LLM Scene & Prompt Synthesis'].json.title || 'Epic Streamer Highlight #Shorts' }}",
+        "description": "Auto-clipped with Remotion & n8n AI Workflow #Shorts #Gaming",
+        "privacyStatus": "public",
+        "options": {
+          "selfDeclaredMadeForKids": false,
+          "alteredOrSyntheticContent": true
+        }
+      },
+      "name": "6. YouTube Upload Node (9:16 Short)",
+      "type": "n8n-nodes-base.youTube",
+      "typeVersion": 1,
+      "position": [1660, 200]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "status",
+              "value": "Rejected by User in Discord"
+            }
+          ]
+        }
+      },
+      "name": "Workflow Terminated",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1660, 400]
+    }
+  ],
+  "connections": {
+    "1. Trigger (Webhook/Schedule)": {
+      "main": [
+        [
+          {
+            "node": "2. Data Ingestion (Fetch VOD & Chat)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. Data Ingestion (Fetch VOD & Chat)": {
+      "main": [
+        [
+          {
+            "node": "3. LLM Scene & Prompt Synthesis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. LLM Scene & Prompt Synthesis": {
+      "main": [
+        [
+          {
+            "node": "4. Local Remotion CLI Render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Local Remotion CLI Render": {
+      "main": [
+        [
+          {
+            "node": "5a. Discord Notification (MP4 + Buttons)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5a. Discord Notification (MP4 + Buttons)": {
+      "main": [
+        [
+          {
+            "node": "5b. Wait for Discord Button Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5b. Wait for Discord Button Approval": {
+      "main": [
+        [
+          {
+            "node": "5c. Switch Approval Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5c. Switch Approval Decision": {
+      "main": [
+        [
+          {
+            "node": "6. YouTube Upload Node (9:16 Short)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Workflow Terminated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {}
+}

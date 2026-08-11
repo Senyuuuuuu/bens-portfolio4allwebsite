@@ -1,0 +1,76 @@
+{
+  "name": "AI-to-Remotion Automated Video Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "remotion-video",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "prompt",
+              "value": "={{ $json.body.prompt || 'Dynamic AI Web Engineering' }}"
+            },
+            {
+              "name": "title",
+              "value": "={{ $json.body.title || 'AI Ecosystem Architecture' }}"
+            },
+            {
+              "name": "topic",
+              "value": "={{ $json.body.topic || 'Web Technology' }}"
+            }
+          ]
+        }
+      },
+      "name": "Parse Parameters",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "command": "=cd \"C:\\Users\\USER\\Downloads\\Ai agent Automation\\template-prompt-to-video\" && npx tsx cli/pipeline.ts --title \"{{ $json.title }}\" --topic \"{{ $json.topic }}\" --prompt \"{{ $json.prompt }}\""
+      },
+      "name": "Execute Remotion Pipeline",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [560, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Parse Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Parameters": {
+      "main": [
+        [
+          {
+            "node": "Execute Remotion Pipeline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {}
+}

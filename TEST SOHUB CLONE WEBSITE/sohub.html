@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOHub — Advanced 3D Interactive Agency</title>
+  <meta name="description" content="Your story builds our history. We are an unusual digital agency turning ideas into digital realities.">
+  
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- GSAP 3, ScrollTrigger & Three.js CDNs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <style>
+    /* ═════════════════════════════════════════════════════════════════════════
+       DESIGN TOKENS & GLOBAL STYLES
+       ═════════════════════════════════════════════════════════════════════════ */
+    :root {
+      --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+      
+      --color-black: #0C1016;
+      --color-offwhite: #f0f6f8;
+      --color-card-dark: #121820;
+      --color-text-muted: #8896a0;
+      --color-green-glow: #22c55e;
+      --color-lime: #a3e635;
+      
+      --radius-pill: 999px;
+      --radius-card: 40px;
+      
+      --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.06);
+      --shadow-dark: 0 25px 60px rgba(0, 0, 0, 0.4);
+      --transition-smooth: 0.5s var(--ease-premium);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--color-offwhite);
+      color: var(--color-black);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      width: 100vw;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       1. PRE-LOADER OVERLAY WITH SVG LOGO LINE DRAWING
+       ═════════════════════════════════════════════════════════════════════════ */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background-color: var(--color-black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      pointer-events: all;
+      transition: opacity 0.8s var(--ease-premium);
+    }
+
+    .preloader-svg-box {
+      width: 120px;
+      height: 120px;
+      position: relative;
+    }
+
+    .preloader-svg-circle {
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .preloader-svg-s {
+      stroke: var(--color-green-glow);
+      stroke-width: 5;
+      stroke-linecap: round;
+      fill: none;
+      stroke-dasharray: 220;
+      stroke-dashoffset: 220;
+      transition: stroke-dashoffset 1.4s var(--ease-premium);
+    }
+
+    .preloader-s-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       BUTTONS & MAGNETIC HOVER EFFECT
+       ═════════════════════════════════════════════════════════════════════════ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      will-change: transform;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn-light {
+      background-color: var(--color-offwhite);
+      color: var(--color-black);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-black {
+      background-color: var(--color-black);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(12, 16, 22, 0.15);
+    }
+
+    .btn-black:hover {
+      background-color: #1a222e;
+    }
+
+    .btn-white {
+      background-color: #ffffff;
+      color: var(--color-black);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-dots-icon {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-dots-icon span {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: currentColor;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       2. GLOBAL NAVIGATION (STICKY HEADER)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(240, 246, 248, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      will-change: transform;
+    }
+
+    .nav-brand {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: var(--color-black);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       3. HERO SECTION (SPLIT-TEXT REVEAL & 3D ROBOT CANVAS)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .hero-section {
+      position: relative;
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 48px 60px 48px;
+      overflow: hidden;
+    }
+
+    .hero-title-wrapper {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+      overflow: hidden; /* Bound for text reveal */
+    }
+
+    .hero-giant-title {
+      font-size: 25vw;
+      font-weight: 900;
+      line-height: 0.85;
+      letter-spacing: -0.06em;
+      color: var(--color-black);
+      text-transform: lowercase;
+      user-select: none;
+      white-space: nowrap;
+      will-change: transform;
+    }
+
+    /* 3D Robot WebGL Canvas Overlay */
+    #hero-robot-canvas {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -45%);
+      width: 650px;
+      height: 650px;
+      max-width: 90vw;
+      max-height: 90vw;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hero-bottom-bar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      z-index: 20;
+      margin-top: 40px;
+    }
+
+    .hero-subheadline-box {
+      overflow: hidden;
+    }
+
+    .hero-subheadline {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--color-black);
+      max-width: 360px;
+      line-height: 1.2;
+      will-change: transform;
+    }
+
+    .hero-scroll-indicator {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-scroll-indicator::after {
+      content: '';
+      display: inline-block;
+      width: 1px;
+      height: 24px;
+      background-color: var(--color-text-muted);
+      animation: scrollBounce 2s infinite ease-in-out;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(6px); opacity: 1; }
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       4. "WORK" (PORTFOLIO) SECTION & IMAGE PARALLAX
+       ═════════════════════════════════════════════════════════════════════════ */
+    .work-section {
+      padding: 120px 48px;
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    .work-headline {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.2;
+      max-width: 960px;
+      margin-bottom: 80px;
+      will-change: transform, opacity;
+    }
+
+    .work-headline .animated-underline {
+      position: relative;
+      display: inline-block;
+      color: var(--color-black);
+    }
+
+    .work-headline .animated-underline::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: #94a3b8;
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 1.2s var(--ease-premium);
+    }
+
+    .work-headline.active .animated-underline::after {
+      transform: scaleX(1);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+
+    .work-card {
+      position: relative;
+      border-radius: var(--radius-card);
+      height: 520px;
+      overflow: hidden;
+      cursor: pointer;
+      background-color: var(--color-card-dark);
+      box-shadow: var(--shadow-soft);
+    }
+
+    /* Image Parallax Container */
+    .work-card-img-wrapper {
+      width: 100%;
+      height: 130%;
+      margin-top: -15%;
+      will-change: transform;
+    }
+
+    .work-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-premium);
+    }
+
+    .work-card:hover .work-card-img {
+      transform: scale(1.08);
+    }
+
+    .work-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(12, 16, 22, 0.75) 100%);
+      display: flex;
+      align-items: flex-end;
+      padding: 40px;
+      pointer-events: none;
+    }
+
+    .work-card-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -1px;
+      z-index: 2;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       5. "SERVICES" SECTION (STACKING DECK & DEPTH SCALE)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .services-section {
+      padding: 120px 48px;
+      max-width: 1440px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .services-headline {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.25;
+      max-width: 900px;
+      margin-bottom: 80px;
+      will-change: transform, opacity;
+    }
+
+    .services-cards-stack {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .service-card {
+      position: sticky;
+      top: 100px;
+      background-color: var(--color-black);
+      color: #ffffff;
+      border-radius: var(--radius-card);
+      padding: 60px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-dark);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transform-origin: center top;
+      will-change: transform, opacity, filter;
+      transition: filter 0.4s ease;
+    }
+
+    .service-card-title {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .service-card-middle {
+      margin: 40px 0;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 18px;
+      color: #94a3b8;
+      max-width: 600px;
+    }
+
+    .star-icon {
+      color: var(--color-green-glow);
+      font-size: 24px;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tag-pill {
+      background-color: #1e293b;
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: var(--radius-pill);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       6. CALL TO ACTION (SPLIT LAYOUT & STAGGERED LINE ENTRANCE)
+       ═════════════════════════════════════════════════════════════════════════ */
+    .cta-section {
+      background-color: var(--color-offwhite);
+      padding: 120px 48px 0 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-grid {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .cta-title-line-box {
+      overflow: hidden;
+    }
+
+    .cta-left-title {
+      font-size: 80px;
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1.05;
+      color: var(--color-black);
+      margin-bottom: 40px;
+    }
+
+    .cta-left-title .cta-line {
+      display: block;
+      will-change: transform;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+    }
+
+    .cta-right-visual {
+      position: relative;
+      height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      will-change: transform, opacity;
+    }
+
+    #cta-chair-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .cta-bg-typography {
+      font-size: 30vw;
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      color: rgba(12, 16, 22, 0.04);
+      text-transform: lowercase;
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       7. FOOTER & CURTAIN REVEAL BOTTOM NAV BAR
+       ═════════════════════════════════════════════════════════════════════════ */
+    .footer-section {
+      background-color: var(--color-offwhite);
+      padding: 80px 48px 140px 48px;
+      position: relative;
+      text-align: center;
+    }
+
+    .footer-battery-wrapper {
+      width: 100%;
+      height: 180px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    #footer-battery-canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .footer-brand-title {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--color-black);
+      margin-bottom: 8px;
+    }
+
+    .footer-subtitle {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    .social-icons-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .social-icon-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--color-black);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      transition: transform 0.2s ease;
+    }
+
+    .social-icon-btn:hover {
+      transform: scale(1.15);
+    }
+
+    /* Floating Pill Navigation Bar (Curtain Reveal) */
+    .floating-nav-pill {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translate(-50%, 120px);
+      z-index: 2000;
+      background-color: var(--color-black);
+      color: #ffffff;
+      border-radius: var(--radius-pill);
+      padding: 10px 16px 10px 28px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      box-shadow: var(--shadow-dark);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: transform 0.6s var(--ease-premium);
+      pointer-events: none;
+    }
+
+    .floating-nav-pill.visible {
+      transform: translate(-50%, 0);
+      pointer-events: all;
+    }
+
+    .floating-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .floating-links a {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.85);
+      transition: color 0.2s ease;
+    }
+
+    .floating-links a:hover {
+      color: var(--color-green-glow);
+    }
+
+    .btn-go-up {
+      background-color: #1e293b;
+      color: #ffffff;
+      border-radius: var(--radius-pill);
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 800;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-go-up:hover {
+      background-color: var(--color-green-glow);
+      color: var(--color-black);
+    }
+
+    /* ═════════════════════════════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS
+       ═════════════════════════════════════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .navbar { padding: 16px 24px; }
+      .hero-section { padding: 20px 24px 40px 24px; }
+      .work-grid { grid-template-columns: 1fr; }
+      .cta-grid { grid-template-columns: 1fr; text-align: center; }
+      .cta-buttons { justify-content: center; }
+      .cta-left-title { font-size: 54px; }
+      #hero-robot-canvas { width: 450px; height: 450px; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-giant-title { font-size: 32vw; }
+      .hero-subheadline { font-size: 20px; }
+      .work-headline { font-size: 32px; }
+      .service-card-title { font-size: 36px; }
+      .floating-nav-pill { gap: 16px; padding: 8px 12px 8px 18px; width: 90%; justify-content: space-between; }
+      .floating-links { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. PRE-LOADER WITH SVG LOGO DRAWING -->
+  <div id="preloader">
+    <div class="preloader-svg-box">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <circle class="preloader-svg-circle" cx="60" cy="60" r="54"/>
+        <path class="preloader-svg-s" d="M75,40 C75,30 45,30 45,48 C45,66 75,66 75,84 C75,100 45,100 45,88"/>
+      </svg>
+      <div class="preloader-s-text">S</div>
+    </div>
+  </div>
+
+  <!-- 2. GLOBAL STICKY HEADER -->
+  <nav class="navbar" id="navbar">
+    <a href="#" class="nav-brand">sohub</a>
+    
+    <div class="nav-actions">
+      <button class="btn btn-light magnetic-btn">
+        CHAT WITH SOHUB
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+
+      <button class="btn btn-black magnetic-btn">
+        MENU
+        <span class="btn-dots-icon">
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- 3. HERO SECTION (WebGL Integrated) -->
+  <header class="hero-section">
+    
+    <div class="hero-title-wrapper">
+      <h1 class="hero-giant-title" id="hero-title">sohub</h1>
+      <!-- Three.js Canvas for 3D Robotic Character -->
+      <canvas id="hero-robot-canvas"></canvas>
+    </div>
+
+    <div class="hero-bottom-bar">
+      <div class="hero-subheadline-box">
+        <div class="hero-subheadline" id="hero-subheadline">
+          Your story builds our history.
+        </div>
+      </div>
+      <div class="hero-scroll-indicator">
+        Scroll
+      </div>
+    </div>
+
+  </header>
+
+  <!-- 4. "WORK" (PORTFOLIO) SECTION & PARALLAX -->
+  <section class="work-section" id="work">
+    <div class="section-label">Work</div>
+    
+    <h2 class="work-headline" id="work-headline">
+      We are a diligent team, that's passionate about turning ideas 
+      <span class="animated-underline">into</span> digital realities.
+    </h2>
+
+    <div class="work-grid">
+      
+      <!-- Card 1 -->
+      <div class="work-card">
+        <div class="work-card-img-wrapper">
+          <img class="work-card-img" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="1UP Nova">
+        </div>
+        <div class="work-card-overlay">
+          <div class="work-card-title">1UP Nova</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="work-card">
+        <div class="work-card-img-wrapper">
+          <img class="work-card-img" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80" alt="Razer">
+        </div>
+        <div class="work-card-overlay">
+          <div class="work-card-title">Razer</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="work-card">
+        <div class="work-card-img-wrapper">
+          <img class="work-card-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Themis">
+        </div>
+        <div class="work-card-overlay">
+          <div class="work-card-title">Themis</div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="work-card">
+        <div class="work-card-img-wrapper">
+          <img class="work-card-img" src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=800&q=80" alt="AEVA Team">
+        </div>
+        <div class="work-card-overlay">
+          <div class="work-card-title">AEVA Team</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 5. "SERVICES" SECTION (STACKING DECK & DEPTH SCALE) -->
+  <section class="services-section" id="services">
+    <div class="section-label">Services</div>
+
+    <h2 class="services-headline" id="services-headline">
+      We are an unusual digital agency focusing on transforming your vision into a captivating digital experience.
+    </h2>
+
+    <div class="services-cards-stack">
+      
+      <!-- Card 1 -->
+      <div class="service-card" id="svc-card-0">
+        <div class="service-card-title">Brand Identities</div>
+        <div class="service-card-middle">
+          <span class="star-icon">❇</span>
+          <span>Crafting memorable visual identity systems that scale seamlessly across platforms.</span>
+        </div>
+        <div class="service-tags">
+          <span class="tag-pill">Logo</span>
+          <span class="tag-pill">Typography</span>
+          <span class="tag-pill">UI/UX Design</span>
+          <span class="tag-pill">Brand Strategy</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="service-card" id="svc-card-1">
+        <div class="service-card-title">Smart Development</div>
+        <div class="service-card-middle">
+          <span class="star-icon">❇</span>
+          <span>High-performance web applications built with modern frontend frameworks and WebGL.</span>
+        </div>
+        <div class="service-tags">
+          <span class="tag-pill">Next.js</span>
+          <span class="tag-pill">Three.js</span>
+          <span class="tag-pill">WebGL</span>
+          <span class="tag-pill">AI Integration</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="service-card" id="svc-card-2">
+        <div class="service-card-title">Marketing Campaigns</div>
+        <div class="service-card-middle">
+          <span class="star-icon">❇</span>
+          <span>Data-driven strategies and creative collateral designed to convert target audiences.</span>
+        </div>
+        <div class="service-tags">
+          <span class="tag-pill">Growth</span>
+          <span class="tag-pill">SEO</span>
+          <span class="tag-pill">Content Strategy</span>
+          <span class="tag-pill">Social</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="service-card" id="svc-card-3">
+        <div class="service-card-title">3D Visualization</div>
+        <div class="service-card-middle">
+          <span class="star-icon">❇</span>
+          <span>Immersive 3D renders, spatial animations, and real-time interactive models.</span>
+        </div>
+        <div class="service-tags">
+          <span class="tag-pill">3D Motion</span>
+          <span class="tag-pill">Blender</span>
+          <span class="tag-pill">Architecture</span>
+          <span class="tag-pill">Spatial Design</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 6. CALL TO ACTION (SPLIT LAYOUT & 3D CHAIR) -->
+  <section class="cta-section" id="contact">
+    <div class="cta-grid">
+      
+      <!-- Left Column -->
+      <div>
+        <h2 class="cta-left-title">
+          <span class="cta-title-line-box"><span class="cta-line">Don't</span></span>
+          <span class="cta-title-line-box"><span class="cta-line">be shy</span></span>
+        </h2>
+        
+        <div class="cta-buttons">
+          <button class="btn btn-black magnetic-btn">
+            CHAT WITH SOHUB
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+
+          <button class="btn btn-white magnetic-btn">
+            BOOK A MEETING
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Right Column (3D Chair Canvas) -->
+      <div class="cta-right-visual" id="cta-visual-box">
+        <canvas id="cta-chair-canvas"></canvas>
+      </div>
+
+    </div>
+
+    <!-- Cut-off Background Typography -->
+    <div class="cta-bg-typography">sohub</div>
+  </section>
+
+  <!-- 7. FOOTER SECTION & 3D BATTERY CAPSULE -->
+  <footer class="footer-section">
+    
+    <!-- 3D Glowing Green Battery Capsule Canvas -->
+    <div class="footer-battery-wrapper">
+      <canvas id="footer-battery-canvas"></canvas>
+    </div>
+
+    <div class="footer-brand-title">© SOHub Digital</div>
+    <div class="footer-subtitle">Award-Winning Digital Agency</div>
+
+    <div class="social-icons-row">
+      <a href="#" class="social-icon-btn" aria-label="LinkedIn">in</a>
+      <a href="#" class="social-icon-btn" aria-label="Star">★</a>
+      <a href="#" class="social-icon-btn" aria-label="Instagram">ig</a>
+      <a href="#" class="social-icon-btn" aria-label="Twitter">𝕏</a>
+    </div>
+
+  </footer>
+
+  <!-- FLOATING BOTTOM NAV BAR (CURTAIN REVEAL) -->
+  <div class="floating-nav-pill" id="floating-nav">
+    <ul class="floating-links">
+      <li><a href="#services">STUDIO →</a></li>
+      <li><a href="#work">WORK →</a></li>
+      <li><a href="#contact">CONTACT →</a></li>
+    </ul>
+    
+    <button class="btn-go-up" id="btn-go-up">GO UP ↑</button>
+  </div>
+
+  <!-- ═════════════════════════════════════════════════════════════════════════
+       JS & THREE.JS 3D SCENE PROCEDURAL ENGINES
+       ═════════════════════════════════════════════════════════════════════════ -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 1. PRE-LOADER SVG DRAWING & PAGE REVEAL
+      // ───────────────────────────────────────────────────────────────────────
+      const pathS = document.querySelector(".preloader-svg-s");
+      const preloaderEl = document.getElementById("preloader");
+      if (pathS && preloaderEl) {
+        setTimeout(() => {
+          pathS.style.strokeDashoffset = "0";
+        }, 100);
+
+        setTimeout(() => {
+          gsap.to(".preloader-svg-box", { scale: 1.15, duration: 0.6, ease: "power2.out" });
+          gsap.to(preloaderEl, {
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.inOut",
+            onComplete: () => {
+              preloaderEl.style.display = "none";
+              preloaderEl.style.pointerEvents = "none";
+              initHeroEntrance();
+            }
+          });
+        }, 1400);
+      }
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 2. HERO ENTRANCE & MAGNETIC BUTTONS
+      // ───────────────────────────────────────────────────────────────────────
+      function initHeroEntrance() {
+        gsap.from("#navbar", {
+          y: -100,
+          duration: 1.0,
+          ease: "power4.out"
+        });
+
+        gsap.from("#hero-title", {
+          y: 180,
+          duration: 1.2,
+          ease: "power4.out",
+          delay: 0.1
+        });
+
+        gsap.from("#hero-subheadline", {
+          y: 60,
+          duration: 1.0,
+          ease: "power3.out",
+          delay: 0.3
+        });
+      }
+
+      // Magnetic Hover Effect for Pill Buttons
+      const magneticBtns = document.querySelectorAll(".magnetic-btn");
+      magneticBtns.forEach(btn => {
+        btn.addEventListener("mousemove", (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+
+          gsap.to(btn, {
+            x: x * 0.35,
+            y: y * 0.35,
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        });
+
+        btn.addEventListener("mouseleave", () => {
+          gsap.to(btn, {
+            x: 0,
+            y: 0,
+            duration: 0.6,
+            ease: "elastic.out(1, 0.4)"
+          });
+        });
+      });
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 3. HERO 3D ROBOTIC CHARACTER & MOUSE TILT PARALLAX (THREE.JS)
+      // ───────────────────────────────────────────────────────────────────────
+      const robotCanvas = document.getElementById("hero-robot-canvas");
+      let robotRenderer, robotCamera, robotScene, robotGroup;
+
+      if (robotCanvas) {
+        robotScene = new THREE.Scene();
+        robotCamera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+        robotCamera.position.z = 6;
+
+        robotRenderer = new THREE.WebGLRenderer({ canvas: robotCanvas, alpha: true, antialias: true });
+        robotRenderer.setSize(650, 650);
+        robotRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+        robotScene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xa3e635, 1.6);
+        dirLight.position.set(5, 5, 5);
+        robotScene.add(dirLight);
+
+        const blueLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
+        blueLight.position.set(-5, -5, 2);
+        robotScene.add(blueLight);
+
+        robotGroup = new THREE.Group();
+
+        // Head
+        const headGeo = new THREE.BoxGeometry(1.2, 1.0, 1.0);
+        const headMat = new THREE.MeshStandardMaterial({ color: 0xa3e635, roughness: 0.3, metalness: 0.2 });
+        const head = new THREE.Mesh(headGeo, headMat);
+        head.position.y = 1.0;
+        robotGroup.add(head);
+
+        // Visor
+        const visorGeo = new THREE.BoxGeometry(0.9, 0.35, 0.2);
+        const visorMat = new THREE.MeshStandardMaterial({ color: 0x0c1016, roughness: 0.1, metalness: 0.9 });
+        const visor = new THREE.Mesh(visorGeo, visorMat);
+        visor.position.set(0, 1.05, 0.52);
+        robotGroup.add(visor);
+
+        // Eyes
+        const eyeGeo = new THREE.SphereGeometry(0.08, 16, 16);
+        const eyeMat = new THREE.MeshBasicMaterial({ color: 0x22c55e });
+        const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
+        eyeL.position.set(-0.25, 1.05, 0.62);
+        const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
+        eyeR.position.set(0.25, 1.05, 0.62);
+        robotGroup.add(eyeL);
+        robotGroup.add(eyeR);
+
+        // Torso
+        const bodyGeo = new THREE.BoxGeometry(1.4, 1.5, 1.1);
+        const bodyMat = new THREE.MeshStandardMaterial({ color: 0x0c1016, roughness: 0.4, metalness: 0.5 });
+        const body = new THREE.Mesh(bodyGeo, bodyMat);
+        body.position.y = -0.3;
+        robotGroup.add(body);
+
+        // Core
+        const coreGeo = new THREE.CylinderGeometry(0.25, 0.25, 0.1, 32);
+        const coreMat = new THREE.MeshBasicMaterial({ color: 0x22c55e });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        core.rotation.x = Math.PI / 2;
+        core.position.set(0, -0.1, 0.56);
+        robotGroup.add(core);
+
+        // Arms
+        const armGeo = new THREE.CylinderGeometry(0.18, 0.18, 1.2, 16);
+        const armMat = new THREE.MeshStandardMaterial({ color: 0xa3e635, roughness: 0.3 });
+        
+        const armL = new THREE.Mesh(armGeo, armMat);
+        armL.position.set(-1.0, -0.3, 0);
+        armL.rotation.z = Math.PI / 8;
+        robotGroup.add(armL);
+
+        const armR = new THREE.Mesh(armGeo, armMat);
+        armR.position.set(1.0, -0.3, 0);
+        armR.rotation.z = -Math.PI / 8;
+        robotGroup.add(armR);
+
+        robotScene.add(robotGroup);
+
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener("mousemove", (e) => {
+          mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+          mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        const clock = new THREE.Clock();
+        const animateRobot = () => {
+          const t = clock.getElapsedTime();
+          robotGroup.position.y = Math.sin(t * 2.2) * 0.25;
+
+          robotGroup.rotation.y += (mouseX * 0.7 - robotGroup.rotation.y) * 0.06;
+          robotGroup.rotation.x += (mouseY * 0.45 - robotGroup.rotation.x) * 0.06;
+
+          robotRenderer.render(robotScene, robotCamera);
+          requestAnimationFrame(animateRobot);
+        };
+        animateRobot();
+      }
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 4. "WORK" SECTION SCROLL REVEAL & IMAGE PARALLAX
+      // ───────────────────────────────────────────────────────────────────────
+      ScrollTrigger.create({
+        trigger: "#work-headline",
+        start: "top 80%",
+        onEnter: () => {
+          document.getElementById("work-headline").classList.add("active");
+          gsap.from("#work-headline", { y: 40, opacity: 0, duration: 1.0, ease: "power3.out" });
+        }
+      });
+
+      // Card Images Parallax along Y-axis
+      const cardImgs = gsap.utils.toArray(".work-card-img-wrapper");
+      cardImgs.forEach(img => {
+        gsap.fromTo(img, 
+          { yPercent: -15 },
+          {
+            scrollTrigger: {
+              trigger: img.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1
+            },
+            yPercent: 15,
+            ease: "none"
+          }
+        );
+      });
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 5. SERVICES STACKING CARDS & DEPTH SCALE / BRIGHTNESS DIMMING
+      // ───────────────────────────────────────────────────────────────────────
+      const serviceCards = gsap.utils.toArray(".service-card");
+      serviceCards.forEach((card, i) => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: "top 100px",
+          endTrigger: ".services-cards-stack",
+          end: "bottom bottom",
+          pin: true,
+          pinSpacing: false
+        });
+
+        if (i < serviceCards.length - 1) {
+          const nextCard = serviceCards[i + 1];
+          gsap.to(card, {
+            scrollTrigger: {
+              trigger: nextCard,
+              start: "top 200px",
+              end: "top 100px",
+              scrub: true
+            },
+            scale: 0.94,
+            opacity: 0.6,
+            filter: "brightness(0.6)"
+          });
+        }
+      });
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 6. CALL TO ACTION STAGGERED REVEAL & 3D CHAIR PARALLAX
+      // ───────────────────────────────────────────────────────────────────────
+      gsap.from(".cta-line", {
+        scrollTrigger: {
+          trigger: ".cta-section",
+          start: "top 75%"
+        },
+        y: 100,
+        duration: 1.0,
+        stagger: 0.15,
+        ease: "power4.out"
+      });
+
+      // 3D Chair Canvas Setup
+      const chairCanvas = document.getElementById("cta-chair-canvas");
+      let chairRenderer, chairCamera, chairScene, chairGroup;
+
+      if (chairCanvas) {
+        chairScene = new THREE.Scene();
+        chairCamera = new THREE.PerspectiveCamera(45, chairCanvas.parentElement.clientWidth / 480, 0.1, 1000);
+        chairCamera.position.set(0, 1, 5);
+
+        chairRenderer = new THREE.WebGLRenderer({ canvas: chairCanvas, alpha: true, antialias: true });
+        chairRenderer.setSize(chairCanvas.parentElement.clientWidth, 480);
+        chairRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
+        chairScene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0x38bdf8, 1.5);
+        dirLight.position.set(3, 5, 4);
+        chairScene.add(dirLight);
+
+        chairGroup = new THREE.Group();
+
+        const seatGeo = new THREE.BoxGeometry(1.6, 0.3, 1.6);
+        const metallicMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.2, metalness: 0.8 });
+        const seat = new THREE.Mesh(seatGeo, metallicMat);
+        chairGroup.add(seat);
+
+        const backGeo = new THREE.BoxGeometry(1.6, 1.8, 0.25);
+        const back = new THREE.Mesh(backGeo, metallicMat);
+        back.position.set(0, 1.0, -0.7);
+        chairGroup.add(back);
+
+        const stemGeo = new THREE.CylinderGeometry(0.15, 0.15, 1.5, 16);
+        const stemMat = new THREE.MeshStandardMaterial({ color: 0x0c1016, roughness: 0.1, metalness: 0.9 });
+        const stem = new THREE.Mesh(stemGeo, stemMat);
+        stem.position.set(0, -0.9, 0);
+        chairGroup.add(stem);
+
+        const baseGeo = new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32);
+        const base = new THREE.Mesh(baseGeo, stemMat);
+        base.position.set(0, -1.6, 0);
+        chairGroup.add(base);
+
+        chairScene.add(chairGroup);
+
+        gsap.from("#cta-visual-box", {
+          scrollTrigger: {
+            trigger: "#cta-visual-box",
+            start: "top 80%"
+          },
+          scale: 0.85,
+          opacity: 0,
+          rotation: -15,
+          duration: 1.2,
+          ease: "power3.out"
+        });
+
+        const animateChair = () => {
+          chairGroup.rotation.y += 0.01;
+          chairRenderer.render(chairScene, chairCamera);
+          requestAnimationFrame(animateChair);
+        };
+        animateChair();
+      }
+
+      // ───────────────────────────────────────────────────────────────────────
+      // 7. FOOTER 3D BATTERY & CURTAIN REVEAL FLOATING NAV
+      // ───────────────────────────────────────────────────────────────────────
+      const batteryCanvas = document.getElementById("footer-battery-canvas");
+      let batteryRenderer, batteryCamera, batteryScene, batteryGroup;
+
+      if (batteryCanvas) {
+        batteryScene = new THREE.Scene();
+        batteryCamera = new THREE.PerspectiveCamera(45, batteryCanvas.parentElement.clientWidth / 180, 0.1, 1000);
+        batteryCamera.position.z = 4.5;
+
+        batteryRenderer = new THREE.WebGLRenderer({ canvas: batteryCanvas, alpha: true, antialias: true });
+        batteryRenderer.setSize(batteryCanvas.parentElement.clientWidth, 180);
+        batteryRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+        batteryScene.add(ambientLight);
+
+        batteryGroup = new THREE.Group();
+
+        const shellGeo = new THREE.CylinderGeometry(0.6, 0.6, 2.2, 32);
+        const shellMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, transparent: true, opacity: 0.85, roughness: 0.1 });
+        const shell = new THREE.Mesh(shellGeo, shellMat);
+        shell.rotation.z = Math.PI / 2;
+        batteryGroup.add(shell);
+
+        const capGeo = new THREE.CylinderGeometry(0.3, 0.3, 0.4, 32);
+        const capMat = new THREE.MeshStandardMaterial({ color: 0x0c1016, roughness: 0.2, metalness: 0.8 });
+        const cap = new THREE.Mesh(capGeo, capMat);
+        cap.rotation.z = Math.PI / 2;
+        cap.position.x = 1.3;
+        batteryGroup.add(cap);
+
+        batteryScene.add(batteryGroup);
+
+        const clockBattery = new THREE.Clock();
+        const animateBattery = () => {
+          const t = clockBattery.getElapsedTime();
+          batteryGroup.rotation.x = t * 1.5;
+          batteryGroup.rotation.y = t * 0.8;
+          batteryRenderer.render(batteryScene, batteryCamera);
+          requestAnimationFrame(animateBattery);
+        };
+        animateBattery();
+      }
+
+      // Curtain Reveal Floating Bottom Nav Bar
+      const floatingNav = document.getElementById("floating-nav");
+      ScrollTrigger.create({
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        onUpdate: (self) => {
+          if (self.progress > 0.15) {
+            floatingNav.classList.add("visible");
+          } else {
+            floatingNav.classList.remove("visible");
+          }
+        }
+      });
+
+      // Smooth Back to Top
+      const goUpBtn = document.getElementById("btn-go-up");
+      if (goUpBtn) {
+        goUpBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      // Dynamic Window Resize Listener
+      window.addEventListener("resize", () => {
+        if (chairCanvas && chairRenderer && chairCamera) {
+          const w = chairCanvas.parentElement.clientWidth;
+          chairCamera.aspect = w / 480;
+          chairCamera.updateProjectionMatrix();
+          chairRenderer.setSize(w, 480);
+        }
+        if (batteryCanvas && batteryRenderer && batteryCamera) {
+          const w = batteryCanvas.parentElement.clientWidth;
+          batteryCamera.aspect = w / 180;
+          batteryCamera.updateProjectionMatrix();
+          batteryRenderer.setSize(w, 180);
+        }
+        ScrollTrigger.refresh();
+      });
+    });
+  </script>
+
+</body>
+</html>
