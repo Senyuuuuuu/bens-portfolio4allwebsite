@@ -30,7 +30,7 @@
     const scoldingMessages = [
       "DO NOT Drag that",
       "I saw that",
-      "HA! caught you pixel theif",
+      "HA! caught you pixel thief",
       "I'm watching you",
       "Hey stop it.",
       "Yep still watching you.",
