@@ -5651,3 +5651,115 @@ footer::after {
   }
 }
 
+/* ==========================================================================
+   4K CINEMA STAGE & VIDEO SHOWCASE (APPLE DEVICE FRAME)
+   ========================================================================== */
+.video-showcase-section {
+  padding: 3.5rem 0 5.5rem;
+  background: var(--canvas-pure);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-stage-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.hero-device-stage {
+  background: #0B0B0E;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s var(--ease-apple), box-shadow 0.4s var(--ease-apple);
+}
+
+.hero-device-stage:hover {
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+
+.stage-top-bar-minimal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(180deg, #18181F 0%, #121216 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stage-traffic-lights {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.traffic-light {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.traffic-light.red { background: #FF5F56; box-shadow: 0 0 6px rgba(255, 95, 86, 0.4); }
+.traffic-light.yellow { background: #FFBD2E; box-shadow: 0 0 6px rgba(255, 189, 46, 0.4); }
+.traffic-light.green { background: #27C93F; box-shadow: 0 0 6px rgba(39, 201, 63, 0.4); }
+
+.stage-title-status {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.prototype-canvas-visual {
+  position: relative;
+  width: 100%;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-stage-video {
+  width: 100%;
+  height: auto;
+  max-height: 720px;
+  display: block;
+  object-fit: cover;
+  background: #000000;
+}
+
+.video-audio-toggle-btn {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 100px;
+  background: rgba(15, 15, 20, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.video-audio-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.04);
+}
+
+

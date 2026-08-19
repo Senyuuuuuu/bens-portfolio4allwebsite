@@ -200,18 +200,30 @@
       <div class="hero-stage-wrap">
         <div class="hero-device-stage">
           
-          <!-- Apple Top Bar with Traffic Lights (No text above) -->
+          <!-- Apple Top Bar with Traffic Lights -->
           <div class="stage-top-bar-minimal">
             <div class="stage-traffic-lights">
               <span class="traffic-light red"></span>
               <span class="traffic-light yellow"></span>
               <span class="traffic-light green"></span>
             </div>
+            <div class="stage-title-status">
+              <span class="device-live-pulse"></span>
+              <span>4K Commercial Showcase · Live</span>
+            </div>
           </div>
 
           <!-- Video Canvas with Rounded Corners inside Apple Frame -->
           <div class="prototype-canvas-visual">
-            <video src="FIVER AD FINAL.mp4" poster="assets/graphico-web-engine.jpg" preload="metadata" autoplay loop muted playsinline class="hero-stage-video" id="heroVideoPlayer"></video>
+            <video id="heroVideoPlayer" class="hero-stage-video" poster="assets/graphico-web-engine.jpg" preload="auto" autoplay loop muted playsinline>
+              <source src="assets/fiverr-ad-final.mp4" type="video/mp4"/>
+              <source src="FIVER AD FINAL.mp4" type="video/mp4"/>
+              Your browser does not support HTML5 video.
+            </video>
+            <button class="video-audio-toggle-btn" id="videoSoundBtn" title="Toggle Video Audio" aria-label="Toggle Sound">
+              <i class="fa-solid fa-volume-xmark" id="videoSoundIcon"></i>
+              <span id="videoSoundText">Unmute Audio</span>
+            </button>
           </div>
 
         </div>

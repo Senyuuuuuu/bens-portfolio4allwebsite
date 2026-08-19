@@ -743,4 +743,61 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   updateFooterClock();
   setInterval(updateFooterClock, 10000);
+
+  // =========================================================================
+  // 8. 4K CINEMA SHOWCASE VIDEO CONTROLLER (Fiverr Ad Video Engine)
+  // =========================================================================
+  const heroVideo = document.getElementById('heroVideoPlayer');
+  const videoSoundBtn = document.getElementById('videoSoundBtn');
+  const videoSoundIcon = document.getElementById('videoSoundIcon');
+  const videoSoundText = document.getElementById('videoSoundText');
+
+  if (heroVideo) {
+    heroVideo.muted = true;
+    
+    const playHeroVideo = () => {
+      const playPromise = heroVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay policy fallback: keep muted and retry on user interaction
+        });
+      }
+    };
+
+    playHeroVideo();
+    document.addEventListener('touchstart', playHeroVideo, { once: true });
+    document.addEventListener('click', playHeroVideo, { once: true });
+
+    // Intersection observer for video playback state
+    if ('IntersectionObserver' in window) {
+      const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            playHeroVideo();
+          } else {
+            heroVideo.pause();
+          }
+        });
+      }, { threshold: 0.15 });
+
+      videoObserver.observe(heroVideo);
+    }
+
+    if (videoSoundBtn) {
+      videoSoundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        playTactileClick(600, 'sine', 0.05);
+
+        if (heroVideo.muted) {
+          heroVideo.muted = false;
+          if (videoSoundIcon) videoSoundIcon.className = 'fa-solid fa-volume-high';
+          if (videoSoundText) videoSoundText.textContent = 'Mute Audio';
+        } else {
+          heroVideo.muted = true;
+          if (videoSoundIcon) videoSoundIcon.className = 'fa-solid fa-volume-xmark';
+          if (videoSoundText) videoSoundText.textContent = 'Unmute Audio';
+        }
+      });
+    }
+  }
 });
