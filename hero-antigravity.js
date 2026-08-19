@@ -12,12 +12,39 @@
       return;
     }
 
+    // Skip heavy physics engine on mobile/touch devices
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const isSmallScreen = window.innerWidth < 768;
+    if (isTouchDevice || isSmallScreen) {
+      // On mobile: just let the items sit statically in normal flow
+      const stage = document.getElementById('heroAntigravityStage');
+      if (stage) {
+        stage.style.minHeight = '200px';
+        stage.style.display = 'flex';
+        stage.style.flexWrap = 'wrap';
+        stage.style.gap = '10px';
+        stage.style.padding = '1rem';
+        stage.style.alignItems = 'center';
+        stage.style.justifyContent = 'center';
+        // Remove absolute positioning from items so they flow naturally
+        Array.from(stage.querySelectorAll('.antigravity-item')).forEach(el => {
+          el.style.position = 'relative';
+          el.style.left = 'auto';
+          el.style.top = 'auto';
+          el.style.transform = 'none';
+          el.style.cursor = 'default';
+        });
+      }
+      return;
+    }
+
     const heroSection = document.getElementById('hero');
     const stageContainer = document.getElementById('heroAntigravityStage');
     if (!heroSection || !stageContainer) return;
 
     const items = Array.from(stageContainer.querySelectorAll('.antigravity-item'));
     if (items.length === 0) return;
+
 
     // Matter.js Module Aliases
     const {

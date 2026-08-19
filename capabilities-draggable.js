@@ -4,6 +4,7 @@
  * - Free 2D dragging for all Bento Grid cards & capability pills
  * - Elastic spring-back physics to original anchor position on release
  * - Maintains custom orange vector cursor throughout
+ * - DISABLED on mobile/touch devices (< 900px or any touch device)
  */
 
 (function () {
@@ -11,15 +12,18 @@
 
   function initDraggableCapabilities() {
     if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
+
+    // Skip ALL dragging on mobile/touch devices
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const isSmallScreen = window.innerWidth < 900;
+    if (isTouchDevice || isSmallScreen) return;
+
     gsap.registerPlugin(Draggable);
 
     // 1. Draggable Inner Pills (UI/UX, Full-Stack, etc.)
     const pills = document.querySelectorAll('.bento-pill-item, .stack-mini-pill');
     pills.forEach(pill => {
-      // Prevent parent card dragging when interacting with inner pill
-      pill.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-      });
+      pill.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
 
       Draggable.create(pill, {
         type: "x,y",
@@ -39,9 +43,7 @@
         onDragEnd: function () {
           pill.classList.remove('is-dragging');
           gsap.to(pill, {
-            x: 0,
-            y: 0,
-            scale: 1,
+            x: 0, y: 0, scale: 1,
             boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
             borderColor: "",
             duration: 0.75,
@@ -72,9 +74,7 @@
         onDragEnd: function () {
           card.classList.remove('is-dragging');
           gsap.to(card, {
-            x: 0,
-            y: 0,
-            scale: 1,
+            x: 0, y: 0, scale: 1,
             boxShadow: "0 12px 32px rgba(0, 40, 80, 0.06)",
             duration: 0.85,
             ease: "elastic.out(1, 0.45)",
