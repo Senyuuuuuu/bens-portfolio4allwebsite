@@ -1973,34 +1973,34 @@ nav {
 .project-logo-card {
   display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 0.75rem 1.4rem;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  gap: 0.55rem;
+  padding: 0.42rem 0.95rem;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.07);
   border-radius: var(--radius-pill);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
   transition: all 0.25s var(--ease-apple);
   cursor: pointer;
   user-select: none;
 }
 
 .project-logo-card:hover {
-  transform: translateY(-3px) scale(1.02);
+  transform: translateY(-2px) scale(1.02);
   background: #FFFFFF;
   border-color: rgba(0, 113, 227, 0.35);
-  box-shadow: 0 8px 24px rgba(0, 113, 227, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 113, 227, 0.1);
 }
 
 .logo-icon-box {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
   background: rgba(0, 113, 227, 0.08);
   color: var(--apple-blue);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.72rem;
   transition: all 0.25s ease;
   flex-shrink: 0;
 }
@@ -2012,9 +2012,9 @@ nav {
 
 .logo-brand-name {
   font-family: var(--font-display);
-  font-size: 0.88rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--ink-primary);
   text-transform: uppercase;
   transition: color 0.25s ease;
@@ -2025,7 +2025,7 @@ nav {
 }
 
 .project-brand-img {
-  max-height: 28px;
+  max-height: 20px;
   width: auto;
   object-fit: contain;
   filter: grayscale(100%) opacity(0.7);
@@ -5040,11 +5040,16 @@ nav {
    ENHANCED FOOTER — PREMIUM REDESIGN
    ========================================================================== */
 
-footer {
+footer, .designer-footer, #designerFooter {
   background: var(--obsidian-base, #0A0A0F);
   color: #fff;
   position: relative;
   overflow: hidden;
+  border-top-left-radius: 40px !important;
+  border-top-right-radius: 40px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.4);
 }
 
 /* Gradient top border */
@@ -5760,6 +5765,288 @@ footer::after {
 .video-audio-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.04);
+}
+
+/* ==========================================================================
+   REVIEWS & TESTIMONIALS SECTION (APPLE & LINEAR CALIBER)
+   ========================================================================== */
+.reviews-section {
+  padding: 7rem 0 6.5rem;
+  background: var(--canvas-parchment);
+  border-top: 1px solid var(--hairline-light);
+  border-bottom: 1px solid var(--hairline-light);
+  position: relative;
+  overflow: hidden;
+}
+
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+  margin-top: 3.5rem;
+}
+
+.review-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 24px;
+  padding: 2.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: transform 0.35s var(--ease-apple), box-shadow 0.35s ease, border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 107, 0, 0.3);
+  box-shadow: 0 20px 48px -12px rgba(255, 107, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.review-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.review-stars {
+  color: #FF9500;
+  letter-spacing: 2px;
+  font-size: 0.95rem;
+  text-shadow: 0 0 8px rgba(255, 149, 0, 0.35);
+}
+
+.review-verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #0071E3;
+  background: rgba(0, 113, 227, 0.08);
+  border: 1px solid rgba(0, 113, 227, 0.18);
+  padding: 0.25rem 0.65rem;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+}
+
+.review-metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #30D158;
+  background: rgba(48, 209, 88, 0.08);
+  border: 1px solid rgba(48, 209, 88, 0.2);
+  padding: 0.2rem 0.55rem;
+  border-radius: 100px;
+}
+
+.review-quote {
+  font-family: var(--font-sans);
+  font-size: 0.96rem;
+  line-height: 1.68;
+  color: var(--ink-secondary);
+  margin-bottom: 1.8rem;
+  font-weight: 450;
+}
+
+.review-author-row {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  border-top: 1px solid var(--hairline-light-soft);
+  padding-top: 1.25rem;
+}
+
+.review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 107, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.review-author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.review-author-name {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  letter-spacing: -0.01em;
+}
+
+.review-author-role {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   MOBILE TYPOGRAPHY, LOGOS & CORE CAPABILITIES REFINEMENTS
+   ========================================================================== */
+@media (max-width: 992px) {
+  .reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Reduced Mobile Headings & Lead Copy */
+  .hero-title {
+    font-size: clamp(1.85rem, 6.8vw, 2.5rem) !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .section-h2 {
+    font-size: clamp(1.6rem, 5.2vw, 2.1rem) !important;
+    letter-spacing: -0.03em !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .section-desc {
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* Compact Figma Bounding Box in Hero */
+  .figma-draggable-box {
+    padding: 0.8rem 1rem !important;
+    border-width: 1px !important;
+    touch-action: auto !important;
+    cursor: default !important;
+  }
+
+  .figma-text-content, .hero-lead {
+    font-size: 0.86rem !important;
+    line-height: 1.48 !important;
+  }
+
+  .figma-status-tag {
+    font-size: 0.58rem !important;
+    padding: 1px 6px !important;
+    top: -9px !important;
+    left: 8px !important;
+  }
+
+  /* Reduced Logo Sizes on Mobile */
+  .project-logo-card {
+    padding: 0.35rem 0.75rem !important;
+    gap: 0.45rem !important;
+  }
+
+  .logo-icon-box {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 0.65rem !important;
+  }
+
+  .logo-brand-name {
+    font-size: 0.65rem !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  /* Core Capabilities: Smaller Cards & Non-Draggable on Mobile */
+  .capabilities-bento-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .capabilities-bento-grid .bento-card {
+    grid-column: span 1 !important;
+    grid-row: auto !important;
+    padding: 1.25rem 1.15rem !important;
+    min-height: auto !important;
+    border-radius: 18px !important;
+    touch-action: auto !important;
+    cursor: default !important;
+    user-select: auto !important;
+  }
+
+  .bento-pill-item, .stack-mini-pill {
+    touch-action: auto !important;
+    cursor: default !important;
+    user-select: auto !important;
+    font-size: 0.72rem !important;
+    padding: 0.35rem 0.7rem !important;
+  }
+
+  .bento-statement-title {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .bento-statement-desc {
+    font-size: 0.88rem !important;
+    line-height: 1.55 !important;
+  }
+
+  .bento-metric-num {
+    font-size: 2rem !important;
+  }
+
+  .bento-metric-label {
+    font-size: 0.68rem !important;
+  }
+
+  /* Testimonials 1-Col on Mobile */
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .review-card {
+    padding: 1.4rem 1.25rem;
+    border-radius: 18px;
+  }
+
+  .review-quote {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.85rem !important;
+  }
+
+  .figma-text-content, .hero-lead {
+    font-size: 0.82rem !important;
+  }
+
+  .project-logo-card {
+    padding: 0.3rem 0.65rem !important;
+  }
+
+  .logo-brand-name {
+    font-size: 0.6rem !important;
+  }
 }
 
 

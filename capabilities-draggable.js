@@ -13,10 +13,18 @@
   function initDraggableCapabilities() {
     if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
 
-    // Skip ALL dragging on mobile/touch devices
-    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-    const isSmallScreen = window.innerWidth < 900;
-    if (isTouchDevice || isSmallScreen) return;
+    // Strictly disable ALL dragging on mobile / touch devices or screens <= 900px
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia('(pointer: coarse)').matches);
+    const isSmallScreen = window.innerWidth <= 900;
+    if (isTouchDevice || isSmallScreen) {
+      // Ensure cards are non-draggable and smooth scrolling is completely uninhibited
+      document.querySelectorAll('.bento-card, .bento-pill-item, .stack-mini-pill').forEach(el => {
+        el.style.touchAction = 'auto';
+        el.style.cursor = 'default';
+        el.style.userSelect = 'auto';
+      });
+      return;
+    }
 
     gsap.registerPlugin(Draggable);
 

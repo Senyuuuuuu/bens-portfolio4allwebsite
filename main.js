@@ -241,15 +241,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </a>
           </li>
           <li>
-            <a href="services.html" class="mobile-nav-link-item ${isServices ? 'active' : ''}">
-              <div class="mobile-nav-link-left">
-                <span class="mobile-nav-link-icon"><i class="fa-solid fa-bolt"></i></span>
-                <span>Services &amp; Pricing</span>
-              </div>
-              <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
-            </a>
-          </li>
-          <li>
             <a href="contact.html" class="mobile-nav-link-item ${isContact ? 'active' : ''}">
               <div class="mobile-nav-link-left">
                 <span class="mobile-nav-link-icon"><i class="fa-solid fa-envelope"></i></span>
