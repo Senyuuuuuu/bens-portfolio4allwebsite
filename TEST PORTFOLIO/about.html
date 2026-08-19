@@ -42,17 +42,149 @@
     </div>
   </nav>
 
-  <!-- ABOUT HERO -->
-  <section style="padding: 9.5rem 0 4.5rem; background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);">
-    <div class="container">
-      <div class="sec-tag">Biography &amp; Background</div>
-      <h1 class="hero-title">
-        Bridging <span class="serif-italic">AI automation</span>, full-stack code<br/>
-        &amp; certified graphic design.
+  <!-- MAIN ABOUT & RESUME HERO SECTION WITH INTERACTIVE ANTIGRAVITY CAPSULES & BENTO METRICS -->
+  <section class="hero-section portfolio-hero-section about-hero-section" id="hero">
+    
+    <!-- Floating Anti-Gravity Draggable Physics Container -->
+    <div class="hero-antigravity-container" id="heroAntigravityStage">
+      <!-- Top Left Flank -->
+      <div class="antigravity-item squircle-item icon-ps" data-initial-x="12" data-initial-y="10" data-rot="-10" data-scale="1.0">
+        <span>Ps</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-branding" data-initial-x="22" data-initial-y="16" data-rot="-25" data-scale="1.0">
+        <span class="capsule-text">NC III Certified</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-websites" data-initial-x="32" data-initial-y="12" data-rot="30" data-scale="1.0">
+        <span class="capsule-text">Full-Stack Dev</span>
+      </div>
+
+      <!-- Mid-Left Flank -->
+      <div class="antigravity-item squircle-item icon-n8n" data-initial-x="10" data-initial-y="45" data-rot="0" data-scale="1.0">
+        <span>n8n</span>
+      </div>
+      <div class="antigravity-item squircle-item icon-ai" data-initial-x="6" data-initial-y="70" data-rot="15" data-scale="1.0">
+        <span>Ai</span>
+      </div>
+
+      <!-- Lower-Left Flank -->
+      <div class="antigravity-item capsule-item capsule-workflows" data-initial-x="18" data-initial-y="75" data-rot="-30" data-scale="1.0">
+        <span class="capsule-text">AI Automation</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-3ddesign" data-initial-x="26" data-initial-y="68" data-rot="40" data-scale="1.0">
+        <span class="capsule-text">UI/UX Craft</span>
+      </div>
+
+      <!-- Top Right Flank -->
+      <div class="antigravity-item capsule-item capsule-apps" data-initial-x="80" data-initial-y="12" data-rot="-15" data-scale="1.0">
+        <span class="capsule-text">Architecture</span>
+      </div>
+      <div class="antigravity-item squircle-item icon-bolt" data-initial-x="89" data-initial-y="18" data-rot="20" data-scale="1.0">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+
+      <!-- Mid-Right Flank -->
+      <div class="antigravity-item squircle-item icon-ae" data-initial-x="88" data-initial-y="42" data-rot="-10" data-scale="1.0">
+        <span>Ae</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-metaverse" data-initial-x="78" data-initial-y="50" data-rot="30" data-scale="1.0">
+        <span class="capsule-text">API Pipelines</span>
+      </div>
+
+      <!-- Lower-Right Flank -->
+      <div class="antigravity-item capsule-item capsule-animations" data-initial-x="82" data-initial-y="76" data-rot="-35" data-scale="1.0">
+        <span class="capsule-text">TypeScript</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-marketing" data-initial-x="93" data-initial-y="84" data-rot="25" data-scale="1.0">
+        <span class="capsule-text">La Union, PH</span>
+      </div>
+    </div>
+
+    <!-- Centered Content Stage -->
+    <div class="container portfolio-hero-content">
+      
+      <!-- Overline Rating Pill -->
+      <div class="hero-rating-pill gsap-hero-reveal">
+        <span class="hero-stars">★★★★★</span>
+        <span>TESDA Certified · 40+ Production Deployments · 99.4% Workflow Reliability</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hero-title gsap-hero-reveal" style="max-width: 960px;">
+        Bridging <span class="serif-italic">AI Automation</span>, Full-Stack Code &amp; Visual Design.
       </h1>
-      <p class="hero-lead">
-        I am Benyamin Namtalashvili — an AI Automation Specialist, Full-Stack Developer, and Graphic Designer based in Bauang, La Union, Philippines. I specialize in building end-to-end autonomous business workflows, robust database-driven web applications, and high-impact visual branding.
-      </p>
+
+      <!-- Interactive Figma Draggable Text Component -->
+      <div class="figma-drag-text-wrapper gsap-hero-reveal" id="figmaDragTextWrapper">
+        <!-- User Multiplayer Cursor -->
+        <div class="figma-user-cursor" id="figmaUserCursor">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#FF8C00" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <!-- Ghost Cursor & Scolding Chat Bubble -->
+        <div class="figma-ghost-cursor" id="figmaGhostCursor">
+          <svg class="figma-ghost-pointer" width="20" height="20" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#9333EA" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <span class="figma-ghost-badge">Benyamin</span>
+          <div class="figma-ghost-chat-bubble" id="figmaGhostChatBubble">
+            i told you do not drag that
+          </div>
+        </div>
+
+        <!-- Draggable Bounding Box -->
+        <div class="figma-draggable-box" id="figmaDraggableBox">
+          <div class="figma-status-tag">do not drag</div>
+          <span class="figma-red-handle figma-handle-tl"></span>
+          <span class="figma-red-handle figma-handle-tr"></span>
+          <span class="figma-red-handle figma-handle-bl"></span>
+          <span class="figma-red-handle figma-handle-br"></span>
+
+          <p class="hero-lead figma-text-content">
+            I am Benyamin Namtalashvili — an AI Automation Specialist, Full-Stack Developer, and Graphic Designer based in Bauang, La Union, Philippines. I specialize in building end-to-end autonomous business workflows, robust database-driven web applications, and high-impact visual branding.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bento Stats Matrix Row -->
+      <div class="portfolio-stats-matrix gsap-hero-reveal">
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-orange">TESDA</div>
+          <div class="portfolio-stat-label">Visual Design NC III</div>
+          <div class="portfolio-stat-sub">Certified National Standard (2024)</div>
+        </div>
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-green">40+</div>
+          <div class="portfolio-stat-label">Production Deliveries</div>
+          <div class="portfolio-stat-sub">n8n, Web Apps &amp; AI Agents</div>
+        </div>
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-blue">100%</div>
+          <div class="portfolio-stat-label">Autonomous Logic</div>
+          <div class="portfolio-stat-sub">Zero Friction Workflow Pipelines</div>
+        </div>
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-purple">30+</div>
+          <div class="portfolio-stat-label">Clients Worldwide</div>
+          <div class="portfolio-stat-sub">US, UK, Europe &amp; APAC Markets</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row -->
+      <div class="hero-actions-row gsap-hero-reveal" style="margin-top: 1.5rem;">
+        <a href="contact.html" class="btn-pill-primary">
+          <span>Schedule an Interview</span>
+          <i class="fa-solid fa-arrow-right" style="font-size: 0.85rem;"></i>
+        </a>
+        <a href="portfolio.html" class="btn-pill-outline">Explore Case Studies</a>
+        <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-pill-outline" style="border-color: rgba(255, 107, 0, 0.3); background: rgba(255, 107, 0, 0.04); color: var(--apple-blue);">
+          <i class="fa-solid fa-camera" style="margin-right: 4px;"></i>
+          <span>Modeling Portfolio</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem; margin-left: 2px;"></i>
+        </a>
+      </div>
+
     </div>
   </section>
 
@@ -306,6 +438,12 @@
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+
+  <!-- Matter.js Physics Engine & Interactive Engines -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <script src="hero-antigravity.js"></script>
+  <script src="figma-draggable-text.js"></script>
   <script src="footer-interactive-canvas.js"></script>
   <script src="main.js"></script>
 </body>
