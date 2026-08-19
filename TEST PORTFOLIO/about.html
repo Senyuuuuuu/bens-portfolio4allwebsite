@@ -193,9 +193,17 @@
     <div class="container">
       <div style="display:grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start;">
         
-        <!-- Profile Sidebar Card -->
+        <!-- Profile Sidebar Card with Figma Selection Frame -->
         <div style="position: sticky; top: 7rem;">
-          <div style="background: var(--canvas-parchment); border: 1px solid var(--hairline-light); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-card);">
+          <div class="competency-figma-card" style="padding: 2.4rem;">
+            <div class="figma-selection-box">
+              <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: Benyamin Namtalashvili · Bio</span>
+              <span class="figma-handle figma-handle-tl"></span>
+              <span class="figma-handle figma-handle-tr"></span>
+              <span class="figma-handle figma-handle-bl"></span>
+              <span class="figma-handle figma-handle-br"></span>
+            </div>
+
             <div style="width: 76px; height: 76px; border-radius: 50%; background: var(--obsidian-base); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
               BN
             </div>
@@ -214,7 +222,7 @@
             <a href="contact.html" class="btn-apple-primary" style="width: 100%; margin-top: 2rem; justify-content:center;">
               <span>Schedule an Interview</span>
             </a>
-            <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-apple-secondary" style="width: 100%; margin-top: 0.75rem; justify-content:center; border-color: rgba(0, 113, 227, 0.35); background: rgba(0, 113, 227, 0.04);">
+            <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-apple-secondary" style="width: 100%; margin-top: 0.75rem; justify-content:center; border-color: rgba(255, 107, 0, 0.35); background: rgba(255, 107, 0, 0.04);">
               <i class="fa-solid fa-camera" style="color: var(--apple-blue); font-size: 0.85rem; margin-right: 4px;"></i>
               <span>Modeling Portfolio</span>
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem; opacity: 0.6; margin-left: 2px;"></i>
@@ -229,55 +237,104 @@
             Core Skills &amp; Specialties
           </h2>
 
-          <div style="display:flex; flex-direction:column; gap:1.75rem;">
-            <!-- Skill Category 1 -->
-            <div style="background:var(--canvas-parchment); padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--hairline-light);">
-              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700; margin-bottom:0.75rem; color:var(--ink-primary);">
-                🤖 AI &amp; Workflow Automation
-              </h3>
-              <p style="font-size:0.92rem; color:var(--ink-secondary); line-height:1.65; margin-bottom:1rem;">
-                n8n Automated Pipelines, AI Agents, Claude AI, ChatGPT, Prompt Engineering, OpenAI API, Anthropic API, Model Context Protocol (MCP), Webhooks, and Multi-Channel Bot Integrations (Slack, Telegram, Discord).
+          <div class="competencies-list">
+            <!-- Skill Category 1: AI & Workflow Automation -->
+            <div class="competency-figma-card">
+              <div class="figma-selection-box">
+                <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: AI Pipelines &amp; Autonomous Agents</span>
+                <span class="figma-handle figma-handle-tl"></span>
+                <span class="figma-handle figma-handle-tr"></span>
+                <span class="figma-handle figma-handle-bl"></span>
+                <span class="figma-handle figma-handle-br"></span>
+              </div>
+
+              <div class="competency-card-header">
+                <div class="competency-icon-wrap">
+                  <div class="competency-icon-box">
+                    <i class="fa-solid fa-robot"></i>
+                  </div>
+                  <h3 class="competency-title">AI &amp; Autonomous Workflow Systems</h3>
+                </div>
+                <span class="competency-spec-tag">99.4% Reliability</span>
+              </div>
+
+              <p class="competency-desc">
+                Architecting enterprise-grade <strong>n8n automation pipelines</strong>, autonomous AI Agent swarms, Model Context Protocol (MCP) tool integrations, Anthropic Claude &amp; OpenAI API workflows, custom webhooks, and multi-channel bot orchestration across Slack, Telegram, and Discord.
               </p>
-              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                <span class="portfolio-chip">n8n</span>
-                <span class="portfolio-chip">Claude API</span>
-                <span class="portfolio-chip">OpenAI API</span>
-                <span class="portfolio-chip">MCP</span>
-                <span class="portfolio-chip">AI Coding Assistants</span>
+
+              <div class="competency-chips-grid">
+                <span class="competency-chip"><i class="fa-solid fa-bolt"></i> n8n Pipelines</span>
+                <span class="competency-chip"><i class="fa-solid fa-brain"></i> Claude 3.7 &amp; OpenAI API</span>
+                <span class="competency-chip"><i class="fa-solid fa-plug-circle-bolt"></i> MCP Tools</span>
+                <span class="competency-chip"><i class="fa-solid fa-network-wired"></i> Webhooks &amp; APIs</span>
+                <span class="competency-chip"><i class="fa-solid fa-microchip"></i> Autonomous AI Agents</span>
               </div>
             </div>
 
-            <!-- Skill Category 2 -->
-            <div style="background:var(--canvas-parchment); padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--hairline-light);">
-              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700; margin-bottom:0.75rem; color:var(--ink-primary);">
-                💻 Full-Stack Web &amp; Backend Engineering
-              </h3>
-              <p style="font-size:0.92rem; color:var(--ink-secondary); line-height:1.65; margin-bottom:1rem;">
-                HTML5, CSS3, JavaScript (ES6+), PHP, Laravel, React, Node.js, Express.js, SQL, MySQL, PostgreSQL, Firebase, Supabase, Authentication, REST APIs, Tailwind CSS, Bootstrap, WordPress, and Elementor.
+            <!-- Skill Category 2: Full-Stack Engineering -->
+            <div class="competency-figma-card">
+              <div class="figma-selection-box">
+                <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: Full-Stack Web Architecture</span>
+                <span class="figma-handle figma-handle-tl"></span>
+                <span class="figma-handle figma-handle-tr"></span>
+                <span class="figma-handle figma-handle-bl"></span>
+                <span class="figma-handle figma-handle-br"></span>
+              </div>
+
+              <div class="competency-card-header">
+                <div class="competency-icon-wrap">
+                  <div class="competency-icon-box">
+                    <i class="fa-solid fa-code"></i>
+                  </div>
+                  <h3 class="competency-title">Full-Stack Web &amp; Backend Engineering</h3>
+                </div>
+                <span class="competency-spec-tag">Sub-100ms API</span>
+              </div>
+
+              <p class="competency-desc">
+                Engineering fast, accessible, and scalable web architectures using modern JavaScript (ES6+), React, Vite, PHP, Laravel, Node.js, Express, PostgreSQL, MySQL, Supabase, Firebase, REST API design, robust authentication protocols, and utility-first Tailwind CSS.
               </p>
-              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                <span class="portfolio-chip">Laravel &amp; PHP</span>
-                <span class="portfolio-chip">React</span>
-                <span class="portfolio-chip">Node.js</span>
-                <span class="portfolio-chip">MySQL / PostgreSQL</span>
-                <span class="portfolio-chip">Tailwind CSS</span>
+
+              <div class="competency-chips-grid">
+                <span class="competency-chip"><i class="fa-brands fa-react"></i> React &amp; Vite</span>
+                <span class="competency-chip"><i class="fa-brands fa-laravel"></i> Laravel &amp; PHP</span>
+                <span class="competency-chip"><i class="fa-brands fa-node-js"></i> Node.js &amp; Express</span>
+                <span class="competency-chip"><i class="fa-solid fa-database"></i> PostgreSQL &amp; MySQL</span>
+                <span class="competency-chip"><i class="fa-solid fa-fire"></i> Supabase &amp; Firebase</span>
+                <span class="competency-chip"><i class="fa-brands fa-css3-alt"></i> Tailwind CSS</span>
               </div>
             </div>
 
-            <!-- Skill Category 3 -->
-            <div style="background:var(--canvas-parchment); padding:2rem; border-radius:var(--radius-lg); border:1px solid var(--hairline-light);">
-              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700; margin-bottom:0.75rem; color:var(--ink-primary);">
-                🎨 Graphic Design, UI/UX &amp; Digital Tools
-              </h3>
-              <p style="font-size:0.92rem; color:var(--ink-secondary); line-height:1.65; margin-bottom:1rem;">
-                Adobe Photoshop, Adobe Illustrator, Canva, Figma, UI/UX Wireframing, Brand Identity Systems, Marketing Banners, E-Commerce Assets, Git, GitHub, VS Code, Cursor AI, Windsurf, Roo Code, Google Workspace, Excel, Notion, and Trello.
+            <!-- Skill Category 3: Graphic Design & UI/UX Craft -->
+            <div class="competency-figma-card">
+              <div class="figma-selection-box">
+                <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: Visual Design &amp; Brand Systems</span>
+                <span class="figma-handle figma-handle-tl"></span>
+                <span class="figma-handle figma-handle-tr"></span>
+                <span class="figma-handle figma-handle-bl"></span>
+                <span class="figma-handle figma-handle-br"></span>
+              </div>
+
+              <div class="competency-card-header">
+                <div class="competency-icon-wrap">
+                  <div class="competency-icon-box">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                  </div>
+                  <h3 class="competency-title">Graphic Design, UI/UX &amp; Creative Tools</h3>
+                </div>
+                <span class="competency-spec-tag">TESDA NC III Standard</span>
+              </div>
+
+              <p class="competency-desc">
+                Creating high-impact brand identities, pixel-perfect Figma UI/UX design systems, packaging graphics, marketing collaterals, and digital mockups using Adobe Photoshop, Illustrator, Canva, and AI-accelerated developer environments like Cursor AI and Windsurf.
               </p>
-              <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                <span class="portfolio-chip">Figma</span>
-                <span class="portfolio-chip">Adobe Photoshop</span>
-                <span class="portfolio-chip">Adobe Illustrator</span>
-                <span class="portfolio-chip">Cursor &amp; Windsurf</span>
-                <span class="portfolio-chip">TESDA NC III</span>
+
+              <div class="competency-chips-grid">
+                <span class="competency-chip"><i class="fa-brands fa-figma"></i> Figma Design Systems</span>
+                <span class="competency-chip"><i class="fa-solid fa-image"></i> Adobe Photoshop</span>
+                <span class="competency-chip"><i class="fa-solid fa-bezier-curve"></i> Adobe Illustrator</span>
+                <span class="competency-chip"><i class="fa-solid fa-award"></i> TESDA NC III Certified</span>
+                <span class="competency-chip"><i class="fa-solid fa-terminal"></i> Cursor AI &amp; Windsurf</span>
               </div>
             </div>
           </div>
