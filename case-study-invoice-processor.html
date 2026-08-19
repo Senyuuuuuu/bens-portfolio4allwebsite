@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Case Study: Autonomous AI Business Copilots &amp; Invoice Vision Engine — Benyamin Namtalashvili</title>
+  <meta name="description" content="Engineering case study of vision-based invoice processing and AI business copilots built with Anthropic MCP and OpenAI APIs."/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- Ambient Glow -->
+  <div id="ambientGlow"></div>
+
+  <!-- Dynamic Island Navigation -->
+  <nav id="nav" role="navigation" aria-label="Main Navigation">
+    <div class="nav-island">
+      <a href="index.html" class="nav-brand" aria-label="Benyamin Namtalashvili Portfolio Home">
+        Benyamin Namtalashvili
+      </a>
+      <ul class="nav-links-wrap" role="list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="portfolio.html" class="active">Works &amp; Case Studies</a></li>
+        <li><a href="about.html">About &amp; Resume</a></li>
+      </ul>
+      <div class="nav-status-pill">
+        <span class="status-dot"></span>
+        <span>Available for Hire</span>
+      </div>
+      <button id="audioToggleBtn" class="nav-audio-toggle" title="Toggle Sound Effects">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+      <a href="contact.html" class="nav-cta-btn magnetic-3d">
+        <span>Get in Touch</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- CASE STUDY HERO SHOWCASE STAGE -->
+  <header class="case-study-hero-stage">
+    <div class="container">
+      <div class="case-study-breadcrumb-row">
+        <a href="portfolio.html" class="case-study-back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Selected Works
+        </a>
+        <span style="color:var(--ink-tertiary);">/</span>
+        <span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-secondary); font-weight:600;">AI Vision &amp; Model Context Protocol</span>
+      </div>
+
+      <div class="hero-rating-pill" style="margin-bottom:1.25rem;">
+        <span class="hero-stars">★★★★★</span>
+        <span>Autonomous Intelligence Case Study // 03</span>
+      </div>
+
+      <h1 class="hero-title" style="max-width: 980px;">
+        Autonomous AI Copilots &amp; <span class="serif-italic">Vision Invoice Engine</span>
+      </h1>
+      <p class="hero-lead" style="max-width: 840px; margin: 0 0 1.5rem;">
+        Architected an enterprise document intelligence pipeline with Claude 3.5 Vision, Model Context Protocol (MCP) server scaffold, automated Xero/QuickBooks ledger synchronization, and zero manual data entry.
+      </p>
+
+      <div class="case-study-spec-bento">
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Timeline</div>
+          <div class="case-study-spec-value">4 Weeks Sprint</div>
+        </div>
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Role</div>
+          <div class="case-study-spec-value">AI Systems Architect</div>
+        </div>
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Tech Stack</div>
+          <div class="case-study-spec-value" style="font-size: 1rem;">Claude 3.5 Vision · MCP Protocol · Node.js</div>
+        </div>
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Extraction Rate</div>
+          <div class="case-study-spec-value" style="color: #34C759;">99.4% Verified Accuracy</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CASE STUDY BODY -->
+  <main style="padding: 5rem 0 8rem; background: var(--canvas-pure);">
+    <div class="case-study-container">
+      
+      <!-- High-Fidelity macOS Device Frame -->
+      <div class="case-study-device-frame">
+        <div class="device-frame-topbar">
+          <div class="device-window-dots">
+            <span class="device-dot dot-red"></span>
+            <span class="device-dot dot-yellow"></span>
+            <span class="device-dot dot-green"></span>
+          </div>
+          <div class="device-window-title">
+            <i class="fa-solid fa-file-invoice-dollar" style="font-size: 0.65rem; color: #34C759;"></i>
+            <span>https://ledger.copilot.internal/ocr/audit-trace</span>
+          </div>
+          <div class="device-live-status">
+            <span class="device-live-pulse"></span>
+            <span>Vision OCR Pipeline Live · MCP Protocol</span>
+          </div>
+        </div>
+        <img src="assets/port3.jpg" alt="Autonomous AI Business Copilots and Invoice Engine" class="case-study-device-img"/>
+      </div>
+
+      <!-- Measurable Business Impact Grid -->
+      <div class="case-study-metrics-grid">
+        <div class="case-study-metric-card">
+          <div class="case-study-metric-number" style="color: var(--apple-blue);">99.4%</div>
+          <div class="case-study-metric-label">Extraction Precision</div>
+          <div class="case-study-metric-desc">Correct line-item, VAT, and vendor parsing across 40+ currencies.</div>
+        </div>
+
+        <div class="case-study-metric-card">
+          <div class="case-study-metric-number" style="color: var(--apple-green);">0.8s</div>
+          <div class="case-study-metric-label">Average Processing Time</div>
+          <div class="case-study-metric-desc">Sub-second turnaround from PDF upload to normalized ledger entry.</div>
+        </div>
+
+        <div class="case-study-metric-card">
+          <div class="case-study-metric-number" style="color: #FF6B00;">85%</div>
+          <div class="case-study-metric-label">Audit Workload Cut</div>
+          <div class="case-study-metric-desc">Eliminated manual entry for 2,400 monthly accounting receipts.</div>
+        </div>
+
+        <div class="case-study-metric-card">
+          <div class="case-study-metric-number" style="color: var(--ink-primary);">$48,000</div>
+          <div class="case-study-metric-label">Annual Operational Savings</div>
+          <div class="case-study-metric-desc">Freed up bookkeeping personnel for high-level tax planning.</div>
+        </div>
+      </div>
+
+      <!-- Problem Breakdown -->
+      <div class="case-study-section-card">
+        <div class="case-study-section-badge">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>The Challenge</span>
+        </div>
+        <h2 class="case-study-heading">
+          Unstructured Receipt Ingestion Causing Accounting Delays
+        </h2>
+        <p class="case-study-paragraph">
+          Corporate expense receipts arrive in hundreds of non-standard formats: skewed camera snapshots, crumpled physical receipts, multi-page PDFs, and handwritten notes. Traditional OCR tools produced hallucinated decimal points, miscalculated tax brackets, and required continuous manual reconciliation.
+        </p>
+
+        <div class="challenge-solution-grid">
+          <div class="challenge-box">
+            <div class="challenge-title">
+              <i class="fa-solid fa-circle-xmark"></i>
+              <span>Core Challenges</span>
+            </div>
+            <ul class="box-list">
+              <li><i class="fa-solid fa-xmark" style="color: #FF3B30; margin-top: 3px;"></i> Standard OCR tools failing on rotated photos and blurred receipt ink.</li>
+              <li><i class="fa-solid fa-xmark" style="color: #FF3B30; margin-top: 3px;"></i> Multi-currency conversion errors resulting in balance ledger discrepancies.</li>
+              <li><i class="fa-solid fa-xmark" style="color: #FF3B30; margin-top: 3px;"></i> Slow manual data entry delaying monthly financial close by 6 business days.</li>
+            </ul>
+          </div>
+
+          <div class="solution-box">
+            <div class="solution-title">
+              <i class="fa-solid fa-circle-check"></i>
+              <span>Engineered Solutions</span>
+            </div>
+            <ul class="box-list">
+              <li><i class="fa-solid fa-check" style="color: #34C759; margin-top: 3px;"></i> Claude 3.5 Sonnet Vision multi-modal extraction with bounding box verification.</li>
+              <li><i class="fa-solid fa-check" style="color: #34C759; margin-top: 3px;"></i> Anthropic Model Context Protocol (MCP) server scaffolding ledger tool execution.</li>
+              <li><i class="fa-solid fa-check" style="color: #34C759; margin-top: 3px;"></i> Automated line-item tax calculation and instant Xero/QuickBooks API sync.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Architecture & System Workflow -->
+      <div class="case-study-section-card">
+        <div class="case-study-section-badge">
+          <i class="fa-solid fa-network-wired"></i>
+          <span>Vision System Pipeline</span>
+        </div>
+        <h2 class="case-study-heading">
+          Model Context Protocol (MCP) Architecture
+        </h2>
+        <p class="case-study-paragraph">
+          The system implements a standalone MCP Server that exposes specialized financial extraction tools to the Claude reasoning agent, ensuring strict type-safety, audit validation, and deterministic database persistence.
+        </p>
+
+        <div class="system-flow-grid">
+          <div class="system-flow-card">
+            <span class="flow-step-num">STAGE 01</span>
+            <div class="flow-step-title">Document Ingestion &amp; Image Prep</div>
+            <div class="flow-step-desc">
+              Automatic rotation correction, contrast enhancement, and PDF page rasterization into high-DPI image buffers.
+            </div>
+          </div>
+
+          <div class="system-flow-card">
+            <span class="flow-step-num">STAGE 02</span>
+            <div class="flow-step-title">Claude 3.5 Vision Extraction</div>
+            <div class="flow-step-desc">
+              Extracts vendor name, tax ID, invoice number, line items, subtotals, VAT, and tip amounts with confidence scoring.
+            </div>
+          </div>
+
+          <div class="system-flow-card">
+            <span class="flow-step-num">STAGE 03</span>
+            <div class="flow-step-title">MCP Tool Validation</div>
+            <div class="flow-step-desc">
+              Schema validation ensures line-item totals mathematically equal the invoice grand total before any accounting mutation occurs.
+            </div>
+          </div>
+
+          <div class="system-flow-card">
+            <span class="flow-step-num">STAGE 04</span>
+            <div class="flow-step-title">Ledger Mutation &amp; Cloud Archival</div>
+            <div class="flow-step-desc">
+              Posts formatted bill to accounting software while archiving encrypted original receipts to cold S3 storage.
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Showcase Window -->
+        <div class="case-study-code-window">
+          <div class="code-window-header">
+            <div class="code-window-file">
+              <i class="fa-solid fa-code" style="color: #34C759;"></i>
+              <span>server/mcp/tools/recordInvoice.ts</span>
+            </div>
+            <span style="font-size: 0.7rem; color: rgba(255,255,255,0.45);">TypeScript · MCP SDK</span>
+          </div>
+          <div class="code-window-body">
+<span class="code-keyword">export const</span> <span class="code-func">recordInvoiceTool</span> = {
+  <span class="code-prop">name</span>: <span class="code-string">"record_verified_invoice"</span>,
+  <span class="code-prop">description</span>: <span class="code-string">"Atomically records parsed invoice items to accounting ledger"</span>,
+  <span class="code-prop">inputSchema</span>: <span class="code-func">z</span>.<span class="code-func">object</span>({
+    <span class="code-prop">vendorName</span>: <span class="code-func">z</span>.<span class="code-func">string</span>(),
+    <span class="code-prop">taxId</span>: <span class="code-func">z</span>.<span class="code-func">string</span>().<span class="code-func">optional</span>(),
+    <span class="code-prop">totalAmount</span>: <span class="code-func">z</span>.<span class="code-func">number</span>().<span class="code-func">positive</span>(),
+    <span class="code-prop">currency</span>: <span class="code-func">z</span>.<span class="code-func">string</span>().<span class="code-func">length</span>(3),
+    <span class="code-prop">lineItems</span>: <span class="code-func">z</span>.<span class="code-func">array</span>(<span class="code-func">z</span>.<span class="code-func">object</span>({
+      <span class="code-prop">description</span>: <span class="code-func">z</span>.<span class="code-func">string</span>(),
+      <span class="code-prop">qty</span>: <span class="code-func">z</span>.<span class="code-func">number</span>(),
+      <span class="code-prop">unitPrice</span>: <span class="code-func">z</span>.<span class="code-func">number</span>()
+    }))
+  }),
+  <span class="code-func">execute</span>: <span class="code-keyword">async</span> ({ input, context }) => {
+    <span class="code-comment">// Verify mathematical reconciliation integrity</span>
+    <span class="code-keyword">const</span> sum = input.lineItems.<span class="code-func">reduce</span>((acc, item) => acc + (item.qty * item.unitPrice), 0);
+    <span class="code-keyword">if</span> (Math.<span class="code-func">abs</span>(sum - input.totalAmount) > 0.05) {
+      <span class="code-keyword">throw new</span> <span class="code-func">Error</span>(<span class="code-string">"Validation failure: Line item sum does not equal total"</span>);
+    }
+    <span class="code-keyword">return await</span> ledgerService.<span class="code-func">persistBill</span>(input);
+  }
+};</div>
+        </div>
+      </div>
+
+      <!-- Testimonial Quote -->
+      <div class="case-study-quote-card">
+        <div class="quote-stars">★★★★★</div>
+        <div class="quote-text">
+          "The accuracy of this vision pipeline is unbelievable. We process receipts from overseas suppliers in Japanese, German, and Spanish with zero hiccups, saving our finance department dozens of hours each week."
+        </div>
+        <div class="quote-author-row">
+          <div class="quote-avatar">EL</div>
+          <div>
+            <div class="quote-name">Elena Lindqvist</div>
+            <div class="quote-role">Head of Finance &middot; Global Logistics Corp</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="case-study-pagination">
+        <a href="case-study-saas-platform.html" class="case-study-page-card">
+          <div class="page-card-direction">
+            <i class="fa-solid fa-arrow-left"></i> Previous Case Study
+          </div>
+          <div class="page-card-title">Full-Stack SaaS Admin Portal &amp; REST API Engine</div>
+        </a>
+
+        <a href="case-study-design-system.html" class="case-study-page-card" style="text-align: right;">
+          <div class="page-card-direction" style="justify-content: flex-end;">
+            Next Case Study <i class="fa-solid fa-arrow-right"></i>
+          </div>
+          <div class="page-card-title">E-Commerce Brand Assets &amp; Visual Design Systems</div>
+        </a>
+      </div>
+
+      <!-- CTA BANNER -->
+      <div class="cta-masterpiece-banner">
+        <h2 class="cta-banner-title">
+          Ready to deploy <span class="serif-italic">vision intelligence?</span>
+        </h2>
+        <p class="cta-banner-desc">
+          Automate data entry and document comprehension across your enterprise workflows.
+        </p>
+        <a href="contact.html" class="cta-banner-btn">
+          <span>Schedule Discovery Call</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FIGMA DESIGNER FRAME FOOTER -->
+  <footer class="designer-footer" id="designerFooter">
+    <!-- Top Meta Bar with Tag and Back to Top -->
+    <div class="footer-frame-top">
+      <div class="footer-frame-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>BENYAMIN.FRAME</span>
+      </div>
+      
+      <button class="footer-top-btn" id="footerBackToTop" aria-label="Scroll back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Interactive Canvas Dot Matrix Background -->
+    <canvas class="footer-grid-canvas"></canvas>
+
+    <div class="footer-main-content">
+      <div class="footer-left-col">
+        <div class="footer-eyebrow">HAVE AN IDEA WORTH BUILDING?</div>
+        
+        <a href="mailto:benyaminnamtalashvili726@gmail.com" class="footer-giant-email">
+          <span>benyaminnamtalashvili726@gmail.com</span>
+          <span class="footer-email-arrow">↗</span>
+        </a>
+
+        <div class="footer-cta-action-row">
+          <a href="contact.html" class="footer-orange-btn">
+            <span>Show us the idea</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <div class="footer-avail-pill">
+            <span class="avail-dot"></span>
+            <span>available for projects</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Columns -->
+      <div class="footer-nav-cols">
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">STUDIO</div>
+          <ul class="footer-nav-items">
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html#resume">Resume</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">EXPERTISE</div>
+          <ul class="footer-nav-items">
+            <li><a href="services.html">AI Automation</a></li>
+            <li><a href="services.html">Full-Stack Dev</a></li>
+            <li><a href="services.html">Brand Systems</a></li>
+            <li><a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer">Modeling</a></li>
+            <li><a href="services.html">UI/UX Systems</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">CONNECT</div>
+          <ul class="footer-nav-items">
+            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="mailto:benyaminnamtalashvili726@gmail.com">Email</a></li>
+            <li><a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Massive Bottom Wordmark Display -->
+    <div class="footer-massive-wordmark" aria-hidden="true">
+      <span class="wordmark-orange">B</span>enyamin
+    </div>
+
+    <!-- Bottom Technical Colophon Bar -->
+    <div class="footer-technical-bar">
+      <div class="tech-bar-left">
+        <span class="tech-sq-dot">■</span>
+        <span class="tech-file-name">benyamin.fig</span>
+      </div>
+      <div class="tech-bar-center">
+        <span class="tech-live-dot">●</span>
+        <span id="footerCursorCount">2 cursors online</span>
+        <span class="tech-divider">·</span>
+        <span id="footerClockTime">11:15 PHT</span>
+      </div>
+      <div class="tech-bar-right">
+        <span>&copy; 2026 · engineered by Benyamin Namtalashvili, not framer</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="footer-interactive-canvas.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

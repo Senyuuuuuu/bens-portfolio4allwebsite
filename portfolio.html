@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Works &amp; Case Studies — Benyamin Namtalashvili</title>
+  <meta name="description" content="Explore AI workflow automations, full-stack web applications, AI agents, and graphic design projects by Benyamin Namtalashvili."/>
+  
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+
+  <style>
+    .portfolio-filter-row {
+      display: flex;
+      gap: 0.75rem;
+      margin: 2.5rem 0 3.5rem;
+      flex-wrap: wrap;
+    }
+
+    .portfolio-filter-btn {
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius-pill);
+      background: var(--canvas-parchment);
+      border: 1px solid var(--hairline-light);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all 0.2s var(--ease-apple);
+    }
+
+    .portfolio-filter-btn:hover {
+      color: var(--ink-primary);
+      background: #ECECEE;
+    }
+
+    .portfolio-filter-btn.active {
+      background: var(--obsidian-base);
+      color: var(--canvas-pure);
+      border-color: var(--obsidian-base);
+      font-weight: 600;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .portfolio-card-item {
+      position: relative;
+      background: var(--canvas-pure);
+      border-radius: 28px;
+      border: 1px solid var(--hairline-light);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      transition: transform 0.28s var(--ease-apple), box-shadow 0.28s var(--ease-apple);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      overflow: visible;
+    }
+
+    .portfolio-card-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08);
+    }
+
+    .portfolio-card-media-wrap {
+      position: relative;
+      width: 100%;
+      height: 280px;
+      overflow: hidden;
+      border-radius: 27px 27px 0 0;
+      border-bottom: 1px solid var(--hairline-light);
+    }
+
+    .portfolio-card-media-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s var(--ease-apple);
+    }
+
+    .portfolio-card-item:hover .portfolio-card-media-wrap img {
+      transform: scale(1.05);
+    }
+
+    .portfolio-card-item .figma-selection-box {
+      border-radius: 30px;
+    }
+
+    .portfolio-floating-tag {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--radius-pill);
+      padding: 0.3rem 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .portfolio-card-content {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-grow: 1;
+    }
+
+    .portfolio-client-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .portfolio-card-summary {
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .portfolio-specs-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--hairline-light-soft);
+      padding-top: 1.25rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow -->
+  <div id="ambientGlow"></div>
+
+  <!-- Dynamic Island Navigation -->
+  <nav id="nav" role="navigation" aria-label="Main Navigation">
+    <div class="nav-island">
+      <a href="index.html" class="nav-brand" aria-label="Benyamin Namtalashvili Portfolio Home">
+        Benyamin Namtalashvili
+      </a>
+      <ul class="nav-links-wrap" role="list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="portfolio.html" class="active">Works &amp; Case Studies</a></li>
+        <li><a href="about.html">About &amp; Resume</a></li>
+      </ul>
+      <div class="nav-status-pill">
+        <span class="status-dot"></span>
+        <span>Available for Hire</span>
+      </div>
+      <button id="audioToggleBtn" class="nav-audio-toggle" title="Toggle Sound Effects">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+      <a href="contact.html" class="nav-cta-btn">
+        <span>Get in Touch</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN PORTFOLIO HERO SECTION WITH INTERACTIVE ANTIGRAVITY CAPSULES & BENTO METRICS -->
+  <section class="hero-section portfolio-hero-section" id="hero">
+    
+    <!-- Floating Anti-Gravity Draggable Physics Container -->
+    <div class="hero-antigravity-container" id="heroAntigravityStage">
+      <!-- Top Left Flank -->
+      <div class="antigravity-item squircle-item icon-n8n" data-initial-x="12" data-initial-y="10" data-rot="-12" data-scale="1.0">
+        <span>n8n</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-websites" data-initial-x="22" data-initial-y="16" data-rot="-25" data-scale="1.0">
+        <span class="capsule-text">Next.js 15</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-branding" data-initial-x="32" data-initial-y="12" data-rot="35" data-scale="1.0">
+        <span class="capsule-text">TypeScript</span>
+      </div>
+
+      <!-- Mid-Left Flank -->
+      <div class="antigravity-item squircle-item icon-ps" data-initial-x="10" data-initial-y="45" data-rot="0" data-scale="1.0">
+        <span>Ps</span>
+      </div>
+      <div class="antigravity-item squircle-item icon-ai" data-initial-x="6" data-initial-y="70" data-rot="15" data-scale="1.0">
+        <span>Ai</span>
+      </div>
+
+      <!-- Lower-Left Flank -->
+      <div class="antigravity-item capsule-item capsule-workflows" data-initial-x="18" data-initial-y="75" data-rot="-30" data-scale="1.0">
+        <span class="capsule-text">AI Copilots</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-3ddesign" data-initial-x="26" data-initial-y="68" data-rot="40" data-scale="1.0">
+        <span class="capsule-text">FastAPI</span>
+      </div>
+
+      <!-- Top Right Flank -->
+      <div class="antigravity-item capsule-item capsule-apps" data-initial-x="80" data-initial-y="12" data-rot="-15" data-scale="1.0">
+        <span class="capsule-text">React 19</span>
+      </div>
+      <div class="antigravity-item squircle-item icon-bolt" data-initial-x="89" data-initial-y="18" data-rot="20" data-scale="1.0">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+
+      <!-- Mid-Right Flank -->
+      <div class="antigravity-item squircle-item icon-ae" data-initial-x="88" data-initial-y="42" data-rot="-10" data-scale="1.0">
+        <span>Ae</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-metaverse" data-initial-x="78" data-initial-y="50" data-rot="30" data-scale="1.0">
+        <span class="capsule-text">PostgreSQL</span>
+      </div>
+
+      <!-- Lower-Right Flank -->
+      <div class="antigravity-item capsule-item capsule-animations" data-initial-x="82" data-initial-y="76" data-rot="-35" data-scale="1.0">
+        <span class="capsule-text">Tailwind v4</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-marketing" data-initial-x="93" data-initial-y="84" data-rot="25" data-scale="1.0">
+        <span class="capsule-text">Automations</span>
+      </div>
+    </div>
+
+    <!-- Centered Content Stage -->
+    <div class="container portfolio-hero-content">
+      
+      <!-- Overline Rating Pill -->
+      <div class="hero-rating-pill gsap-hero-reveal">
+        <span class="hero-stars">★★★★★</span>
+        <span>40+ Production Deployments · 99.4% Workflow Reliability · 30+ Enterprise Clients</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hero-title gsap-hero-reveal" style="max-width: 960px;">
+        Selected Works &amp; <span class="serif-italic">Automated Systems</span>.
+      </h1>
+
+      <!-- Interactive Figma Draggable Text Component -->
+      <div class="figma-drag-text-wrapper gsap-hero-reveal" id="figmaDragTextWrapper">
+        <!-- User Multiplayer Cursor -->
+        <div class="figma-user-cursor" id="figmaUserCursor">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#FF8C00" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <!-- Ghost Cursor & Scolding Chat Bubble -->
+        <div class="figma-ghost-cursor" id="figmaGhostCursor">
+          <svg class="figma-ghost-pointer" width="20" height="20" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#9333EA" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <span class="figma-ghost-badge">Benyamin</span>
+          <div class="figma-ghost-chat-bubble" id="figmaGhostChatBubble">
+            i told you do not drag that
+          </div>
+        </div>
+
+        <!-- Draggable Bounding Box -->
+        <div class="figma-draggable-box" id="figmaDraggableBox">
+          <div class="figma-status-tag">do not drag</div>
+          <span class="figma-red-handle figma-handle-tl"></span>
+          <span class="figma-red-handle figma-handle-tr"></span>
+          <span class="figma-red-handle figma-handle-bl"></span>
+          <span class="figma-red-handle figma-handle-br"></span>
+
+          <p class="hero-lead figma-text-content">
+            A comprehensive showcase of automated business pipelines, full-stack web platforms, AI agents, and graphic design assets delivered for clients worldwide.
+          </p>
+        </div>
+      </div>
+
+      <!-- Bento Stats Matrix Row -->
+      <div class="portfolio-stats-matrix gsap-hero-reveal">
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-orange">40+</div>
+          <div class="portfolio-stat-label">Projects Shipped</div>
+          <div class="portfolio-stat-sub">Enterprise &amp; Venture Startups</div>
+        </div>
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-green">100%</div>
+          <div class="portfolio-stat-label">Automated Logic</div>
+          <div class="portfolio-stat-sub">Zero Manual Operational Overhead</div>
+        </div>
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-blue">99.4%</div>
+          <div class="portfolio-stat-label">Pipeline Reliability</div>
+          <div class="portfolio-stat-sub">High-Volume Production Uptime</div>
+        </div>
+        <div class="portfolio-stat-card">
+          <div class="portfolio-stat-val accent-purple">30+</div>
+          <div class="portfolio-stat-label">Global Clients</div>
+          <div class="portfolio-stat-sub">US, UK, Europe &amp; APAC Markets</div>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="portfolio-filter-row gsap-hero-reveal" style="margin-top: 2rem;">
+        <button class="portfolio-filter-btn active" data-category="all">All Projects (18)</button>
+        <button class="portfolio-filter-btn" data-category="ai-automation">AI &amp; n8n Automation</button>
+        <button class="portfolio-filter-btn" data-category="fullstack">Full-Stack Web Dev</button>
+        <button class="portfolio-filter-btn" data-category="ai-agents">AI Agent Systems</button>
+        <button class="portfolio-filter-btn" data-category="design">Graphic &amp; UI/UX Design</button>
+        <button class="portfolio-filter-btn" data-category="modeling">Fashion &amp; Modeling</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CASE STUDY MASONRY GRID -->
+  <section style="padding: 2rem 0 6rem; background: #FFFFFF;">
+    <div class="container">
+      <div class="portfolio-grid" id="portfolioGrid">
+
+        <!-- Project: Graphico Scalable Web Platform -->
+        <a href="case-study-saas-platform.html" class="portfolio-card-item" data-category="fullstack">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Graphico Web</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/graphico-web-engine.jpg" alt="Graphico Business Growth Engine Web Architecture" loading="lazy"/>
+            <span class="portfolio-floating-tag">Web Architecture</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Graphico™ — Business Growth Engine &amp; Web Systems</h3>
+              <p class="portfolio-card-summary">
+                High-performance digital web applications engineered for speed, enterprise security, and seamless client scaling with modern interactive UI components.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">Next.js &amp; Vite</span>
+              <span class="portfolio-chip">TypeScript</span>
+              <span class="portfolio-chip">UI/UX Design</span>
+              <span class="portfolio-chip">SEO &amp; Scalability</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project: Estilo Salon Digital Launch -->
+        <a href="case-study-saas-platform.html" class="portfolio-card-item" data-category="fullstack">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Estilo Salon</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/estilo-salon-official-launch.jpg" alt="Estilo Salon Official Online Launch Digital Experience" loading="lazy"/>
+            <span class="portfolio-floating-tag">Digital Experience</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Estilo Salon — Luxury Online Platform &amp; Booking Launch</h3>
+              <p class="portfolio-card-summary">
+                Complete digital launch suite including responsive web catalogue, schedule booking integration, multi-device layouts, and high-impact luxury branding.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">Responsive Web</span>
+              <span class="portfolio-chip">UI Design</span>
+              <span class="portfolio-chip">Booking System</span>
+              <span class="portfolio-chip">Campaign Launch</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project: Amare Edge+ Product Line Architecture -->
+        <a href="case-study-design-system.html" class="portfolio-card-item" data-category="design">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Amare Edge+</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/amare-edge-lineup.jpg" alt="Amare Edge+ Product Line Architecture & Botanical Studio Display" loading="lazy"/>
+            <span class="portfolio-floating-tag">Packaging Design</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Amare Global — Edge+ Plant-Based Nootropic Line</h3>
+              <p class="portfolio-card-summary">
+                Holistic product packaging design, multi-flavor hierarchy architecture (Watermelon, Mango, Grape), botanical studio photography, and retail display collateral.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">Packaging Design</span>
+              <span class="portfolio-chip">Product Photography</span>
+              <span class="portfolio-chip">Flavor Systems</span>
+              <span class="portfolio-chip">Print Ready Dielines</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project: Brayne Tri-Fold Brochure -->
+        <a href="case-study-design-system.html" class="portfolio-card-item" data-category="design">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Brayne Brochure</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/brayne-trifold-brochure.jpg" alt="Brayne Digital Corporate Tri-Fold Print Collateral" loading="lazy"/>
+            <span class="portfolio-floating-tag">Print &amp; Identity</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Brayne Digital — Corporate Tri-Fold Marketing Collateral</h3>
+              <p class="portfolio-card-summary">
+                Editorial multi-panel print design with structured typographic hierarchies, custom iconography, corporate conversion copywriting, and vector graphics.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">Print Collateral</span>
+              <span class="portfolio-chip">Adobe Illustrator</span>
+              <span class="portfolio-chip">Editorial Layout</span>
+              <span class="portfolio-chip">Brand Identity</span>
+            </div>
+          </div>
+        </a>
+        
+        <!-- Project 01 -->
+        <a href="case-study-customer-support.html" class="portfolio-card-item" data-category="ai-automation">
+          <div class="figma-selection-box">
+            <span class="figma-tag">n8n AI Pipeline</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/port2.jpg" alt="n8n AI Workflow Automation" loading="lazy"/>
+            <span class="portfolio-floating-tag">n8n Automation</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Multi-Channel AI Lead &amp; CRM Pipeline</h3>
+              <p class="portfolio-card-summary">
+                Automated end-to-end customer lead capture via webhooks, enriched contacts with OpenAI/Claude APIs, integrated with Google Workspace, and synced instant notifications to Slack and Telegram.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">n8n</span>
+              <span class="portfolio-chip">Claude &amp; OpenAI API</span>
+              <span class="portfolio-chip">Slack &amp; Telegram</span>
+              <span class="portfolio-chip">Google Workspace</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 02 -->
+        <a href="case-study-saas-platform.html" class="portfolio-card-item" data-category="fullstack">
+          <div class="figma-selection-box">
+            <span class="figma-tag">SaaS Admin Portal</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/port3.jpg" alt="Laravel & React Web Platform" loading="lazy"/>
+            <span class="portfolio-floating-tag">Full-Stack Web</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Laravel &amp; React Enterprise Admin Portal</h3>
+              <p class="portfolio-card-summary">
+                Built responsive web applications, secure REST APIs, role-based authentication modules, and real-time database management systems using Laravel, PHP, MySQL, and Tailwind CSS.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">Laravel 11</span>
+              <span class="portfolio-chip">PHP &amp; MySQL</span>
+              <span class="portfolio-chip">React</span>
+              <span class="portfolio-chip">REST APIs</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 03 -->
+        <a href="case-study-invoice-processor.html" class="portfolio-card-item" data-category="ai-agents">
+          <div class="figma-selection-box">
+            <span class="figma-tag">AI Copilots &amp; MCP</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/hero.jpg" alt="Autonomous AI Agents" loading="lazy"/>
+            <span class="portfolio-floating-tag">AI Agents</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Autonomous AI Business Copilots &amp; MCP</h3>
+              <p class="portfolio-card-summary">
+                Designed customized AI agents using Claude, ChatGPT, Cursor, and Model Context Protocol (MCP) to automate complex data analysis, customer support triage, and document summarization.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">MCP Tools</span>
+              <span class="portfolio-chip">Claude Code</span>
+              <span class="portfolio-chip">Cursor AI</span>
+              <span class="portfolio-chip">Prompt Engineering</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 04 -->
+        <a href="case-study-design-system.html" class="portfolio-card-item" data-category="design">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Aviator Brand Assets</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/stats-team.jpg" alt="The Aviator Store E-Commerce Graphics" loading="lazy"/>
+            <span class="portfolio-floating-tag">Graphic Design</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">The Aviator Store — E-Commerce Brand Assets</h3>
+              <p class="portfolio-card-summary">
+                Designed promotional marketing banners, e-commerce product graphics, and social media campaigns while maintaining strict brand consistency and on-time remote delivery.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">Adobe Photoshop</span>
+              <span class="portfolio-chip">Illustrator</span>
+              <span class="portfolio-chip">E-Commerce</span>
+              <span class="portfolio-chip">Branding</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 05 -->
+        <a href="case-study-saas-platform.html" class="portfolio-card-item" data-category="fullstack">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Bryance Digital</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/team2.jpg" alt="Bryance Digital Front-End Projects" loading="lazy"/>
+            <span class="portfolio-floating-tag">Front-End &amp; UI</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Bryance Digital — High-Converting Landing Pages</h3>
+              <p class="portfolio-card-summary">
+                Developed responsive client websites using HTML, CSS, JavaScript, WordPress, and Laravel, optimizing loading speeds and measurably boosting user engagement.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">WordPress</span>
+              <span class="portfolio-chip">HTML5 / CSS3 / JS</span>
+              <span class="portfolio-chip">Elementor</span>
+              <span class="portfolio-chip">UI/UX</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 06 -->
+        <a href="case-study-design-system.html" class="portfolio-card-item" data-category="design">
+          <div class="figma-selection-box">
+            <span class="figma-tag">TESDA NC III</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/team3.jpg" alt="TESDA NC III Graphic Identity" loading="lazy"/>
+            <span class="portfolio-floating-tag">TESDA Certified</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <h3 class="portfolio-client-title">Visual Graphic Design NC III Showcase</h3>
+              <p class="portfolio-card-summary">
+                A certified portfolio of vector logos, print brochures, corporate stationery, and social media marketing systems produced under rigorous TESDA National Certificate III standards.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">TESDA NC III</span>
+              <span class="portfolio-chip">Print &amp; Vector</span>
+              <span class="portfolio-chip">Figma</span>
+              <span class="portfolio-chip">Canva Pro</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Project 07: Modeling & Editorial Portfolio -->
+        <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="portfolio-card-item" data-category="modeling">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Modeling Portfolio</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="portfolio-card-media-wrap">
+            <img src="assets/me.jpg" alt="Benyamin Editorial and Fashion Modeling Portfolio" loading="lazy"/>
+            <span class="portfolio-floating-tag" style="background:rgba(0,0,0,0.85); border:1px solid rgba(255,255,255,0.2);">Fashion &amp; Runway</span>
+          </div>
+          <div class="portfolio-card-content">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem;">
+                <span style="font-size:0.75rem; font-family:var(--font-mono); color:var(--apple-blue); font-weight:700; text-transform:uppercase;">bensmodelingportfolio.netlify.app ↗</span>
+                <span class="tabular-nums" style="font-family:var(--font-mono); font-size:0.75rem; color:var(--ink-tertiary);">2026</span>
+              </div>
+              <h3 class="portfolio-client-title">Benyamin — High Fashion &amp; Editorial Modeling</h3>
+              <p class="portfolio-card-summary">
+                Official creative modeling portfolio showcasing high-fashion editorial campaigns, runway assignments, interactive photo galleries, polaroids, and digital agency comp cards.
+              </p>
+            </div>
+            <div class="portfolio-specs-row">
+              <span class="portfolio-chip">High Fashion</span>
+              <span class="portfolio-chip">Editorial &amp; Runway</span>
+              <span class="portfolio-chip">Commercial</span>
+              <span class="portfolio-chip">Comp Card</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Masterpiece Discovery CTA Banner With Physics Pills -->
+      <div class="cta-masterpiece-banner" id="ctaPhysicsContainer" style="margin-top: 5rem;">
+        <!-- Matter.js Interactive 2D Physics Canvas (z-index: 1) -->
+        <canvas id="physicsCanvas" class="physics-canvas"></canvas>
+
+        <!-- Typography & Content Overlay (z-index: 10, pointer-events: none) -->
+        <div class="cta-content-overlay">
+          <h2 class="cta-banner-title">
+            Ready to craft your <span class="serif-italic-accent">masterpiece?</span>
+          </h2>
+          <p class="cta-banner-desc">
+            Let's build something extraordinary together. Book a strategy session today.
+          </p>
+          <div class="cta-btn-wrap">
+            <a href="contact.html" class="cta-banner-btn">
+              <span>Schedule Discovery Call</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIGMA DESIGNER FRAME FOOTER -->
+  <footer class="designer-footer" id="designerFooter">
+    <!-- Top Meta Bar with Tag and Back to Top -->
+    <div class="footer-frame-top">
+      <div class="footer-frame-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>BENYAMIN.FRAME</span>
+      </div>
+      
+      <button class="footer-top-btn" id="footerBackToTop" aria-label="Scroll back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Interactive Canvas Dot Matrix Background -->
+    <canvas class="footer-grid-canvas"></canvas>
+
+    <div class="footer-main-content">
+      <div class="footer-left-col">
+        <div class="footer-eyebrow">HAVE AN IDEA WORTH BUILDING?</div>
+        
+        <a href="mailto:benyaminnamtalashvili726@gmail.com" class="footer-giant-email">
+          <span>benyaminnamtalashvili726@gmail.com</span>
+          <span class="footer-email-arrow">↗</span>
+        </a>
+
+        <div class="footer-cta-action-row">
+          <a href="contact.html" class="footer-orange-btn">
+            <span>Show us the idea</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <div class="footer-avail-pill">
+            <span class="avail-dot"></span>
+            <span>available for projects</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Columns -->
+      <div class="footer-nav-cols">
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">STUDIO</div>
+          <ul class="footer-nav-items">
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html#resume">Resume</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">EXPERTISE</div>
+          <ul class="footer-nav-items">
+            <li><a href="services.html">AI Automation</a></li>
+            <li><a href="services.html">Full-Stack Dev</a></li>
+            <li><a href="services.html">Brand Systems</a></li>
+            <li><a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer">Modeling</a></li>
+            <li><a href="services.html">UI/UX Systems</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">CONNECT</div>
+          <ul class="footer-nav-items">
+            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="mailto:benyaminnamtalashvili726@gmail.com">Email</a></li>
+            <li><a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Massive Bottom Wordmark Display -->
+    <div class="footer-massive-wordmark" aria-hidden="true">
+      <span class="wordmark-orange">B</span>enyamin
+    </div>
+
+    <!-- Bottom Technical Colophon Bar -->
+    <div class="footer-technical-bar">
+      <div class="tech-bar-left">
+        <span class="tech-sq-dot">■</span>
+        <span class="tech-file-name">benyamin.fig</span>
+      </div>
+      <div class="tech-bar-center">
+        <span class="tech-live-dot">●</span>
+        <span id="footerCursorCount">2 cursors online</span>
+        <span class="tech-divider">·</span>
+        <span id="footerClockTime">11:15 PHT</span>
+      </div>
+      <div class="tech-bar-right">
+        <span>&copy; 2026 · engineered by Benyamin Namtalashvili, not framer</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lenis Smooth Scroll & GSAP 3 CDN -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+  <!-- Matter.js Physics Engine & Interactive CTA Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <script src="physics-cta.js"></script>
+  <script src="hero-antigravity.js"></script>
+  <script src="figma-draggable-text.js"></script>
+  <script src="capabilities-draggable.js"></script>
+  <script src="footer-interactive-canvas.js"></script>
+  <script src="main.js"></script>
+
+
+  <!-- Dynamic Filter Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterBtns = document.querySelectorAll('.portfolio-filter-btn');
+      const cards = document.querySelectorAll('#portfolioGrid .portfolio-card-item');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const category = btn.getAttribute('data-category');
+
+          cards.forEach(card => {
+            if (category === 'all' || card.getAttribute('data-category') === category) {
+              card.style.display = 'flex';
+              if (typeof gsap !== 'undefined') {
+                gsap.fromTo(card, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
+              }
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

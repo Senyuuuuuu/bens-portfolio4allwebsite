@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Services &amp; Capabilities — Benyamin Namtalashvili</title>
+  <meta name="description" content="AI workflow automation, full-stack web development, and graphic design services by Benyamin Namtalashvili."/>
+  
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+
+  <style>
+    .capabilities-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+
+    .cap-card {
+      background: var(--canvas-pure);
+      border: 1px solid var(--hairline-light);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s var(--ease-apple), box-shadow 0.3s var(--ease-apple);
+    }
+
+    .cap-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-product);
+    }
+
+    .cap-num {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--apple-blue);
+      margin-bottom: 1.2rem;
+    }
+
+    .cap-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.8rem;
+      color: var(--ink-primary);
+    }
+
+    .cap-desc {
+      font-size: 0.92rem;
+      color: var(--ink-secondary);
+      line-height: 1.65;
+      margin-bottom: 1.8rem;
+    }
+
+    .cap-deliverables {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      border-top: 1px solid var(--hairline-light);
+      padding-top: 1.25rem;
+    }
+
+    .cap-deliverables li {
+      font-size: 0.84rem;
+      color: var(--ink-primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cap-deliverables li::before {
+      content: "✦";
+      color: var(--apple-blue);
+      font-size: 0.75rem;
+    }
+
+    /* Interactive ROI Calculator Section */
+    .roi-calc-section {
+      padding: 6rem 0;
+      background: var(--canvas-parchment);
+      border-top: 1px solid var(--hairline-light);
+      border-bottom: 1px solid var(--hairline-light);
+    }
+
+    .roi-calc-card {
+      background: var(--canvas-pure);
+      border: 1px solid var(--hairline-light);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      box-shadow: var(--shadow-card);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .calc-slider-group {
+      margin-bottom: 2rem;
+    }
+
+    .calc-label-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .calc-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: var(--radius-pill);
+      background: #E5E5EA;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--apple-blue);
+      box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .calc-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .roi-results-box {
+      background: var(--obsidian-base);
+      color: var(--canvas-pure);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+
+    .engagement-models-section {
+      padding: 7rem 0;
+      background: var(--obsidian-base);
+      color: var(--canvas-pure);
+    }
+
+    .engagement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+
+    .engagement-card {
+      background: var(--obsidian-tile-2);
+      border: 1px solid var(--hairline-dark);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s var(--ease-apple);
+    }
+
+    .engagement-card.featured {
+      border-color: var(--apple-blue);
+      background: linear-gradient(180deg, rgba(0, 113, 227, 0.12) 0%, var(--obsidian-tile-2) 100%);
+      box-shadow: 0 0 40px rgba(0, 113, 227, 0.25);
+    }
+
+    .engagement-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .tier-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .tier-price {
+      font-family: var(--font-display);
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin: 1.2rem 0;
+      color: var(--canvas-pure);
+    }
+
+    .tier-desc {
+      font-size: 0.9rem;
+      color: var(--ink-dark-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    @media (max-width: 1024px) {
+      .capabilities-grid, .engagement-grid, .roi-calc-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Glow -->
+  <div id="ambientGlow"></div>
+
+  <!-- Dynamic Island Navigation -->
+  <nav id="nav" role="navigation" aria-label="Main Navigation">
+    <div class="nav-island">
+      <a href="index.html" class="nav-brand" aria-label="Benyamin Namtalashvili Portfolio Home">
+        Benyamin Namtalashvili
+      </a>
+      <ul class="nav-links-wrap" role="list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="portfolio.html">Works &amp; Case Studies</a></li>
+        <li><a href="about.html">About &amp; Resume</a></li>
+      </ul>
+      <div class="nav-status-pill">
+        <span class="status-dot"></span>
+        <span>Available for Hire</span>
+      </div>
+      <button id="audioToggleBtn" class="nav-audio-toggle" title="Toggle Sound Effects">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+      <a href="contact.html" class="nav-cta-btn">
+        <span>Get in Touch</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- SERVICES HERO -->
+  <section style="padding: 9.5rem 0 3.5rem; background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 100%);">
+    <div class="container">
+      <div class="sec-tag">Services &amp; Offerings</div>
+      <h1 class="hero-title">
+        High-impact <span class="serif-italic">capabilities</span> for modern businesses.
+      </h1>
+      <p class="hero-lead">
+        From multi-step autonomous AI workflows to full-stack web applications and certified graphic design, explore how I help founders and teams automate, scale, and captivate.
+      </p>
+
+      <div class="capabilities-grid">
+        <!-- Cap 01 -->
+        <div class="cap-card">
+          <div>
+            <div class="cap-num">01 // AUTOMATION</div>
+            <h3 class="cap-title">n8n &amp; AI Workflow Systems</h3>
+            <p class="cap-desc">
+              End-to-end automated pipelines connecting CRMs, Google Workspace, email processing, Slack/Telegram bots, and OpenAI/Claude APIs.
+            </p>
+          </div>
+          <ul class="cap-deliverables">
+            <li>n8n Custom Workflow Architecture</li>
+            <li>OpenAI &amp; Claude API Integration</li>
+            <li>Automated Lead Triage &amp; CRM Sync</li>
+            <li>Multi-Channel Bot Setup (Slack/Discord)</li>
+          </ul>
+        </div>
+
+        <!-- Cap 02 -->
+        <div class="cap-card">
+          <div>
+            <div class="cap-num">02 // WEB DEV</div>
+            <h3 class="cap-title">Full-Stack Web &amp; REST APIs</h3>
+            <p class="cap-desc">
+              Building fast, secure web applications, database-driven admin dashboards, and custom REST APIs in Laravel, PHP, React, and MySQL.
+            </p>
+          </div>
+          <ul class="cap-deliverables">
+            <li>Laravel &amp; PHP Backend Systems</li>
+            <li>React &amp; Tailwind Responsive Frontends</li>
+            <li>Database Architecture (MySQL / Supabase)</li>
+            <li>Secure Authentication &amp; CRUD Modules</li>
+          </ul>
+        </div>
+
+        <!-- Cap 03 -->
+        <div class="cap-card">
+          <div>
+            <div class="cap-num">03 // DESIGN</div>
+            <h3 class="cap-title">Graphic Design &amp; Brand Assets</h3>
+            <p class="cap-desc">
+              TESDA NC III certified design services: vector logo systems, promotional banners, e-commerce graphics, brochures, and UI wireframes.
+            </p>
+          </div>
+          <ul class="cap-deliverables">
+            <li>Figma UI Mockups &amp; Wireframes</li>
+            <li>Adobe Photoshop &amp; Illustrator Assets</li>
+            <li>E-Commerce Product &amp; Promo Banners</li>
+            <li>Complete Visual Brand Guidelines</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE ROI CALCULATOR SECTION -->
+  <section class="roi-calc-section">
+    <div class="container">
+      <div class="sec-tag">Interactive Estimator</div>
+      <h2 class="section-h2">
+        Calculate your <span class="serif-italic">Automation ROI</span>.
+      </h2>
+      <p class="section-desc" style="margin-bottom: 2.5rem;">
+        See how much time and operational budget custom n8n + AI Agent workflows can reclaim for your team annually.
+      </p>
+
+      <div class="roi-calc-card">
+        <!-- Controls -->
+        <div>
+          <div class="calc-slider-group">
+            <div class="calc-label-row">
+              <span>Manual Workflow Hours / Week:</span>
+              <span id="hoursLabel" class="tabular-nums" style="color:var(--apple-blue); font-weight:700;">25 hrs/wk</span>
+            </div>
+            <input type="range" min="5" max="80" value="25" class="calc-slider" id="hoursSlider"/>
+          </div>
+
+          <div class="calc-slider-group">
+            <div class="calc-label-row">
+              <span>Average Team Hourly Rate ($):</span>
+              <span id="rateLabel" class="tabular-nums" style="color:var(--apple-blue); font-weight:700;">$45 / hr</span>
+            </div>
+            <input type="range" min="20" max="150" value="45" step="5" class="calc-slider" id="rateSlider"/>
+          </div>
+
+          <div style="font-size:0.82rem; color:var(--ink-secondary); line-height:1.5;">
+            ✦ Based on 75% average manual task elimination achieved across past enterprise n8n workflow deployments.
+          </div>
+        </div>
+
+        <!-- Calculated Output Box -->
+        <div class="roi-results-box">
+          <div>
+            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--apple-sky); margin-bottom:0.5rem; text-transform:uppercase;">
+              ESTIMATED ANNUAL VALUE RECLAIMED
+            </div>
+            <div id="savingsResult" class="tabular-nums" style="font-size:3rem; font-weight:800; letter-spacing:-0.03em; color:#34C759; margin-bottom:0.4rem;">
+              $43,875
+            </div>
+            <div id="hoursResult" class="tabular-nums" style="font-size:0.9rem; color:var(--ink-dark-secondary);">
+              Reclaiming approx. <strong>975 hours / year</strong> of high-value team focus.
+            </div>
+          </div>
+
+          <div style="border-top:1px solid rgba(255,255,255,0.12); padding-top:1.25rem; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.8rem; color:#A1A1A6;">Recommended Architecture:</span>
+            <a href="contact.html" class="btn-apple-primary" style="padding:0.45rem 1.1rem; font-size:0.8rem;">
+              <span>Scope This Setup</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENT TIERS -->
+  <section class="engagement-models-section">
+    <div class="container">
+      <div class="sec-tag dark">Pricing &amp; Engagements</div>
+      <h2 class="section-h2 dark">
+        Transparent advisory &amp; project sprints.
+      </h2>
+      <p class="section-desc dark">
+        Tailored engagement models designed for startups, agencies, and growing online businesses.
+      </p>
+
+      <div class="engagement-grid">
+        <!-- Tier 1 -->
+        <div class="engagement-card">
+          <div>
+            <span class="cap-num" style="color:var(--apple-sky);">TIER 01 // SPRINT</span>
+            <h3 class="tier-name">Workflow Automation Sprint</h3>
+            <div class="tier-price tabular-nums">$1,250 <span style="font-size:1rem; font-weight:400; color:var(--ink-dark-secondary);">/ setup</span></div>
+            <p class="tier-desc">
+              Rapid deployment of custom n8n workflows connecting your core tools, lead triage, and AI agents within 5–7 business days.
+            </p>
+          </div>
+          <ul class="cap-deliverables" style="border-color:rgba(255,255,255,0.1); margin-bottom:2rem;">
+            <li style="color:#FFF;">Up to 3 Custom n8n Workflows</li>
+            <li style="color:#FFF;">Claude / OpenAI API Integration</li>
+            <li style="color:#FFF;">CRM &amp; Slack/Telegram Sync</li>
+            <li style="color:#FFF;">14 Days Post-Launch Support</li>
+          </ul>
+          <a href="contact.html" class="btn-apple-dark" style="text-align:center; justify-content:center;">Book Sprint</a>
+        </div>
+
+        <!-- Tier 2 (Featured) -->
+        <div class="engagement-card featured">
+          <div>
+            <span class="cap-num" style="color:var(--apple-sky);">TIER 02 // FLAGSHIP</span>
+            <h3 class="tier-name">Full-Stack &amp; AI Integration</h3>
+            <div class="tier-price tabular-nums">$2,800 <span style="font-size:1rem; font-weight:400; color:var(--ink-dark-secondary);">/ project</span></div>
+            <p class="tier-desc">
+              Comprehensive web platform build (Laravel/React) with integrated AI automation, custom database schema, and admin portal.
+            </p>
+          </div>
+          <ul class="cap-deliverables" style="border-color:rgba(255,255,255,0.1); margin-bottom:2rem;">
+            <li style="color:#FFF;">Full-Stack Laravel + React Portal</li>
+            <li style="color:#FFF;">End-to-End n8n AI Pipeline</li>
+            <li style="color:#FFF;">Database Architecture &amp; REST APIs</li>
+            <li style="color:#FFF;">Complete Brand Visual Graphics</li>
+            <li style="color:#FFF;">30 Days Dedicated Support</li>
+          </ul>
+          <a href="contact.html" class="btn-apple-primary" style="text-align:center; justify-content:center;">Start Flagship Project</a>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="engagement-card">
+          <div>
+            <span class="cap-num" style="color:var(--apple-sky);">TIER 03 // PARTNERSHIP</span>
+            <h3 class="tier-name">Dedicated Fractional Retainer</h3>
+            <div class="tier-price tabular-nums">$1,850 <span style="font-size:1rem; font-weight:400; color:var(--ink-dark-secondary);">/ month</span></div>
+            <p class="tier-desc">
+              Ongoing technical partner managing, optimizing, and building all your internal automations, web platforms, and design assets.
+            </p>
+          </div>
+          <ul class="cap-deliverables" style="border-color:rgba(255,255,255,0.1); margin-bottom:2rem;">
+            <li style="color:#FFF;">20 Hours / Week Dedicated Focus</li>
+            <li style="color:#FFF;">Continuous Automation Optimization</li>
+            <li style="color:#FFF;">Full-Stack Feature Maintenance</li>
+            <li style="color:#FFF;">On-Demand Graphic Design Assets</li>
+            <li style="color:#FFF;">Priority 1-Hour SLA Support</li>
+          </ul>
+          <a href="contact.html" class="btn-apple-dark" style="text-align:center; justify-content:center;">Inquire Retainer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIGMA DESIGNER FRAME FOOTER -->
+  <footer class="designer-footer" id="designerFooter">
+    <!-- Top Meta Bar with Tag and Back to Top -->
+    <div class="footer-frame-top">
+      <div class="footer-frame-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>BENYAMIN.FRAME</span>
+      </div>
+      
+      <button class="footer-top-btn" id="footerBackToTop" aria-label="Scroll back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Interactive Canvas Dot Matrix Background -->
+    <canvas class="footer-grid-canvas"></canvas>
+
+    <div class="footer-main-content">
+      <div class="footer-left-col">
+        <div class="footer-eyebrow">HAVE AN IDEA WORTH BUILDING?</div>
+        
+        <a href="mailto:benyaminnamtalashvili726@gmail.com" class="footer-giant-email">
+          <span>benyaminnamtalashvili726@gmail.com</span>
+          <span class="footer-email-arrow">↗</span>
+        </a>
+
+        <div class="footer-cta-action-row">
+          <a href="contact.html" class="footer-orange-btn">
+            <span>Show us the idea</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <div class="footer-avail-pill">
+            <span class="avail-dot"></span>
+            <span>available for projects</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Columns -->
+      <div class="footer-nav-cols">
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">STUDIO</div>
+          <ul class="footer-nav-items">
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html#resume">Resume</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">EXPERTISE</div>
+          <ul class="footer-nav-items">
+            <li><a href="services.html">AI Automation</a></li>
+            <li><a href="services.html">Full-Stack Dev</a></li>
+            <li><a href="services.html">Brand Systems</a></li>
+            <li><a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer">Modeling</a></li>
+            <li><a href="services.html">UI/UX Systems</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">CONNECT</div>
+          <ul class="footer-nav-items">
+            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="mailto:benyaminnamtalashvili726@gmail.com">Email</a></li>
+            <li><a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Massive Bottom Wordmark Display -->
+    <div class="footer-massive-wordmark" aria-hidden="true">
+      <span class="wordmark-orange">B</span>enyamin
+    </div>
+
+    <!-- Bottom Technical Colophon Bar -->
+    <div class="footer-technical-bar">
+      <div class="tech-bar-left">
+        <span class="tech-sq-dot">■</span>
+        <span class="tech-file-name">benyamin.fig</span>
+      </div>
+      <div class="tech-bar-center">
+        <span class="tech-live-dot">●</span>
+        <span id="footerCursorCount">2 cursors online</span>
+        <span class="tech-divider">·</span>
+        <span id="footerClockTime">11:15 PHT</span>
+      </div>
+      <div class="tech-bar-right">
+        <span>&copy; 2026 · engineered by Benyamin Namtalashvili, not framer</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lenis Smooth Scroll & GSAP 3 CDN -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="footer-interactive-canvas.js"></script>
+  <script src="main.js"></script>
+
+  <!-- Interactive ROI Calculator Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hoursSlider = document.getElementById('hoursSlider');
+      const rateSlider = document.getElementById('rateSlider');
+      const hoursLabel = document.getElementById('hoursLabel');
+      const rateLabel = document.getElementById('rateLabel');
+      const savingsResult = document.getElementById('savingsResult');
+      const hoursResult = document.getElementById('hoursResult');
+
+      function updateROI() {
+        const hours = parseInt(hoursSlider.value);
+        const rate = parseInt(rateSlider.value);
+
+        hoursLabel.textContent = `${hours} hrs/wk`;
+        rateLabel.textContent = `$${rate} / hr`;
+
+        // 75% manual efficiency gain over 52 weeks
+        const annualHoursSaved = Math.round(hours * 52 * 0.75);
+        const annualDollarSavings = annualHoursSaved * rate;
+
+        savingsResult.textContent = `$${annualDollarSavings.toLocaleString()}`;
+        hoursResult.innerHTML = `Reclaiming approx. <strong>${annualHoursSaved.toLocaleString()} hours / year</strong> of high-value team focus.`;
+      }
+
+      hoursSlider.addEventListener('input', updateROI);
+      rateSlider.addEventListener('input', updateROI);
+      updateROI();
+    });
+  </script>
+</body>
+</html>
