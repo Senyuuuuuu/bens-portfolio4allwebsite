@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Benyamin Namtalashvili — AI Automation Specialist &amp; Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of Benyamin Namtalashvili — Graphic Design, Web Development &amp; AI Workflow Automation."/>
+  
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- Interactive Ambient Background Glow -->
+  <div id="ambientGlow"></div>
+
+  <!-- Custom Tracking Drag Cursor Badge (Phase 4) -->
+  <div class="drag-cursor-badge" id="dragCursorBadge" aria-hidden="true">
+    <span class="drag-cursor-label">&lt; DRAG &gt;</span>
+  </div>
+
+  <!-- Desktop Hover View Indicator Pill -->
+  <div class="view-photo-pill" id="viewPhotoPill">Explore Project</div>
+
+  <!-- Dynamic Island Navigation -->
+  <nav id="nav" role="navigation" aria-label="Main Navigation">
+    <div class="nav-island">
+      <a href="index.html" class="nav-brand" aria-label="Benyamin Namtalashvili Portfolio Home">
+        Benyamin Namtalashvili
+      </a>
+      <ul class="nav-links-wrap" role="list">
+        <li><a href="index.html" class="active">Overview</a></li>
+        <li><a href="portfolio.html">Works &amp; Case Studies</a></li>
+        <li><a href="about.html">About &amp; Resume</a></li>
+      </ul>
+      <div class="nav-status-pill">
+        <span class="status-dot"></span>
+        <span>Available for Hire</span>
+      </div>
+      <button id="audioToggleBtn" class="nav-audio-toggle" title="Toggle Sound Effects">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+      <a href="contact.html" class="nav-cta-btn magnetic-3d">
+        <span>Get in Touch</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN HERO SECTION WITH INTERACTIVE ANTIGRAVITY FLOATING CAPSULES & BADGES -->
+  <section class="hero-section" id="hero">
+    
+    <!-- Floating Anti-Gravity Draggable Physics Container -->
+    <div class="hero-antigravity-container" id="heroAntigravityStage">
+
+      <!-- Top Left Flank -->
+      <div class="antigravity-item squircle-item icon-ps" data-initial-x="13" data-initial-y="8" data-rot="-8" data-scale="1.0">
+        <span>Ps</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-animations" data-initial-x="22" data-initial-y="14" data-rot="-30" data-scale="1.0">
+        <span class="capsule-text">Animations</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-branding" data-initial-x="30" data-initial-y="15" data-rot="42" data-scale="1.0">
+        <span class="capsule-text">Branding</span>
+      </div>
+
+      <!-- Mid-Left Flank -->
+      <div class="antigravity-item squircle-item icon-n8n" data-initial-x="12" data-initial-y="38" data-rot="0" data-scale="1.0">
+        <span>n8n</span>
+      </div>
+      <div class="antigravity-item squircle-item icon-ai" data-initial-x="4" data-initial-y="65" data-rot="0" data-scale="1.0">
+        <span>Ai</span>
+      </div>
+
+      <!-- Lower-Left Flank -->
+      <div class="antigravity-item capsule-item capsule-3ddesign" data-initial-x="15" data-initial-y="73" data-rot="40" data-scale="1.0">
+        <span class="capsule-text">3D Design</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-workflows" data-initial-x="22" data-initial-y="65" data-rot="-45" data-scale="1.0">
+        <span class="capsule-text">AI Workflows</span>
+      </div>
+
+      <!-- Top Right Flank -->
+      <div class="antigravity-item capsule-item capsule-apps" data-initial-x="80" data-initial-y="15" data-rot="0" data-scale="1.0">
+        <span class="capsule-text">Apps</span>
+      </div>
+
+      <!-- Mid-Right Flank -->
+      <div class="antigravity-item squircle-item icon-ae" data-initial-x="89" data-initial-y="36" data-rot="0" data-scale="1.0">
+        <span>Ae</span>
+      </div>
+      <div class="antigravity-item squircle-item icon-bolt" data-initial-x="94" data-initial-y="40" data-rot="0" data-scale="1.0">
+        <i class="fa-solid fa-bolt" style="font-size: 1.45rem;"></i>
+      </div>
+
+      <!-- Lower-Right Flank -->
+      <div class="antigravity-item capsule-item capsule-websites" data-initial-x="86" data-initial-y="73" data-rot="-25" data-scale="1.0">
+        <span class="capsule-text">Websites</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-metaverse" data-initial-x="80" data-initial-y="84" data-rot="-42" data-scale="1.0">
+        <span class="capsule-text">Metaverse</span>
+      </div>
+      <div class="antigravity-item capsule-item capsule-marketing" data-initial-x="95" data-initial-y="88" data-rot="45" data-scale="1.0">
+        <span class="capsule-text">Marketing</span>
+      </div>
+
+    </div>
+
+    <!-- Centered Content Stage -->
+    <div class="container hero-content-container">
+      
+      <!-- Overline Rating Pill -->
+      <div class="hero-rating-pill gsap-hero-reveal">
+        <span class="hero-stars">★★★★★</span>
+        <span>5/5 Rated by 30+ Venture CEOs &amp; Brands</span>
+      </div>
+
+      <!-- Main Headline (Current Website Text) -->
+      <h1 class="hero-title gsap-hero-reveal">
+        Architecting <span class="serif-italic">visual branding, web platforms</span> &amp; AI workflows.
+      </h1>
+
+      <!-- Interactive Figma Draggable Text Component -->
+      <div class="figma-drag-text-wrapper gsap-hero-reveal" id="figmaDragTextWrapper">
+        <!-- User Multiplayer Cursor (Pointer only) -->
+        <div class="figma-user-cursor" id="figmaUserCursor">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#FF8C00" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <!-- Ghost Cursor & Scolding Chat Bubble -->
+        <div class="figma-ghost-cursor" id="figmaGhostCursor">
+          <svg class="figma-ghost-pointer" width="20" height="20" viewBox="0 0 18 18" fill="none">
+            <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#9333EA" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <span class="figma-ghost-badge">Benyamin</span>
+          <div class="figma-ghost-chat-bubble" id="figmaGhostChatBubble">
+            i told you do not drag that
+          </div>
+        </div>
+
+        <!-- Draggable Bounding Box with Burnt Orange Dashed Border & Handles -->
+        <div class="figma-draggable-box" id="figmaDraggableBox">
+          <div class="figma-status-tag">do not drag</div>
+          <span class="figma-red-handle figma-handle-tl"></span>
+          <span class="figma-red-handle figma-handle-tr"></span>
+          <span class="figma-red-handle figma-handle-bl"></span>
+          <span class="figma-red-handle figma-handle-br"></span>
+
+          <p class="hero-lead figma-text-content">
+            I engineer high-impact graphic design systems, scalable full-stack web applications, and autonomous n8n automation pipelines that drive revenue, eliminate manual friction, and scale businesses effortlessly.
+          </p>
+        </div>
+      </div>
+
+      <!-- Pill Action Buttons -->
+      <div class="hero-actions-row gsap-hero-reveal">
+        <a href="#featured-projects" class="btn-pill-primary">
+          <span>Explore Featured Works</span>
+          <i class="fa-solid fa-arrow-right" style="font-size: 0.85rem;"></i>
+        </a>
+        <a href="about.html" class="btn-pill-outline">View Full Resume</a>
+        <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-pill-outline" style="border-color: rgba(255, 107, 0, 0.3); background: rgba(255, 107, 0, 0.04); color: var(--apple-blue);">
+          <i class="fa-solid fa-camera" style="margin-right: 4px;"></i>
+          <span>Modeling Portfolio</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem; margin-left: 2px;"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 4K CINEMA STAGE & VIDEO SHOWCASE SECTION (FIVER AD FINAL.mp4) -->
+  <section class="video-showcase-section" id="video-showcase">
+    <div class="container">
+      <div class="hero-stage-wrap">
+        <div class="hero-device-stage">
+          
+          <!-- Apple Top Bar with Traffic Lights (No text above) -->
+          <div class="stage-top-bar-minimal">
+            <div class="stage-traffic-lights">
+              <span class="traffic-light red"></span>
+              <span class="traffic-light yellow"></span>
+              <span class="traffic-light green"></span>
+            </div>
+          </div>
+
+          <!-- Video Canvas with Rounded Corners inside Apple Frame -->
+          <div class="prototype-canvas-visual">
+            <video src="FIVER AD FINAL.mp4" autoplay loop muted playsinline class="hero-stage-video" id="heroVideoPlayer"></video>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECT LOGOS & BRAND IDENTITIES MARQUEE -->
+  <section class="clients-section">
+    <div class="container">
+      <div style="text-align:center; margin-bottom:1.8rem; font-family:var(--font-mono); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.14em; color:var(--ink-tertiary);">
+        ✦ Featured Project Logos &amp; Brand Identities
+      </div>
+      <div class="clients-marquee-wrap">
+        <div class="clients-track">
+          
+          <!-- Logo 01: Bryance Digital -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <span class="logo-brand-name">BRYANCE DIGITAL</span>
+          </div>
+
+          <!-- Logo 02: The Aviator Store -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-plane-up"></i>
+            </div>
+            <span class="logo-brand-name">THE AVIATOR STORE</span>
+          </div>
+
+          <!-- Logo 03: Aeline AI -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <span class="logo-brand-name">AELINE AI</span>
+          </div>
+
+          <!-- Logo 04: Neural OS -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <span class="logo-brand-name">NEURAL.OS</span>
+          </div>
+
+          <!-- Logo 05: HyperCommerce -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-cube"></i>
+            </div>
+            <span class="logo-brand-name">HYPERCOMMERCE</span>
+          </div>
+
+          <!-- Logo 06: Apex Automation -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <span class="logo-brand-name">APEX AUTOMATION</span>
+          </div>
+
+          <!-- Logo 07: Veloce Labs -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-atom"></i>
+            </div>
+            <span class="logo-brand-name">VELOCE LABS</span>
+          </div>
+
+          <!-- DUPLICATE SET FOR SEAMLESS 100% LOOP -->
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <span class="logo-brand-name">BRYANCE DIGITAL</span>
+          </div>
+
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-plane-up"></i>
+            </div>
+            <span class="logo-brand-name">THE AVIATOR STORE</span>
+          </div>
+
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <span class="logo-brand-name">AELINE AI</span>
+          </div>
+
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <span class="logo-brand-name">NEURAL.OS</span>
+          </div>
+
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-cube"></i>
+            </div>
+            <span class="logo-brand-name">HYPERCOMMERCE</span>
+          </div>
+
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <span class="logo-brand-name">APEX AUTOMATION</span>
+          </div>
+
+          <div class="project-logo-card">
+            <div class="logo-icon-box">
+              <i class="fa-solid fa-atom"></i>
+            </div>
+            <span class="logo-brand-name">VELOCE LABS</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS SECTION (Phase 1 & 2: Minimalist Layout & Imposing Cards) -->
+  <section class="featured-projects-section" id="featured-projects">
+    <!-- Minimalist Section Header Matching Website Typography -->
+    <div class="featured-header-container">
+      <div class="featured-header-meta">
+        <div class="sec-tag">✦ Selected Work</div>
+        <h2 class="section-h2" style="margin-bottom: 0.6rem;">
+          Featured <span class="serif-italic">projects.</span>
+        </h2>
+        <p class="section-desc" style="max-width: 580px; margin-bottom: 0;">
+          Curated collection of brand identities, physical product packaging, and high-impact commercial design systems.
+        </p>
+      </div>
+      <div class="featured-header-sub">
+        <span class="featured-index-mono">01 — 18</span>
+        <span>ORIGINAL FORMAT ARCHIVE</span>
+      </div>
+    </div>
+
+    <!-- 100vw Full-Bleed Infinite Carousel Viewport with Native Aspect Ratios -->
+    <div class="featured-carousel-viewport" id="featuredCarouselViewport">
+      <div class="featured-carousel-track" id="featuredCarouselTrack">
+
+        <!-- Card 01: Graphico Fast & Scalable Web Platform (Original: 1024x1024 ~ 1:1) -->
+        <div class="featured-card" data-index="0" style="aspect-ratio: 1 / 1;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Graphico</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/graphico-web-engine.jpg" alt="Graphico Fast, Secure, Scalable Business Growth Engine Web Platform Mockup" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Graphico</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">PRO</span>
+              <span class="card-chip-badge">WEB</span>
+              <span class="card-chip-badge">SAAS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 02: Estilo Salon Official Launch Multi-Device Showcase (Original: 1024x768 ~ 4:3) -->
+        <div class="featured-card" data-index="1" style="aspect-ratio: 1024 / 768;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Estilo Salon</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/estilo-salon-official-launch.jpg" alt="Estilo Salon Official Online Launch Digital Showcase on iMac & iPhone" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Estilo Salon</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">LAUNCH</span>
+              <span class="card-chip-badge">UI/UX</span>
+              <span class="card-chip-badge">COMMERCE</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 03: Brayne Digital Corporate Tri-Fold Brochure (Original: 1024x853 ~ 6:5) -->
+        <div class="featured-card" data-index="2" style="aspect-ratio: 1024 / 853;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Brayne Tri-Fold</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/brayne-trifold-brochure.jpg" alt="Brayne Digital Corporate Tri-Fold Marketing Brochure Mockup" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Brayne Tri-Fold</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">PRINT</span>
+              <span class="card-chip-badge">BRAND</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 04: Amare Edge+ Watermelon Sunshine Packaging Design (Original: 1024x1024 ~ 1:1) -->
+        <div class="featured-card" data-index="3" style="aspect-ratio: 1 / 1;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Amare Edge+</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-edge-watermelon.jpg" alt="Amare Edge+ Watermelon Sunshine Cognitive Performance Nootropic Packaging Design" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Amare Edge+</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">NEW</span>
+              <span class="card-chip-badge">PACKAGING</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 05: Amare Edge+ Plant-Based Nootropic Flavor Range Lineup (Original: 1024x571 ~ 16:9) -->
+        <div class="featured-card" data-index="4" style="aspect-ratio: 1024 / 571;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Edge+ Lineup</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-edge-lineup.jpg" alt="Amare Edge+ Plant-Based Nootropic Full Flavor Range Packaging Lineup" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Edge+ Lineup</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">FLAVORS</span>
+              <span class="card-chip-badge">STUDIO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 06: Amare Edge+ Premium Product Studio Podium Photography (Original: 1024x1024 ~ 1:1) -->
+        <div class="featured-card" data-index="5" style="aspect-ratio: 1 / 1;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Edge+ Pedestal</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-edge-pedestal.jpg" alt="Amare Edge+ Premium Product Studio Podium Photography & Packaging Display" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Edge+ Pedestal</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">3D</span>
+              <span class="card-chip-badge">IDENTITY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 07: Energy+ Mental Performance Drink Mix Box & Stick Pack (Original: 1024x1024 ~ 1:1) -->
+        <div class="featured-card" data-index="6" style="aspect-ratio: 1 / 1;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Energy+ Pouch</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-energy-stickpack.jpg" alt="Energy+ Pomegranate Lime Mental Performance Drink Mix Box & Stick Pack Design" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Energy+ Pouch</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">RETAIL</span>
+              <span class="card-chip-badge">PRINT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 08: Bacon Brioche Burger Graphic Poster (Original: 764x1024 ~ 3:4) -->
+        <div class="featured-card" data-index="7" style="aspect-ratio: 764 / 1024;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Brioche Burger</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/bacon-burger-poster.jpg" alt="Crisp Rich Divine Ultimate Bacon Brioche Burger Graphic Poster" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Brioche Burger</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">POSTER</span>
+              <span class="card-chip-badge">VECTOR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 09: Estilo Salon Laptop Mockup Showcase (Original: 1024x571 ~ 16:9) -->
+        <div class="featured-card" data-index="8" style="aspect-ratio: 1024 / 571;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Estilo Web</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/estilo-salon-laptop.jpg" alt="Estilo Salon Luxury Laptop Mockup and Web Booking Experience" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Estilo Salon</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">WEBFLOW</span>
+              <span class="card-chip-badge">UI/UX</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 10: Downy World of Freshness Floral Poster (Original: 764x1024 ~ 3:4) -->
+        <div class="featured-card" data-index="9" style="aspect-ratio: 764 / 1024;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Downy Fresh</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/downy-freshness-poster.jpg" alt="Downy Laundry World of Freshness Floral Graphic Poster" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Downy Fresh</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">CAMPAIGN</span>
+              <span class="card-chip-badge">ART</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 11: Crystal White Claw Luxury Monogram Bag Mockup (Original: 1024x683 ~ 3:2) -->
+        <div class="featured-card" data-index="10" style="aspect-ratio: 1024 / 683;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">White Claw</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/crystal-white-claw-bag.jpg" alt="Crystal White Claw Luxury Monogram Shopping Bag Packaging Mockup" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">White Claw</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">LUXURY</span>
+              <span class="card-chip-badge">MOCKUP</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 12: Ace Galera DJ Laptop Mockup Experience (Original: 1024x571 ~ 16:9) -->
+        <div class="featured-card" data-index="11" style="aspect-ratio: 1024 / 571;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Ace Galera</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/ace-galera-laptop.jpg" alt="Ace Galera Seamless Rhythms Higher Energy DJ Web Portfolio Laptop Mockup" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Ace Galera</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">AUDIO</span>
+              <span class="card-chip-badge">WEB</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 13: Kyäni Restore Gut Health Supplement on Rustic Wood (Original: 764x1024 ~ 3:4) -->
+        <div class="featured-card" data-index="12" style="aspect-ratio: 764 / 1024;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Kyäni Restore</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/kyani-restore-supplement.jpg" alt="Kyäni Restore Gut Health Probiotics Product Showcase" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Kyäni Restore</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">WELLNESS</span>
+              <span class="card-chip-badge">3D</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 14: Brayne Digital Enamel Mug & Stickers Merch Mockup (Original: 1024x571 ~ 16:9) -->
+        <div class="featured-card" data-index="13" style="aspect-ratio: 1024 / 571;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Brayne Merch</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/brayne-digital-mug.jpg" alt="Brayne Digital Enamel Mug and Brand Identity Merch" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Brayne Merch</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">MERCH</span>
+              <span class="card-chip-badge">BRAND</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 15: Amare Global HL5 Peach Collagen (Original: 764x1024 ~ 3:4) -->
+        <div class="featured-card" data-index="14" style="aspect-ratio: 764 / 1024;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Amare HL5</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-peach-hl5.jpg" alt="Amare Global HL5 Peach Flavor Hydrolyzed Collagen Packaging Design" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Amare HL5</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">COLLAGEN</span>
+              <span class="card-chip-badge">PRINT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 16: Brayne Digital Services Roll-up Exhibition Banner (Original: 1024x768 ~ 4:3) -->
+        <div class="featured-card" data-index="15" style="aspect-ratio: 1024 / 768;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Brayne Banner</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/brayne-services-banner.png" alt="Brayne Digital Services Exhibition Roll-Up Banner Mockup" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Brayne Banner</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">EXHIBIT</span>
+              <span class="card-chip-badge">ROLLUP</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 17: Energy+ Mental Wellness Campaign Art (Original: 1024x571 ~ 16:9) -->
+        <div class="featured-card" data-index="16" style="aspect-ratio: 1024 / 571;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Energy+ Citrus</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-energy-dragonfruit.jpg" alt="Energy+ The Mental Wellness Company Dragonfruit Commercial Art" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Energy+ Citrus</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">CAMPAIGN</span>
+              <span class="card-chip-badge">WELLNESS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 18: Amare Full Product Line Retail Showcase (Original: 827x1024 ~ 4:5) -->
+        <div class="featured-card" data-index="17" style="aspect-ratio: 827 / 1024;">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Amare Showcase</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="card-inner">
+            <img src="assets/amare-basket.jpg" alt="Amare Products In-Store Retail Showcase" loading="lazy" class="card-img"/>
+          </div>
+          <div class="card-footer-info">
+            <div class="card-title-group">
+              <span class="card-bullet-dot"></span>
+              <span class="card-title-text">Amare Showcase</span>
+            </div>
+            <div class="card-chips-group">
+              <span class="card-chip-badge chip-accent">RETAIL</span>
+              <span class="card-chip-badge">STORE</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer Metadata Row -->
+    <div class="featured-footer-meta">
+      <span>✦ FLUID HORIZONTAL DRAG INTERACTION</span>
+      <span class="tabular-nums">60 FPS · APPLE FLUID MOMENTUM</span>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES BENTO SHOWCASE (MATCHING BENTO DESIGN SPEC) -->
+  <section class="capabilities-bento-section" id="capabilities">
+    <div class="container">
+      <div class="sec-tag">✦ What I Do</div>
+      <h2 class="section-h2" style="font-size: clamp(2.4rem, 4.5vw, 3.8rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 1.2rem;">
+        Core <span class="serif-italic">Capabilities.</span>
+      </h2>
+      <p class="section-desc" style="font-size: 1.05rem; max-width: 580px; line-height: 1.65; margin-bottom: 3.5rem;">
+        Strategy, high-fidelity design, custom code, and autonomous AI automation for brands and startups that refuse to look ordinary.
+      </p>
+
+      <div class="capabilities-bento-grid">
+        <!-- Card 1: Large Statement Card (Spans Col 1, Rows 1-2) -->
+        <div class="bento-card bento-statement-card">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Statement.frame</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <span class="bento-card-tag">STATEMENT.TXT</span>
+          <div class="bento-quote-icon">“</div>
+          <h3 class="bento-statement-title">
+            We make people stop and ask, <span class="text-orange">who made that?</span>
+          </h3>
+          <p class="bento-statement-desc">
+            That reaction is the whole job. <strong>Dedicated engineering</strong> doing brand identity, custom code, and autonomous AI automations for startups and creators that refuse to look ordinary. No templates, ever.
+          </p>
+          <div class="bento-statement-footer">
+            <span class="bento-meta-tag">BENYAMIN NAMTALASHVILI, SINCE 2021</span>
+            <span class="bento-status-tag"><span class="bento-green-dot">●</span> AVAILABLE FOR PROJECTS</span>
+          </div>
+        </div>
+
+        <!-- Card 2: Dark Metrics Matrix Card (Top Right, Spans Cols 2-3) -->
+        <div class="bento-card bento-metrics-card">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Metrics.frame</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <span class="bento-card-tag bento-card-tag-dark">METRICS</span>
+          <div class="bento-metric-rows">
+            <div class="bento-metric-row">
+              <div class="bento-metric-num">40<span class="text-orange">+</span></div>
+              <div class="bento-metric-label">PROJECTS SHIPPED</div>
+            </div>
+            <div class="bento-metric-row">
+              <div class="bento-metric-num">5.0<span class="text-orange">★</span></div>
+              <div class="bento-metric-label">AVERAGE RATING</div>
+            </div>
+            <div class="bento-metric-row">
+              <div class="bento-metric-num">24<span class="text-orange">h</span></div>
+              <div class="bento-metric-label">AVG PROTOTYPE TURNAROUND</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Capabilities Tag Pill Matrix (Middle Right, Spans Cols 2-3) -->
+        <div class="bento-card bento-caps-pills-card">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Capabilities.frame</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <span class="bento-card-tag">CAPABILITIES</span>
+          <div class="bento-pills-wrap">
+            <div class="bento-pill-item"><i class="fa-solid fa-table-cells-large"></i> UI/UX Systems</div>
+            <div class="bento-pill-item"><span class="pill-code">&lt;&gt;</span> Full-Stack Web</div>
+            <div class="bento-pill-item"><i class="fa-solid fa-shapes"></i> Brand Identity</div>
+            <div class="bento-pill-item"><i class="fa-solid fa-box-open"></i> 3D Packaging</div>
+            <div class="bento-pill-item"><i class="fa-solid fa-bolt"></i> n8n Workflows</div>
+            <div class="bento-pill-item"><i class="fa-solid fa-robot"></i> AI Agents</div>
+            <div class="bento-pill-item"><i class="fa-solid fa-film"></i> Motion &amp; GSAP</div>
+          </div>
+        </div>
+
+        <!-- Card 4: Dark Live Grid Mini Preview Card (Bottom Left) -->
+        <div class="bento-card bento-preview-card">
+          <div class="figma-selection-box">
+            <span class="figma-tag">LivePreview.frame</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="bento-mini-dot-grid"></div>
+          <div class="bento-mini-cursor">
+            <svg width="15" height="15" viewBox="0 0 18 18" fill="none">
+              <path d="M2 2L8.5 16L11 11L16 8.5L2 2Z" fill="#FF5E00" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <span class="bento-mini-badge">Benyamin.Design</span>
+          </div>
+          <div class="bento-card-tag-bottom">DESIGNED LIVE</div>
+        </div>
+
+        <!-- Card 5: Currently Building In Tech Stack Card (Bottom Center) -->
+        <div class="bento-card bento-stack-card">
+          <div class="figma-selection-box">
+            <span class="figma-tag">TechStack.frame</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <div class="bento-stack-eyebrow">▶ CURRENTLY BUILDING IN</div>
+          <h4 class="bento-stack-title">Next.js &amp; n8n AI</h4>
+          <div class="bento-stack-tags">
+            <span class="stack-mini-pill">Figma</span>
+            <span class="stack-mini-pill">Next.js</span>
+            <span class="stack-mini-pill">n8n</span>
+            <span class="stack-mini-pill">GSAP</span>
+          </div>
+          <div class="bento-equalizer">
+            <span class="eq-bar eq-1"></span>
+            <span class="eq-bar eq-2"></span>
+            <span class="eq-bar eq-3"></span>
+            <span class="eq-bar eq-4"></span>
+            <span class="eq-bar eq-5"></span>
+          </div>
+        </div>
+
+        <!-- Card 6: Review Card (Bottom Right) -->
+        <div class="bento-card bento-review-card">
+          <div class="figma-selection-box">
+            <span class="figma-tag">Review.frame</span>
+            <span class="figma-handle figma-handle-tl"></span>
+            <span class="figma-handle figma-handle-tr"></span>
+            <span class="figma-handle figma-handle-bl"></span>
+            <span class="figma-handle figma-handle-br"></span>
+          </div>
+          <span class="bento-card-tag">REVIEW_07</span>
+          <div class="bento-review-stars">★★★★★</div>
+          <p class="bento-review-text">
+            "Benyamin completely transformed our digital presence and workflows. The brand fidelity is immaculate and the AI automation saved us 25+ hrs weekly."
+          </p>
+          <div class="bento-author-row">
+            <img src="assets/avatar.jpg" alt="David Sterling" class="bento-author-avatar"/>
+            <span class="bento-author-name">DAVID STERLING · HYPERSCALE AI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAST CLIENT REVIEWS & EXECUTIVE PROOF SECTION -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="sec-tag">✦ Client Endorsements</div>
+      <h2 class="section-h2" style="font-size: clamp(2.4rem, 4.5vw, 3.8rem); font-weight: 800; letter-spacing: -0.04em; margin-bottom: 1.2rem;">
+        Backed by founders who value <span class="serif-italic">precision.</span>
+      </h2>
+      <p class="section-desc" style="font-size: 1.05rem; max-width: 600px; line-height: 1.65; margin-bottom: 3.5rem;">
+        Here is what venture CEOs, product leads, and technical founders say about our graphic design systems, web platforms, and AI automations.
+      </p>
+
+      <div class="reviews-grid">
+        
+        <!-- Review 1: David Sterling -->
+        <div class="review-card">
+          <div>
+            <div class="review-card-header">
+              <span class="review-stars">★★★★★</span>
+              <span class="review-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified CEO</span>
+            </div>
+            <p class="review-quote">
+              "Benyamin completely changed how we build and scale. Our web platform and automation pipelines ship faster, cleaner, and with higher fidelity than agencies charging $15,000/month."
+            </p>
+          </div>
+          <div class="review-author-row">
+            <img src="assets/avatar.jpg" alt="David Sterling" class="review-avatar"/>
+            <div class="review-author-info">
+              <span class="review-author-name">David Sterling</span>
+              <span class="review-author-role">Founder &amp; CEO · HyperScale AI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2: Elena Rostova -->
+        <div class="review-card">
+          <div>
+            <div class="review-card-header">
+              <span class="review-stars">★★★★★</span>
+              <span class="review-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Product VP</span>
+            </div>
+            <p class="review-quote">
+              "The design speed and precision are extraordinary. From Figma atomic tokens to clean code and live deployment, everything was executed with flawless polish."
+            </p>
+          </div>
+          <div class="review-author-row">
+            <img src="assets/team1.jpg" alt="Elena Rostova" class="review-avatar"/>
+            <div class="review-author-info">
+              <span class="review-author-name">Elena Rostova</span>
+              <span class="review-author-role">VP of Product · Avenue SaaS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3: Marcus Vance -->
+        <div class="review-card">
+          <div>
+            <div class="review-card-header">
+              <span class="review-stars">★★★★★</span>
+              <span class="review-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Founder</span>
+            </div>
+            <p class="review-quote">
+              "The visual design sensibility is immaculate. Our brand assets, packaging, and commercial posters look like they came straight out of a Tier-1 New York design house."
+            </p>
+          </div>
+          <div class="review-author-row">
+            <img src="assets/team2.jpg" alt="Marcus Vance" class="review-avatar"/>
+            <div class="review-author-info">
+              <span class="review-author-name">Marcus Vance</span>
+              <span class="review-author-role">Co-Founder · Seoul Tokki Apparel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 4: Sarah Lin -->
+        <div class="review-card">
+          <div>
+            <div class="review-card-header">
+              <span class="review-stars">★★★★★</span>
+              <span class="review-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Ops Lead</span>
+            </div>
+            <p class="review-quote">
+              "Our autonomous n8n automation pipeline automated 90% of our ticket routing and CRM operations within days. Sub-50ms execution with zero errors."
+            </p>
+          </div>
+          <div class="review-author-row">
+            <img src="assets/team3.jpg" alt="Sarah Lin" class="review-avatar"/>
+            <div class="review-author-info">
+              <span class="review-author-name">Sarah Lin</span>
+              <span class="review-author-role">Chief of Staff · Veloce Labs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 5: Arthur Pendelton -->
+        <div class="review-card">
+          <div>
+            <div class="review-card-header">
+              <span class="review-stars">★★★★★</span>
+              <span class="review-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified CTO</span>
+            </div>
+            <p class="review-quote">
+              "The technical execution is world-class. Proactive communication, sub-50ms response, clean code architecture, and high-impact visual design."
+            </p>
+          </div>
+          <div class="review-author-row">
+            <img src="assets/port2.jpg" alt="Arthur Pendelton" class="review-avatar"/>
+            <div class="review-author-info">
+              <span class="review-author-name">Arthur Pendelton</span>
+              <span class="review-author-role">CTO · Bryance Digital</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 6: Claire Montagu -->
+        <div class="review-card">
+          <div>
+            <div class="review-card-header">
+              <span class="review-stars">★★★★★</span>
+              <span class="review-verified-badge"><i class="fa-solid fa-circle-check"></i> Verified Director</span>
+            </div>
+            <p class="review-quote">
+              "Working with Benyamin was one of the highest ROI investments for our portfolio companies. Exceptional design taste paired with deep full-stack engineering."
+            </p>
+          </div>
+          <div class="review-author-row">
+            <img src="assets/stats-team.jpg" alt="Claire Montagu" class="review-avatar"/>
+            <div class="review-author-info">
+              <span class="review-author-name">Claire Montagu</span>
+              <span class="review-author-role">Managing Director · Apex Ventures</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MASTERPIECE DISCOVERY CTA BANNER WITH MATTER.JS INTERACTIVE PHYSICS PILLS -->
+  <section class="cta-physics-section" id="cta-masterpiece">
+    <div class="container">
+      <div class="cta-masterpiece-banner" id="ctaPhysicsContainer">
+        <!-- Matter.js Interactive 2D Physics Canvas (z-index: 1) -->
+        <canvas id="physicsCanvas" class="physics-canvas"></canvas>
+
+        <!-- Typography & Content Overlay (z-index: 10, pointer-events: none) -->
+        <div class="cta-content-overlay">
+          <h2 class="cta-banner-title">
+            Ready to craft your <span class="serif-italic-accent">masterpiece?</span>
+          </h2>
+          <p class="cta-banner-desc">
+            Let's build something extraordinary together. Book a strategy session today.
+          </p>
+          <div class="cta-btn-wrap">
+            <a href="contact.html" class="cta-banner-btn">
+              <span>Schedule Discovery Call</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIGMA DESIGNER FRAME FOOTER -->
+  <footer class="designer-footer" id="designerFooter">
+    <!-- Top Meta Bar with Tag and Back to Top -->
+    <div class="footer-frame-top">
+      <div class="footer-frame-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>BENYAMIN.FRAME</span>
+      </div>
+      
+      <button class="footer-top-btn" id="footerBackToTop" aria-label="Scroll back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Interactive Canvas Dot Matrix Background -->
+    <canvas class="footer-grid-canvas"></canvas>
+
+    <div class="footer-main-content">
+      <div class="footer-left-col">
+        <div class="footer-eyebrow">HAVE AN IDEA WORTH BUILDING?</div>
+        
+        <a href="mailto:benyaminnamtalashvili726@gmail.com" class="footer-giant-email">
+          <span>benyaminnamtalashvili726@gmail.com</span>
+          <span class="footer-email-arrow">↗</span>
+        </a>
+
+        <div class="footer-cta-action-row">
+          <a href="contact.html" class="footer-orange-btn">
+            <span>Show us the idea</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <div class="footer-avail-pill">
+            <span class="avail-dot"></span>
+            <span>available for projects</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Columns -->
+      <div class="footer-nav-cols">
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">STUDIO</div>
+          <ul class="footer-nav-items">
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html#resume">Resume</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">EXPERTISE</div>
+          <ul class="footer-nav-items">
+            <li><a href="services.html">AI Automation</a></li>
+            <li><a href="services.html">Full-Stack Dev</a></li>
+            <li><a href="services.html">Brand Systems</a></li>
+            <li><a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer">Modeling</a></li>
+            <li><a href="services.html">UI/UX Systems</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">CONNECT</div>
+          <ul class="footer-nav-items">
+            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="mailto:benyaminnamtalashvili726@gmail.com">Email</a></li>
+            <li><a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Massive Bottom Wordmark Display -->
+    <div class="footer-massive-wordmark" aria-hidden="true">
+      <span class="wordmark-orange">B</span>enyamin
+    </div>
+
+    <!-- Bottom Technical Colophon Bar -->
+    <div class="footer-technical-bar">
+      <div class="tech-bar-left">
+        <span class="tech-sq-dot">■</span>
+        <span class="tech-file-name">benyamin.fig</span>
+      </div>
+      <div class="tech-bar-center">
+        <span class="tech-live-dot">●</span>
+        <span id="footerCursorCount">2 cursors online</span>
+        <span class="tech-divider">·</span>
+        <span id="footerClockTime">11:15 PHT</span>
+      </div>
+      <div class="tech-bar-right">
+        <span>&copy; 2026 · engineered by Benyamin Namtalashvili, not framer</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lenis Smooth Scroll & GSAP 3 CDN -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+  <!-- Matter.js Physics Engine & Interactive CTA Script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <script src="physics-cta.js"></script>
+  <script src="hero-antigravity.js"></script>
+  <script src="figma-draggable-text.js"></script>
+  <script src="project-carousel.js"></script>
+  <script src="capabilities-draggable.js"></script>
+  <script src="footer-interactive-canvas.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
