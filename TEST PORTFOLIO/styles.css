@@ -1033,30 +1033,47 @@ section,
   max-height: 1080px;
   padding: 5.2rem 1.5rem 1.5rem;
   box-sizing: border-box;
-  background: radial-gradient(circle at 50% 25%, rgba(255, 107, 0, 0.05) 0%, rgba(255, 255, 255, 0) 65%), #FFFFFF;
+  background: transparent !important;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
+  border-top: none !important;
   border-bottom: none !important;
   outline: none !important;
 }
 
-/* Background Technical Blueprint Grid Overlay */
+/* Background Technical Blueprint Grid Overlay - disabled to let global fixed grid flow continuously without section seam */
 .hero-section::before {
+  display: none !important;
+}
+
+/* Radiant Orange Light Bloom & Blur (Atmospheric Ambient Glow matching Get In Touch page) */
+.hero-section::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center center;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 860px;
+  max-width: 95vw;
+  height: 540px;
+  background: radial-gradient(
+    circle at 50% 45%,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(255, 138, 0, 0.40) 35%,
+    rgba(255, 69, 0, 0.18) 55%,
+    rgba(255, 69, 0, 0) 72%
+  );
+  filter: blur(32px);
+  -webkit-filter: blur(32px);
   pointer-events: none;
   z-index: 1;
+  border-radius: 50%;
 }
 
 .hero-content-container {
@@ -2610,12 +2627,12 @@ section,
    ========================================================================== */
 .capabilities-dark-section, .capabilities-section {
   padding: 8rem 0;
-  background: var(--canvas-parchment);
+  background: transparent !important;
   color: var(--ink-primary);
   position: relative;
   overflow: hidden;
-  border-top: 1px solid var(--hairline-light);
-  border-bottom: 1px solid var(--hairline-light);
+  border-top: none !important;
+  border-bottom: none !important;
 }
 
 .capabilities-dark-grid, .capabilities-grid {
@@ -5167,7 +5184,7 @@ section,
   position: relative;
   padding: 10.5rem 0 4.5rem;
   background: radial-gradient(circle at 50% 12%, rgba(255, 107, 0, 0.06) 0%, rgba(255, 255, 255, 0) 70%), #FFFFFF;
-  border-bottom: 1px solid var(--hairline-light);
+  border-bottom: none !important;
   overflow: hidden;
 }
 
@@ -6751,7 +6768,7 @@ section,
   background: #0B0B0E;
   border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
   overflow: hidden;
   position: relative;
   transition: transform 0.4s var(--ease-apple), box-shadow 0.4s var(--ease-apple);
@@ -6847,9 +6864,9 @@ section,
    ========================================================================== */
 .reviews-section {
   padding: 7rem 0 6.5rem;
-  background: var(--canvas-parchment);
-  border-top: 1px solid var(--hairline-light);
-  border-bottom: 1px solid var(--hairline-light);
+  background: transparent !important;
+  border-top: none !important;
+  border-bottom: none !important;
   position: relative;
   overflow: hidden;
 }
