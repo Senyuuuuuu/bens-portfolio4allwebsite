@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="30" height="30" fill="none">
+  <defs>
+    <linearGradient id="logoBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E1E26"/>
+      <stop offset="100%" stop-color="#0B0B0E"/>
+    </linearGradient>
+    <linearGradient id="logoAccentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9500"/>
+      <stop offset="50%" stop-color="#FF6B00"/>
+      <stop offset="100%" stop-color="#FF3800"/>
+    </linearGradient>
+    <filter id="logoGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="rgba(255, 107, 0, 0.45)"/>
+    </filter>
+  </defs>
+  
+  <!-- Obsidian Squircle Chassis -->
+  <rect x="1.5" y="1.5" width="41" height="41" rx="12" fill="url(#logoBgGrad)" stroke="rgba(255, 255, 255, 0.14)" stroke-width="1.2"/>
+  
+  <!-- Specular Glass Border Light -->
+  <rect x="2.8" y="2.8" width="38.4" height="38.4" rx="10.8" fill="none" stroke="rgba(255, 255, 255, 0.06)" stroke-width="0.8"/>
+
+  <!-- Left Monogram Pillar -->
+  <rect x="10" y="11" width="4.5" height="22" rx="2.25" fill="url(#logoAccentGrad)"/>
+  
+  <!-- 'B' Upper Structural Loop -->
+  <path d="M12.5 11H21.5C24.8137 11 27.5 13.6863 27.5 17C27.5 20.3137 24.8137 23 21.5 23H12.5" 
+        stroke="#FFFFFF" 
+        stroke-width="3.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+        
+  <!-- 'B' Lower Loop / 'N' Kinetic Foundation -->
+  <path d="M12.5 23H22.5C26.0899 23 29 25.9101 29 29.5C29 31.433 27.433 33 25.5 33H12.5" 
+        stroke="url(#logoAccentGrad)" 
+        stroke-width="3.5" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        filter="url(#logoGlow)"/>
+        
+  <!-- 'N' Kinetic Diagonal Slash -->
+  <path d="M21 13.5L30.5 30.5" 
+        stroke="url(#logoAccentGrad)" 
+        stroke-width="3" 
+        stroke-linecap="round"/>
+        
+  <!-- Spatial Orange Energy Core Node -->
+  <circle cx="31.5" cy="13" r="2.25" fill="#FFA500"/>
+</svg>

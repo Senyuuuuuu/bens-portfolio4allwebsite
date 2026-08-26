@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Case Study: Autonomous AI Customer Support Agent &amp; CRM Pipeline — Benyamin Namtalashvili</title>
+  <meta name="description" content="Detailed engineering case study of an autonomous customer support agent and CRM lead triage workflow built with n8n and Claude 3.5 Sonnet."/>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- Ambient Glow -->
+  <div id="ambientGlow"></div>
+
+  <!-- Dynamic Island Navigation -->
+  <nav id="nav" role="navigation" aria-label="Main Navigation">
+    <div class="nav-island">
+      <a href="index.html" class="nav-brand" aria-label="Benyamin Namtalashvili Portfolio Home">
+        Benyamin Namtalashvili
+      </a>
+      <ul class="nav-links-wrap" role="list">
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="portfolio.html" class="active">Works &amp; Case Studies</a></li>
+        <li><a href="about.html">About &amp; Resume</a></li>
+      </ul>
+      <div class="nav-status-pill">
+        <span class="status-dot"></span>
+        <span>Available for Hire</span>
+      </div>
+      <button id="audioToggleBtn" class="nav-audio-toggle" title="Toggle Sound Effects">
+        <i class="fa-solid fa-volume-high"></i>
+      </button>
+      <a href="contact.html" class="nav-cta-btn magnetic-3d">
+        <span>Get in Touch</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- CASE STUDY HERO SHOWCASE STAGE -->
+  <header class="case-study-hero-stage">
+    <div class="container">
+      <div class="case-study-breadcrumb-row">
+        <a href="portfolio.html" class="case-study-back-link">
+          <i class="fa-solid fa-arrow-left"></i> Back to Selected Works
+        </a>
+        <span style="color:var(--ink-tertiary);">/</span>
+        <span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-secondary); font-weight:600;">Autonomous AI Automation</span>
+      </div>
+
+      <div class="hero-rating-pill" style="margin-bottom:1.25rem;">
+        <span class="hero-stars">★★★★★</span>
+        <span>Enterprise Production Case Study // 01</span>
+      </div>
+
+      <h1 class="hero-title" style="max-width: 980px;">
+        Autonomous AI Customer Support &amp; <span class="serif-italic">CRM Lead Pipeline</span>
+      </h1>
+      <p class="hero-lead" style="max-width: 840px; margin: 0 0 1.5rem;">
+        How an autonomous n8n orchestration system powered by Claude 3.5 Sonnet slashed inbound triage response times from 4.2 hours to 18 seconds while automating 100% of CRM lead qualification and meeting scheduling.
+      </p>
+
+      <div class="case-study-spec-bento">
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Timeline</div>
+          <div class="case-study-spec-value">3 Weeks Sprint</div>
+        </div>
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Role</div>
+          <div class="case-study-spec-value">AI Automation Architect</div>
+        </div>
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Tech Stack</div>
+          <div class="case-study-spec-value" style="font-size: 1rem;">n8n · Claude 3.5 · Supabase · Hubspot</div>
+        </div>
+        <div class="case-study-spec-item">
+          <div class="case-study-spec-title">Latency Drop</div>
+          <div class="case-study-spec-value" style="color: #34C759;">-94% First-Response</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CASE STUDY BODY -->
+  <main style="padding: 5rem 0 8rem; background: var(--canvas-pure);">
+    <div class="case-study-container">
+      
+      <!-- High-Fidelity macOS Device Frame -->
+      <div class="case-study-device-frame">
+        <div class="device-frame-topbar">
+          <div class="device-window-dots">
+            <span class="device-dot dot-red"></span>
+            <span class="device-dot dot-yellow"></span>
+            <span class="device-dot dot-green"></span>
+          </div>
+          <div class="device-window-title">
+            <i class="fa-solid fa-robot" style="font-size: 0.65rem; color: #FF6B00;"></i>
+            <span>https://automation.workflow.internal/n8n/pipeline-live</span>
+          </div>
+          <div class="device-live-status">
+            <span class="device-live-pulse"></span>
+            <span>n8n Multi-Agent Live · Claude 3.5</span>
+          </div>
+        </div>
+        <img src="assets/hero.jpg" alt="n8n AI Customer Support Pipeline Architecture" class="case-study-device-img"/>
+      </div>
+
+      <!-- Project Description Card -->
+      <div class="case-study-section-card">
+        <div class="case-study-section-badge">
+          <i class="fa-solid fa-file-lines"></i>
+          <span>Project Description</span>
+        </div>
+        <h2 class="case-study-heading">
+          Autonomous Lead Triage &amp; Intelligent CRM Sync
+        </h2>
+        <p class="case-study-paragraph">
+          Designed and deployed an autonomous AI lead qualification and customer support triage pipeline using n8n and Claude 3.5 Sonnet. The system normalizes inbound consultation requests from web forms and live chat in under 20 seconds, eliminating a 4.2-hour human review backlog.
+        </p>
+        <p class="case-study-paragraph">
+          The engine analyzes customer requirements, scores commercial intent from 0 to 100, dynamically schedules high-priority discovery meetings via Calendly, and syncs rich structured contact records directly into HubSpot and Slack channels for instant sales team action.
+        </p>
+      </div>
+
+      <!-- Pagination -->
+      <div class="case-study-pagination">
+        <a href="portfolio.html" class="case-study-page-card">
+          <div class="page-card-direction">
+            <i class="fa-solid fa-arrow-left"></i> All Case Studies
+          </div>
+          <div class="page-card-title">Back to Portfolio Grid</div>
+        </a>
+
+        <a href="case-study-saas-platform.html" class="case-study-page-card" style="text-align: right;">
+          <div class="page-card-direction" style="justify-content: flex-end;">
+            Next Case Study <i class="fa-solid fa-arrow-right"></i>
+          </div>
+          <div class="page-card-title">Full-Stack SaaS Admin Portal &amp; REST API Engine</div>
+        </a>
+      </div>
+
+      <!-- CTA BANNER -->
+      <div class="cta-masterpiece-banner">
+        <h2 class="cta-banner-title">
+          Ready to automate your <span class="serif-italic">operations?</span>
+        </h2>
+        <p class="cta-banner-desc">
+          Let's build an autonomous AI workflow tailored specifically to your business bottlenecks.
+        </p>
+        <a href="contact.html" class="cta-banner-btn">
+          <span>Schedule Discovery Call</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FIGMA DESIGNER FRAME FOOTER -->
+  <footer class="designer-footer" id="designerFooter">
+    <!-- Top Meta Bar with Tag and Back to Top -->
+    <div class="footer-frame-top">
+      <div class="footer-frame-tag">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        <span>BENYAMIN.FRAME</span>
+      </div>
+      
+      <button class="footer-top-btn" id="footerBackToTop" aria-label="Scroll back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Interactive Canvas Dot Matrix Background -->
+    <canvas class="footer-grid-canvas"></canvas>
+
+    <div class="footer-main-content">
+      <div class="footer-left-col">
+        <div class="footer-eyebrow">HAVE AN IDEA WORTH BUILDING?</div>
+        
+        <a href="mailto:benyaminnamtalashvili726@gmail.com" class="footer-giant-email">
+          <span>benyaminnamtalashvili726@gmail.com</span>
+          <span class="footer-email-arrow">↗</span>
+        </a>
+
+        <div class="footer-cta-action-row">
+          <a href="contact.html" class="footer-orange-btn">
+            <span>Show us the idea</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <div class="footer-avail-pill">
+            <span class="avail-dot"></span>
+            <span>available for projects</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Columns -->
+      <div class="footer-nav-cols">
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">STUDIO</div>
+          <ul class="footer-nav-items">
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="portfolio.html">Work</a></li>
+            <li><a href="about.html#resume">Resume</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">EXPERTISE</div>
+          <ul class="footer-nav-items">
+            <li><a href="services.html">AI Automation</a></li>
+            <li><a href="services.html">Full-Stack Dev</a></li>
+            <li><a href="services.html">Brand Systems</a></li>
+            <li><a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer">Modeling</a></li>
+            <li><a href="services.html">UI/UX Systems</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <div class="footer-nav-heading">CONNECT</div>
+          <ul class="footer-nav-items">
+            <li><a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="mailto:benyaminnamtalashvili726@gmail.com">Email</a></li>
+            <li><a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Massive Bottom Wordmark Display -->
+    <div class="footer-massive-wordmark" aria-hidden="true">
+      <span class="wordmark-orange">B</span>enyamin
+    </div>
+
+    <!-- Bottom Technical Colophon Bar -->
+    <div class="footer-technical-bar">
+      <div class="tech-bar-left">
+        <span class="tech-sq-dot">■</span>
+        <span class="tech-file-name">benyamin.fig</span>
+      </div>
+      <div class="tech-bar-center">
+        <span class="tech-live-dot">●</span>
+        <span id="footerCursorCount">2 cursors online</span>
+        <span class="tech-divider">·</span>
+        <span id="footerClockTime">11:15 PHT</span>
+      </div>
+      <div class="tech-bar-right">
+        <span>&copy; 2026 · engineered by Benyamin Namtalashvili, not framer</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="footer-interactive-canvas.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
