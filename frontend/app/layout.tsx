@@ -1,39 +1,31 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Sidebar } from '@/components/layout/Sidebar';
-import { TopBar } from '@/components/layout/TopBar';
-import { ChatAssistant } from '@/components/chat/ChatAssistant';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'AI Content Factory — Autonomous Content OS',
-  description: 'Production-ready AI Content Factory with 10 specialized agents for discovering, downloading, editing, and publishing viral content.',
-  keywords: ['AI', 'content factory', 'automation', 'n8n', 'viral content', 'video editing'],
+  title: 'AI Automation Portfolio & Live n8n Sandbox',
+  description: 'Enterprise AI Agent Architect showcasing production n8n workflows, RAG systems, and interactive automation sandboxes.',
+  keywords: ['n8n', 'AI Automation', 'LangChain', 'RAG', 'Agentic Workflows', 'Portfolio'],
   openGraph: {
-    title: 'AI Content Factory',
-    description: 'Your autonomous AI content production system',
+    title: 'AI Automation Portfolio & Live n8n Sandbox',
+    description: 'Explore enterprise n8n workflow blueprints with live sandbox testing',
     type: 'website',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className="antialiased overflow-hidden">
-        <div className="flex h-screen w-screen overflow-hidden">
-          <Sidebar />
-          <div className="flex flex-col flex-1 overflow-hidden">
-            <TopBar />
-            <main className="flex-1 overflow-auto p-6">
-              {children}
-            </main>
-          </div>
-        </div>
-        <ChatAssistant />
+      <body className="antialiased bg-[#080B11] text-slate-100 min-h-screen overflow-x-hidden">
+        {children}
         <Toaster />
       </body>
     </html>

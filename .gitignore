@@ -28,3 +28,17 @@ yarn-error.log*
 # Prisma / Screenshots
 screenshots/
 uploads/
+
+# Large Binaries & Executables (GitHub 100MB limit)
+*.exe
+*.dll
+*.dmg
+*.iso
+hyperframes-demo/*.exe
+hyperframes/**/output/*.mp4
+# Deploy tool caches
+.netlify/
+*.tsbuildinfo
+
+
+

@@ -74,8 +74,8 @@
       const draggables = Draggable.create(draggableBox, {
         type: "x,y",
         edgeResistance: 0.15,
-        cursor: "grab",
-        activeCursor: "grabbing",
+        cursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        activeCursor: "url('assets/custom-cursor.svg') 4 3, auto",
         force3D: true,
         zIndexBoost: true,
 

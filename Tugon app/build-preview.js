@@ -1,0 +1,2466 @@
+const fs = require('fs');
+const path = require('path');
+
+const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Tugon Service — Premium Home Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM TOKENS
+═══════════════════════════════════════════ */
+:root {
+  --blue:        #0A3D62;
+  --blue-700:    #072A44;
+  --blue-600:    #0E4F7D;
+  --blue-100:    #DBEAFE;
+  --blue-50:     #EFF6FF;
+  --orange:      #F97316;
+  --orange-600:  #EA6910;
+  --orange-100:  #FFEDD5;
+  --orange-50:   #FFF7ED;
+  --bg:          #F8FAFC;
+  --bg-subtle:   #F1F5F9;
+  --white:       #FFFFFF;
+  --text:        #0F172A;
+  --text-muted:  #475569;
+  --text-light:  #94A3B8;
+  --border:      #E2E8F0;
+  --border-light:#F1F5F9;
+  --green:       #10B981;
+  --green-bg:    #ECFDF5;
+  --amber:       #F59E0B;
+  --red:         #EF4444;
+
+  --shadow-xs:  0 1px 2px rgba(0,0,0,0.04);
+  --shadow-sm:  0 2px 8px rgba(10,61,98,0.06);
+  --shadow-md:  0 8px 20px rgba(10,61,98,0.08);
+  --shadow-lg:  0 16px 36px rgba(10,61,98,0.12);
+  --shadow-orange: 0 8px 24px rgba(249,115,22,0.35);
+  --shadow-blue:   0 8px 24px rgba(10,61,98,0.25);
+
+  --r-sm:  8px;
+  --r-md:  14px;
+  --r-lg:  20px;
+  --r-xl:  28px;
+  --r-full:9999px;
+
+  --nav-h: 82px;
+  --top-h: 62px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; background: var(--bg); font-family: var(--font); color: var(--text); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+button { font-family: var(--font); border: none; outline: none; background: none; cursor: pointer; }
+input { font-family: var(--font); border: none; outline: none; background: none; }
+img { display: block; max-width: 100%; object-fit: cover; }
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ═══════════════════════════════════════════
+   APP CONTAINER / SHELL
+═══════════════════════════════════════════ */
+#app-root {
+  width: 100%;
+  height: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  body {
+    background: #0B1320;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #app-root {
+    max-width: 1200px;
+    height: 94vh;
+    border-radius: 28px;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+    display: grid;
+    grid-template-columns: 260px 1fr;
+  }
+  .mobile-only { display: none !important; }
+  .desktop-sidebar { display: flex !important; }
+  .bottom-nav { display: none !important; }
+  .scroll-body { padding-bottom: 24px !important; }
+}
+
+@media (max-width: 1023px) {
+  .desktop-sidebar { display: none !important; }
+}
+
+/* ═══════════════════════════════════════════
+   DESKTOP SIDEBAR
+═══════════════════════════════════════════ */
+.desktop-sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px 0;
+  overflow-y: auto;
+  z-index: 40;
+}
+.ds-brand {
+  padding: 0 24px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+.ds-logo-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--r-md);
+  background: linear-gradient(135deg, var(--blue), var(--blue-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 900;
+  font-size: 20px;
+  box-shadow: var(--shadow-blue);
+}
+.ds-brand-name { font-size: 19px; font-weight: 900; color: var(--blue); letter-spacing: -0.5px; }
+.ds-brand-tag { font-size: 11px; color: var(--text-light); font-weight: 500; }
+.ds-nav-group { display: flex; flex-direction: column; gap: 4px; padding: 0 16px; }
+.ds-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  border-radius: var(--r-md);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: all 180ms ease;
+  cursor: pointer;
+}
+.ds-nav-item:hover { background: var(--bg); color: var(--text); }
+.ds-nav-item.active { background: var(--blue-50); color: var(--blue); font-weight: 700; }
+.ds-nav-icon { font-size: 19px; }
+.ds-sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--border);
+}
+.ds-book-cta {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--orange), var(--orange-600));
+  color: var(--white);
+  font-weight: 800;
+  font-size: 14px;
+  box-shadow: var(--shadow-orange);
+  transition: all 200ms var(--ease-spring);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ds-book-cta:active { transform: scale(0.97); }
+
+/* ═══════════════════════════════════════════
+   SCREENS CONTAINER
+═══════════════════════════════════════════ */
+.main-stage {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(30px);
+  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1), transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+.scroll-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(var(--nav-h) + 16px);
+}
+
+/* ═══════════════════════════════════════════
+   TOP APP BAR
+═══════════════════════════════════════════ */
+.top-bar {
+  height: var(--top-h);
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  flex-shrink: 0;
+  z-index: 20;
+}
+.loc-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: transform 150ms ease;
+}
+.loc-pill:active { transform: scale(0.97); }
+.loc-icon { font-size: 16px; }
+.loc-details { display: flex; flex-direction: column; text-align: left; }
+.loc-city { font-size: 12.5px; font-weight: 800; color: var(--blue); line-height: 1.1; }
+.loc-sub { font-size: 10px; font-weight: 600; color: var(--text-light); }
+.top-actions { display: flex; align-items: center; gap: 8px; }
+.icon-circle-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-full);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  position: relative;
+  transition: all 150ms ease;
+}
+.icon-circle-btn:active { transform: scale(0.93); background: var(--border); }
+.notif-dot {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 2px solid var(--white);
+}
+.top-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-full);
+  overflow: hidden;
+  border: 2px solid var(--orange);
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════
+   SEARCH STRIP & FILTERS
+═══════════════════════════════════════════ */
+.search-strip {
+  padding: 12px 18px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.search-input-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-subtle);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 10px 14px;
+  transition: all 200ms ease;
+}
+.search-input-box:focus-within {
+  border-color: var(--blue);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(10,61,98,0.08);
+}
+.search-input-field {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+.search-input-field::placeholder { color: var(--text-light); }
+.filter-icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--r-sm);
+  background: var(--blue);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+.categories-filter-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.cat-chip {
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  background: var(--white);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 150ms var(--ease-spring);
+  flex-shrink: 0;
+}
+.cat-chip.active {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+  box-shadow: var(--shadow-sm);
+}
+.cat-chip:active { transform: scale(0.96); }
+
+/* ═══════════════════════════════════════════
+   HERO / PROMO BANNER CAROUSEL
+═══════════════════════════════════════════ */
+.promo-carousel-wrap {
+  padding: 16px 18px 8px;
+}
+.promo-card {
+  position: relative;
+  height: 180px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+}
+.promo-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+.promo-card:hover .promo-bg-img { transform: scale(1.03); }
+.promo-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, rgba(10,61,98,0.92) 0%, rgba(10,61,98,0.7) 50%, rgba(0,0,0,0.15) 100%);
+}
+.promo-inner {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  color: var(--white);
+}
+.promo-badge {
+  align-self: flex-start;
+  background: var(--orange);
+  color: var(--white);
+  font-size: 10.5px;
+  font-weight: 900;
+  padding: 3px 9px;
+  border-radius: var(--r-full);
+  margin-bottom: 6px;
+  letter-spacing: 0.03em;
+}
+.promo-title { font-size: 19px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 4px; }
+.promo-sub { font-size: 12px; color: rgba(255,255,255,0.85); font-weight: 500; margin-bottom: 12px; }
+.promo-footer { display: flex; align-items: center; justify-content: space-between; }
+.promo-code-pill { font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.15); padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.25); }
+.promo-action-btn {
+  background: var(--white);
+  color: var(--blue);
+  padding: 7px 16px;
+  border-radius: var(--r-full);
+  font-size: 11.5px;
+  font-weight: 800;
+  transition: transform 150ms ease;
+}
+.promo-action-btn:active { transform: scale(0.95); }
+.promo-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+}
+.p-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+.p-dot.active { width: 20px; border-radius: 3px; background: var(--blue); }
+
+/* ═══════════════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════════════ */
+.sec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 18px 12px;
+}
+.sec-title { font-size: 17px; font-weight: 900; color: var(--text); letter-spacing: -0.4px; }
+.sec-all-link { font-size: 13px; font-weight: 700; color: var(--orange); cursor: pointer; }
+
+/* ═══════════════════════════════════════════
+   CATEGORIES GRID
+═══════════════════════════════════════════ */
+.service-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 0 18px;
+}
+.cat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 180ms var(--ease-spring);
+  box-shadow: var(--shadow-xs);
+}
+.cat-card:hover { border-color: var(--blue-100); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+.cat-card:active { transform: scale(0.95); }
+.cat-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+.cat-card-title { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.25; margin-bottom: 2px; }
+.cat-card-count { font-size: 9.5px; font-weight: 600; color: var(--text-light); }
+.cat-tag {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  color: var(--white);
+}
+.cat-tag.hot { background: var(--orange); }
+.cat-tag.deal { background: var(--green); }
+
+/* ═══════════════════════════════════════════
+   TOP PROVIDERS HORIZONTAL CARDS
+═══════════════════════════════════════════ */
+.providers-h-scroll {
+  display: flex;
+  gap: 14px;
+  padding: 0 18px 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.provider-h-card {
+  min-width: 210px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 200ms var(--ease-spring);
+}
+.provider-h-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.provider-h-card:active { transform: scale(0.97); }
+.ph-img {
+  width: 100%;
+  height: 115px;
+  object-fit: cover;
+}
+.ph-body { padding: 12px; }
+.ph-name { font-size: 13.5px; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+.ph-role { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ph-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.ph-rating { display: flex; align-items: center; gap: 3px; font-size: 11.5px; font-weight: 700; color: var(--text); }
+.ph-rate { font-size: 13px; font-weight: 900; color: var(--blue); }
+.ph-rate span { font-size: 10px; color: var(--text-light); font-weight: 500; }
+.ph-footer {
+  border-top: 1px solid var(--border-light);
+  padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ph-dist { font-size: 10.5px; color: var(--text-light); font-weight: 600; }
+.verified-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--green-bg);
+  color: var(--green);
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--r-full);
+}
+
+/* ═══════════════════════════════════════════
+   TUGON GUARANTEE BANNER
+═══════════════════════════════════════════ */
+.guarantee-card {
+  margin: 20px 18px 10px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, var(--blue), var(--blue-600));
+  border-radius: var(--r-xl);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-blue);
+  cursor: pointer;
+  transition: transform 180ms ease;
+}
+.guarantee-card:active { transform: scale(0.98); }
+.gc-icon-badge {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--r-md);
+  background: rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.gc-title { font-size: 15px; font-weight: 900; margin-bottom: 2px; }
+.gc-desc { font-size: 11.5px; color: rgba(255,255,255,0.8); line-height: 1.35; }
+.gc-arrow { font-size: 18px; color: rgba(255,255,255,0.5); margin-left: auto; }
+
+/* ═══════════════════════════════════════════
+   PROVIDER LIST VERTICAL
+═══════════════════════════════════════════ */
+.providers-vertical-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 18px;
+}
+.provider-v-card {
+  display: flex;
+  gap: 12px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px;
+  cursor: pointer;
+  transition: all 180ms var(--ease-spring);
+  box-shadow: var(--shadow-xs);
+}
+.provider-v-card:hover { border-color: var(--blue-100); transform: translateY(-1px); }
+.provider-v-card:active { transform: scale(0.98); }
+.pv-avatar {
+  width: 68px;
+  height: 68px;
+  border-radius: var(--r-md);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.pv-info { flex: 1; min-width: 0; }
+.pv-name { font-size: 13.5px; font-weight: 800; color: var(--text); margin-bottom: 2px; }
+.pv-role { font-size: 11.5px; color: var(--text-muted); margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv-meta { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; }
+.pv-rate { margin-left: auto; font-size: 14px; font-weight: 900; color: var(--blue); }
+.pv-rate span { font-size: 10px; color: var(--text-light); }
+
+/* ═══════════════════════════════════════════
+   PROVIDER PROFILE SCREEN
+═══════════════════════════════════════════ */
+.profile-hero {
+  position: relative;
+  height: 270px;
+}
+.ph-hero-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ph-hero-grad {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,61,98,0.92) 0%, rgba(10,61,98,0.4) 40%, rgba(0,0,0,0.3) 100%);
+}
+.ph-nav-bar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+.ph-circle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r-full);
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: transform 150ms ease;
+}
+.ph-circle-btn:active { transform: scale(0.9); }
+.ph-header-meta {
+  position: absolute;
+  bottom: 16px;
+  left: 18px;
+  right: 18px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  color: var(--white);
+}
+.ph-main-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 3px solid var(--white);
+  box-shadow: var(--shadow-lg);
+  flex-shrink: 0;
+}
+.ph-title-box { flex: 1; }
+.ph-provider-name { font-size: 19px; font-weight: 900; letter-spacing: -0.4px; line-height: 1.2; }
+.ph-provider-title { font-size: 12px; color: rgba(255,255,255,0.85); margin-top: 2px; margin-bottom: 6px; }
+.ph-badge-strip { display: flex; gap: 6px; flex-wrap: wrap; }
+.ph-pill-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(4px);
+  color: var(--white);
+}
+.ph-pill-badge.accent { background: var(--orange); }
+
+/* Glassmorphism Stat Cards */
+.glass-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding: 14px 18px 0;
+}
+.glass-stat-box {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px 6px;
+  text-align: center;
+  box-shadow: var(--shadow-xs);
+}
+.gs-icon { font-size: 14px; margin-bottom: 2px; }
+.gs-value { font-size: 15px; font-weight: 900; color: var(--blue); letter-spacing: -0.3px; }
+.gs-label { font-size: 9.5px; font-weight: 700; color: var(--text-light); margin-top: 2px; }
+
+/* Quick Action Strip */
+.quick-action-strip {
+  display: flex;
+  gap: 10px;
+  padding: 12px 18px 0;
+}
+.qa-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 11px;
+  border-radius: var(--r-md);
+  font-size: 12.5px;
+  font-weight: 700;
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: all 150ms var(--ease-spring);
+}
+.qa-btn.primary { background: var(--blue-50); border-color: var(--blue-100); color: var(--blue); }
+.qa-btn:active { transform: scale(0.96); }
+
+/* Rate Banner */
+.rate-pill-banner {
+  margin: 12px 18px 0;
+  padding: 12px 16px;
+  background: var(--orange-50);
+  border: 1px solid var(--orange-100);
+  border-radius: var(--r-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.rpb-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); }
+.rpb-val { font-size: 18px; font-weight: 900; color: var(--orange); }
+.rpb-val span { font-size: 11px; font-weight: 600; color: var(--text-muted); }
+
+/* Tabs Bar */
+.profile-tabs-nav {
+  display: flex;
+  gap: 4px;
+  background: var(--bg-subtle);
+  border-radius: var(--r-md);
+  padding: 4px;
+  margin: 16px 18px 0;
+}
+.pt-tab-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: var(--r-sm);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-align: center;
+  transition: all 180ms ease;
+  cursor: pointer;
+}
+.pt-tab-btn.active {
+  background: var(--white);
+  color: var(--blue);
+  box-shadow: var(--shadow-sm);
+  font-weight: 800;
+}
+.tab-pane {
+  display: none;
+  padding: 16px 18px 0;
+}
+.tab-pane.active { display: block; }
+
+/* Bio & Specialties */
+.provider-bio-text { font-size: 13.5px; line-height: 1.65; color: var(--text-muted); margin-bottom: 16px; }
+.sub-sec-heading { font-size: 12.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text); margin-bottom: 10px; }
+.spec-list { display: flex; flex-direction: column; gap: 8px; }
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+.spec-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* Availability Date Picker */
+.day-chip-row {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+.day-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: all 180ms var(--ease-spring);
+  flex-shrink: 0;
+}
+.day-chip.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--white);
+}
+.day-chip:active { transform: scale(0.95); }
+.dc-name { font-size: 10.5px; font-weight: 700; color: var(--text-light); }
+.dc-num { font-size: 16px; font-weight: 900; color: var(--text); margin-top: 2px; }
+.day-chip.active .dc-name, .day-chip.active .dc-num { color: var(--white); }
+
+.time-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.slot-tile {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 180ms var(--ease-spring);
+}
+.slot-tile:hover { border-color: var(--orange-100); }
+.slot-tile.selected {
+  background: var(--orange-50);
+  border-color: var(--orange);
+}
+.slot-tile.booked {
+  background: var(--bg-subtle);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.st-time { font-size: 13.5px; font-weight: 800; color: var(--text); }
+.slot-tile.selected .st-time { color: var(--orange); }
+.st-period { font-size: 10px; font-weight: 600; color: var(--text-light); margin-top: 2px; }
+.st-status { font-size: 9.5px; font-weight: 800; color: var(--green); margin-top: 4px; }
+.slot-tile.booked .st-status { color: var(--red); }
+
+/* Experience Chips & Certs */
+.chips-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.exp-chip {
+  padding: 6px 12px;
+  border-radius: var(--r-full);
+  background: var(--white);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.cert-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  border-radius: var(--r-md);
+  margin-bottom: 8px;
+}
+.cert-badge-icon { font-size: 20px; }
+.cert-text { font-size: 12.5px; font-weight: 700; color: var(--blue); }
+
+/* Reviews Summary & List */
+.rev-overview-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  margin-bottom: 14px;
+}
+.ro-score { font-size: 38px; font-weight: 900; color: var(--blue); line-height: 1; }
+.ro-stars { color: var(--orange); font-size: 13px; margin: 4px 0; }
+.ro-count { font-size: 11px; color: var(--text-light); font-weight: 600; }
+.ro-bars { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.bar-line { display: flex; align-items: center; gap: 6px; }
+.bl-label { font-size: 10px; font-weight: 700; width: 8px; color: var(--text-light); }
+.bl-track { flex: 1; height: 6px; background: var(--bg-subtle); border-radius: 3px; overflow: hidden; }
+.bl-fill { height: 100%; background: var(--orange); border-radius: 3px; }
+
+.review-item-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+.ric-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ric-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+.ric-author { font-size: 13px; font-weight: 800; color: var(--text); }
+.ric-time { font-size: 10px; color: var(--text-light); font-weight: 500; }
+.ric-tag { font-size: 10.5px; font-weight: 700; color: var(--blue); background: var(--blue-50); padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 6px; }
+.ric-comment { font-size: 12.5px; line-height: 1.55; color: var(--text-muted); }
+
+/* Sticky Profile Bottom Action */
+.sticky-profile-action {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 18px;
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  z-index: 30;
+  box-shadow: 0 -8px 24px rgba(0,0,0,0.06);
+}
+.sticky-book-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--r-xl);
+  background: linear-gradient(135deg, var(--orange), var(--orange-600));
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--shadow-orange);
+  transition: all 200ms var(--ease-spring);
+}
+.sticky-book-btn:active { transform: scale(0.98); }
+
+/* ═══════════════════════════════════════════
+   BOOKING MODAL SHEET
+═══════════════════════════════════════════ */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(11,19,32,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 280ms ease;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal-sheet {
+  background: var(--white);
+  width: 100%;
+  border-radius: 28px 28px 0 0;
+  padding: 20px 22px 32px;
+  transform: translateY(100%);
+  transition: transform 320ms var(--ease-smooth);
+}
+.modal-overlay.active .modal-sheet { transform: translateY(0); }
+.modal-drag-pill { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 0 auto 16px; }
+.modal-title { font-size: 20px; font-weight: 900; color: var(--text); letter-spacing: -0.5px; }
+.modal-sub { font-size: 13px; color: var(--text-light); margin-top: 2px; margin-bottom: 18px; }
+.order-summary-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.os-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+.os-label { color: var(--text-muted); font-weight: 600; }
+.os-val { font-weight: 800; color: var(--text); }
+.os-val.price { font-size: 18px; color: var(--orange); font-weight: 900; }
+.modal-sep { height: 1px; background: var(--border); }
+.confirm-action-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--r-xl);
+  background: linear-gradient(135deg, var(--blue), var(--blue-700));
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 900;
+  box-shadow: var(--shadow-blue);
+  transition: all 200ms var(--ease-spring);
+}
+.confirm-action-btn:active { transform: scale(0.98); }
+.cancel-action-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════
+   SUCCESS CELEBRATION SCREEN
+═══════════════════════════════════════════ */
+.success-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 32px 24px;
+  text-align: center;
+}
+.check-badge-animated {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: var(--green-bg);
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 20px;
+  animation: popIn 450ms var(--ease-spring) both;
+}
+@keyframes popIn {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-heading { font-size: 24px; font-weight: 900; color: var(--text); letter-spacing: -0.5px; margin-bottom: 6px; }
+.success-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px; max-width: 320px; }
+.receipt-card {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
+}
+.rc-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+.rc-label { color: var(--text-light); font-weight: 600; }
+.rc-val { font-weight: 800; color: var(--text); }
+
+/* ═══════════════════════════════════════════
+   SEARCH SCREEN
+═══════════════════════════════════════════ */
+.trend-tags-wrap { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 18px; }
+.trend-tag {
+  padding: 7px 14px;
+  border-radius: var(--r-full);
+  background: var(--white);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.trend-tag:active { background: var(--blue-50); color: var(--blue); border-color: var(--blue); }
+
+/* ═══════════════════════════════════════════
+   BOOKINGS SCREEN
+═══════════════════════════════════════════ */
+.bookings-top-nav {
+  display: flex;
+  gap: 6px;
+  padding: 8px 18px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+.b-tab-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: var(--r-md);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-light);
+  background: var(--bg-subtle);
+  text-align: center;
+  transition: all 180ms ease;
+}
+.b-tab-btn.active { background: var(--blue); color: var(--white); }
+.booking-ticket {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  margin: 12px 18px 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+}
+.bt-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+}
+.bt-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: var(--r-full);
+  font-size: 10.5px;
+  font-weight: 800;
+}
+.bt-status.active { background: var(--green-bg); color: var(--green); }
+.bt-id { font-size: 11px; font-weight: 700; color: var(--text-light); font-family: monospace; }
+.bt-body {
+  padding: 14px 16px;
+  display: flex;
+  gap: 12px;
+}
+.bt-avatar { width: 54px; height: 54px; border-radius: var(--r-md); object-fit: cover; }
+.bt-info { flex: 1; }
+.bt-name { font-size: 14px; font-weight: 800; color: var(--text); }
+.bt-service { font-size: 11.5px; color: var(--text-muted); margin-bottom: 6px; }
+.bt-time { font-size: 11px; font-weight: 700; color: var(--blue); }
+.bt-actions {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  gap: 8px;
+}
+.bt-action-btn {
+  flex: 1;
+  padding: 9px;
+  border-radius: var(--r-md);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  background: var(--bg-subtle);
+  color: var(--text);
+  transition: all 150ms ease;
+}
+.bt-action-btn.primary { background: var(--blue); color: var(--white); }
+.bt-action-btn:active { transform: scale(0.96); }
+
+/* ═══════════════════════════════════════════
+   USER PROFILE SCREEN
+═══════════════════════════════════════════ */
+.user-hero-box {
+  background: linear-gradient(135deg, var(--blue), var(--blue-700));
+  color: var(--white);
+  padding: 32px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 0 0 var(--r-xl) var(--r-xl);
+}
+.uh-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 3px solid rgba(255,255,255,0.3);
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-md);
+}
+.uh-name { font-size: 20px; font-weight: 900; letter-spacing: -0.4px; }
+.uh-email { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 2px; }
+.uh-stats-row {
+  display: flex;
+  gap: 24px;
+  margin-top: 18px;
+  background: rgba(255,255,255,0.1);
+  padding: 10px 24px;
+  border-radius: var(--r-lg);
+}
+.uh-stat { display: flex; flex-direction: column; align-items: center; }
+.uh-stat-val { font-size: 16px; font-weight: 900; }
+.uh-stat-lbl { font-size: 10px; color: rgba(255,255,255,0.7); margin-top: 2px; }
+
+.settings-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  margin: 16px 18px;
+  overflow: hidden;
+}
+.sm-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border-light);
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+.sm-item:last-child { border-bottom: none; }
+.sm-item:active { background: var(--bg); }
+.sm-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--r-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+.sm-label { font-size: 13.5px; font-weight: 700; color: var(--text); flex: 1; }
+.sm-arrow { font-size: 14px; color: var(--text-light); }
+
+/* ═══════════════════════════════════════════
+   FLOATING BOTTOM NAVIGATION
+═══════════════════════════════════════════ */
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  z-index: 50;
+  box-shadow: 0 -6px 24px rgba(0,0,0,0.06);
+}
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 150ms ease;
+}
+.nav-btn:active { transform: scale(0.92); }
+.nav-icon { font-size: 20px; transition: transform 200ms var(--ease-spring); }
+.nav-txt { font-size: 10.5px; font-weight: 600; color: var(--text-light); transition: color 150ms ease; }
+.nav-btn.active .nav-icon { transform: scale(1.1); }
+.nav-btn.active .nav-txt { color: var(--blue); font-weight: 800; }
+
+/* Elevated Center CTA */
+.nav-btn.center-action {
+  flex: 1.1;
+  margin-top: -24px;
+}
+.center-circle-cta {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--r-full);
+  background: linear-gradient(135deg, var(--orange), var(--orange-600));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--white);
+  box-shadow: var(--shadow-orange);
+  border: 4px solid var(--white);
+  transition: transform 200ms var(--ease-spring);
+}
+.nav-btn.center-action:active .center-circle-cta { transform: scale(0.92); }
+.nav-btn.center-action.active .center-circle-cta {
+  background: linear-gradient(135deg, var(--blue), var(--blue-700));
+  box-shadow: var(--shadow-blue);
+}
+.nav-btn.center-action .nav-txt { color: var(--orange); font-weight: 800; }
+.nav-btn.center-action.active .nav-txt { color: var(--blue); }
+
+/* ═══════════════════════════════════════════
+   TOAST NOTIFICATION
+═══════════════════════════════════════════ */
+#toast-bubble {
+  position: absolute;
+  bottom: 96px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(15,23,42,0.92);
+  backdrop-filter: blur(10px);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 700;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 260ms var(--ease-spring);
+  z-index: 999;
+  white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+}
+#toast-bubble.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+</style>
+</head>
+<body>
+
+<div id="app-root">
+
+  <!-- ═══════════════════════════════════════════
+       DESKTOP SIDEBAR (visible ≥1024px)
+  ═══════════════════════════════════════════ -->
+  <aside class="desktop-sidebar">
+    <div class="ds-brand">
+      <div class="ds-logo-badge">T</div>
+      <div>
+        <div class="ds-brand-name">Tugon</div>
+        <div class="ds-brand-tag">Verified Home Services</div>
+      </div>
+    </div>
+    <div class="ds-nav-group">
+      <div class="ds-nav-item active" id="ds-nav-home" onclick="navTo('home')">
+        <span class="ds-nav-icon">🏠</span> Home
+      </div>
+      <div class="ds-nav-item" id="ds-nav-search" onclick="navTo('search')">
+        <span class="ds-nav-icon">🔍</span> Find Services
+      </div>
+      <div class="ds-nav-item" id="ds-nav-bookings" onclick="navTo('bookings')">
+        <span class="ds-nav-icon">📅</span> My Bookings
+      </div>
+      <div class="ds-nav-item" id="ds-nav-saved" onclick="navTo('saved')">
+        <span class="ds-nav-icon">❤️</span> Saved Pros
+      </div>
+      <div class="ds-nav-item" id="ds-nav-profile" onclick="navTo('user-profile')">
+        <span class="ds-nav-icon">👤</span> My Account
+      </div>
+    </div>
+    <div class="ds-sidebar-footer">
+      <button class="ds-book-cta" onclick="navTo('bookings')">
+        <span>📅</span> Book Immediate Service
+      </button>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN STAGE FOR SCREENS
+  ═══════════════════════════════════════════ -->
+  <main class="main-stage">
+
+    <!-- ── SCREEN: HOME ── -->
+    <div class="screen active" id="screen-home">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="loc-pill" onclick="toast('📍 Current location: Manila, Metro Manila')">
+          <span class="loc-icon">📍</span>
+          <div class="loc-details">
+            <span class="loc-city">Metro Manila</span>
+            <span class="loc-sub">Tap to switch area ▾</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-circle-btn" onclick="toast('🔔 All systems operational')">
+            🔔
+            <span class="notif-dot"></span>
+          </button>
+          <div class="top-avatar" onclick="navTo('user-profile')">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Avatar"/>
+          </div>
+        </div>
+      </header>
+
+      <!-- Search Strip -->
+      <div class="search-strip">
+        <div class="search-input-box">
+          <span style="font-size:16px">🔍</span>
+          <input class="search-input-field" placeholder="Search electrician, plumber, AC..." onfocus="navTo('search')"/>
+          <button class="filter-icon-btn">⚙️</button>
+        </div>
+      </div>
+
+      <!-- Categories Filter Chips -->
+      <div class="categories-filter-row" id="home-chips">
+        <div class="cat-chip active" onclick="filterChip(this)">🌟 All Services</div>
+        <div class="cat-chip" onclick="filterChip(this)">⚡ Electrical</div>
+        <div class="cat-chip" onclick="filterChip(this)">✨ Cleaning</div>
+        <div class="cat-chip" onclick="filterChip(this)">🔧 Plumbing</div>
+        <div class="cat-chip" onclick="filterChip(this)">❄️ AC Repair</div>
+        <div class="cat-chip" onclick="filterChip(this)">🔨 Appliance</div>
+      </div>
+
+      <!-- Scrollable Main Content -->
+      <div class="scroll-body">
+
+        <!-- Hero Promo Carousel -->
+        <div class="promo-carousel-wrap">
+          <div class="promo-card" onclick="openProvider('marcus')">
+            <img class="promo-bg-img" id="promo-img" src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1000&q=80" alt="Promo"/>
+            <div class="promo-gradient"></div>
+            <div class="promo-inner">
+              <div class="promo-badge" id="promo-badge">🔥 50% OFF TODAY</div>
+              <div class="promo-title" id="promo-title">Certified Electrical Overhaul</div>
+              <div class="promo-sub" id="promo-sub">Safety panel upgrade, thermal scan & breaker check</div>
+              <div class="promo-footer">
+                <span class="promo-code-pill" id="promo-code">Code: POWER50</span>
+                <button class="promo-action-btn">Book Marcus →</button>
+              </div>
+            </div>
+          </div>
+          <div class="promo-indicators">
+            <div class="p-dot active" onclick="setPromoSlide(0)"></div>
+            <div class="p-dot" onclick="setPromoSlide(1)"></div>
+            <div class="p-dot" onclick="setPromoSlide(2)"></div>
+          </div>
+        </div>
+
+        <!-- 8 Categories Grid -->
+        <div class="sec-header">
+          <h2 class="sec-title">Explore Services</h2>
+          <span class="sec-all-link" onclick="navTo('search')">See all (8) →</span>
+        </div>
+        <div class="service-cat-grid">
+          <div class="cat-card" onclick="openProvider('ramon')">
+            <div class="cat-icon-container" style="background:#E0F2FE;color:#0284C7">🔧</div>
+            <div class="cat-card-title">Plumbing</div>
+            <div class="cat-card-count">42 Pros</div>
+            <div class="cat-tag hot">HOT</div>
+          </div>
+          <div class="cat-card" onclick="openProvider('elena')">
+            <div class="cat-icon-container" style="background:#FEF3C7;color:#D97706">✨</div>
+            <div class="cat-card-title">Deep Cleaning</div>
+            <div class="cat-card-count">68 Pros</div>
+            <div class="cat-tag deal">50% OFF</div>
+          </div>
+          <div class="cat-card" onclick="openProvider('marcus')">
+            <div class="cat-icon-container" style="background:#FEE2E2;color:#DC2626">⚡</div>
+            <div class="cat-card-title">Electrical</div>
+            <div class="cat-card-count">35 Pros</div>
+          </div>
+          <div class="cat-card" onclick="navTo('search')">
+            <div class="cat-icon-container" style="background:#EDE9FE;color:#7C3AED">🔨</div>
+            <div class="cat-card-title">Appliance</div>
+            <div class="cat-card-count">29 Pros</div>
+          </div>
+          <div class="cat-card" onclick="navTo('search')">
+            <div class="cat-icon-container" style="background:#CCFBF1;color:#0D9488">❄️</div>
+            <div class="cat-card-title">AC Repair</div>
+            <div class="cat-card-count">51 Pros</div>
+          </div>
+          <div class="cat-card" onclick="navTo('search')">
+            <div class="cat-icon-container" style="background:#FFEDD5;color:#EA580C">🪵</div>
+            <div class="cat-card-title">Carpentry</div>
+            <div class="cat-card-count">24 Pros</div>
+          </div>
+          <div class="cat-card" onclick="navTo('search')">
+            <div class="cat-icon-container" style="background:#FCE7F3;color:#DB2777">🎨</div>
+            <div class="cat-card-title">Painting</div>
+            <div class="cat-card-count">19 Pros</div>
+          </div>
+          <div class="cat-card" onclick="navTo('search')">
+            <div class="cat-icon-container" style="background:#DCFCE7;color:#16A34A">🐛</div>
+            <div class="cat-card-title">Pest Control</div>
+            <div class="cat-card-count">16 Pros</div>
+          </div>
+        </div>
+
+        <!-- Featured Top-Rated Providers -->
+        <div class="sec-header">
+          <h2 class="sec-title">Top-Rated Pros Near You</h2>
+          <span class="sec-all-link" onclick="navTo('search')">View all →</span>
+        </div>
+        <div class="providers-h-scroll">
+          <!-- Marcus -->
+          <div class="provider-h-card" onclick="openProvider('marcus')">
+            <img class="ph-img" src="https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=500&q=80" alt="Marcus"/>
+            <div class="ph-body">
+              <div class="ph-name">Engr. Marcus Vance</div>
+              <div class="ph-role">Master Electrician & Smart Home</div>
+              <div class="ph-row">
+                <div class="ph-rating"><span style="color:var(--orange)">★</span> 4.96 (248)</div>
+                <div class="ph-rate">$48<span>/hr</span></div>
+              </div>
+              <div class="ph-footer">
+                <span class="ph-dist">📍 2.4 km away</span>
+                <span class="verified-tag">✓ Verified</span>
+              </div>
+            </div>
+          </div>
+          <!-- Elena -->
+          <div class="provider-h-card" onclick="openProvider('elena')">
+            <img class="ph-img" src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=500&q=80" alt="Elena"/>
+            <div class="ph-body">
+              <div class="ph-name">Elena Santos</div>
+              <div class="ph-role">Eco-Sanitation & Deep Cleaning</div>
+              <div class="ph-row">
+                <div class="ph-rating"><span style="color:var(--orange)">★</span> 4.98 (312)</div>
+                <div class="ph-rate">$36<span>/hr</span></div>
+              </div>
+              <div class="ph-footer">
+                <span class="ph-dist">📍 1.8 km away</span>
+                <span class="verified-tag">✓ Verified</span>
+              </div>
+            </div>
+          </div>
+          <!-- Ramon -->
+          <div class="provider-h-card" onclick="openProvider('ramon')">
+            <img class="ph-img" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80" alt="Ramon"/>
+            <div class="ph-body">
+              <div class="ph-name">Ramon Dela Cruz</div>
+              <div class="ph-role">Hydraulic & Pipe Specialist</div>
+              <div class="ph-row">
+                <div class="ph-rating"><span style="color:var(--orange)">★</span> 4.92 (195)</div>
+                <div class="ph-rate">$44<span>/hr</span></div>
+              </div>
+              <div class="ph-footer">
+                <span class="ph-dist">📍 3.1 km away</span>
+                <span class="verified-tag">✓ Verified</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tugon Guarantee Banner -->
+        <div class="guarantee-card" onclick="toast('🛡️ Covered: Up to $2,500 property protection backed by Tugon')">
+          <div class="gc-icon-badge">🛡️</div>
+          <div>
+            <div class="gc-title">Tugon Guarantee™</div>
+            <div class="gc-desc">All bookings include up to $2,500 damage protection &amp; 24/7 dedicated support.</div>
+          </div>
+          <div class="gc-arrow">›</div>
+        </div>
+
+        <!-- Recommended Nearby Pros -->
+        <div class="sec-header">
+          <h2 class="sec-title">More Verified Experts</h2>
+        </div>
+        <div class="providers-vertical-list">
+          <div class="provider-v-card" onclick="openProvider('marcus')">
+            <img class="pv-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80" alt="Marcus"/>
+            <div class="pv-info">
+              <div class="pv-name">Engr. Marcus Vance</div>
+              <div class="pv-role">Subpanels, EV Chargers, Lighting</div>
+              <div class="pv-meta">
+                <span style="color:var(--orange)">★ 4.96</span>
+                <span>• 9 Yrs Exp</span>
+                <span class="verified-tag">✓ Pro</span>
+              </div>
+            </div>
+            <div class="pv-rate">$48<span>/hr</span></div>
+          </div>
+
+          <div class="provider-v-card" onclick="openProvider('elena')">
+            <img class="pv-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80" alt="Elena"/>
+            <div class="pv-info">
+              <div class="pv-name">Elena Santos</div>
+              <div class="pv-role">Move-in, Deep Steam, Allergen Clean</div>
+              <div class="pv-meta">
+                <span style="color:var(--orange)">★ 4.98</span>
+                <span>• 7 Yrs Exp</span>
+                <span class="verified-tag">✓ Pro</span>
+              </div>
+            </div>
+            <div class="pv-rate">$36<span>/hr</span></div>
+          </div>
+
+          <div class="provider-v-card" onclick="openProvider('ramon')">
+            <img class="pv-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=80" alt="Ramon"/>
+            <div class="pv-info">
+              <div class="pv-name">Ramon Dela Cruz</div>
+              <div class="pv-role">Pipe Leaks, Camera Inspection, Valves</div>
+              <div class="pv-meta">
+                <span style="color:var(--orange)">★ 4.92</span>
+                <span>• 12 Yrs Exp</span>
+                <span class="verified-tag">✓ Pro</span>
+              </div>
+            </div>
+            <div class="pv-rate">$44<span>/hr</span></div>
+          </div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div>
+    </div><!-- /screen-home -->
+
+
+    <!-- ── SCREEN: PROVIDER DETAIL PROFILE ── -->
+    <div class="screen" id="screen-provider">
+      <div class="scroll-body" style="padding-bottom:88px">
+        <!-- Hero Header -->
+        <div class="profile-hero">
+          <img class="ph-hero-bg" id="p-hero-img" src="" alt="Cover"/>
+          <div class="ph-hero-grad"></div>
+          <div class="ph-nav-bar">
+            <button class="ph-circle-btn" onclick="navBack()">‹</button>
+            <button class="ph-circle-btn" onclick="toast('🔗 Provider link copied!')">⎘</button>
+          </div>
+          <div class="ph-header-meta">
+            <div class="ph-main-avatar">
+              <img id="p-avatar" src="" alt="Avatar"/>
+            </div>
+            <div class="ph-title-box">
+              <h1 class="ph-provider-name" id="p-name">Provider Name</h1>
+              <div class="ph-provider-title" id="p-title">Specialty Title</div>
+              <div class="ph-badge-strip">
+                <span class="ph-pill-badge accent" id="p-cat">Category</span>
+                <span class="ph-pill-badge" id="p-dist">📍 2.4 km</span>
+                <span class="ph-pill-badge">✓ Verified</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Glassmorphism Stat Cards -->
+        <div class="glass-stats-grid">
+          <div class="glass-stat-box">
+            <div class="gs-icon">🏆</div>
+            <div class="gs-value" id="p-stat-exp">9 Yrs</div>
+            <div class="gs-label">Experience</div>
+          </div>
+          <div class="glass-stat-box">
+            <div class="gs-icon">⭐</div>
+            <div class="gs-value" id="p-stat-rating">4.96</div>
+            <div class="gs-label">Rating</div>
+          </div>
+          <div class="glass-stat-box">
+            <div class="gs-icon">✅</div>
+            <div class="gs-value" id="p-stat-jobs">1,420+</div>
+            <div class="gs-label">Jobs Done</div>
+          </div>
+          <div class="glass-stat-box">
+            <div class="gs-icon">😊</div>
+            <div class="gs-value" id="p-stat-sat">99.4%</div>
+            <div class="gs-label">Satisfaction</div>
+          </div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="quick-action-strip">
+          <button class="qa-btn primary" onclick="toast('📞 Calling provider...')"><span>📞</span> Call</button>
+          <button class="qa-btn" onclick="toast('💬 Opening secure chat...')"><span>💬</span> Message</button>
+          <button class="qa-btn" onclick="toggleSaveCurrent()"><span>❤️</span> <span id="save-label">Save</span></button>
+        </div>
+
+        <!-- Rate Banner -->
+        <div class="rate-pill-banner">
+          <span class="rpb-label">Hourly Rate &amp; Diagnostics</span>
+          <span class="rpb-val" id="p-rate">$48<span>/hour</span></span>
+        </div>
+
+        <!-- 4 Tabs -->
+        <div class="profile-tabs-nav">
+          <div class="pt-tab-btn active" onclick="switchProfileTab('about')">About</div>
+          <div class="pt-tab-btn" onclick="switchProfileTab('avail')">Availability</div>
+          <div class="pt-tab-btn" onclick="switchProfileTab('exp')">Experience</div>
+          <div class="pt-tab-btn" onclick="switchProfileTab('rev')">Reviews</div>
+        </div>
+
+        <!-- Tab 1: About -->
+        <div class="tab-pane active" id="tab-about">
+          <p class="provider-bio-text" id="p-bio">Bio text here...</p>
+          <div class="sub-sec-heading">Core Specialties</div>
+          <div class="spec-list" id="p-spec-list"></div>
+        </div>
+
+        <!-- Tab 2: Availability -->
+        <div class="tab-pane" id="tab-avail">
+          <div class="day-chip-row" id="days-picker-row"></div>
+          <div class="sub-sec-heading">Available Time Windows</div>
+          <div class="time-slots-grid" id="slots-picker-grid"></div>
+        </div>
+
+        <!-- Tab 3: Experience -->
+        <div class="tab-pane" id="tab-exp">
+          <div class="sub-sec-heading">Tools &amp; Equipment</div>
+          <div class="chips-cloud" id="p-tools-list"></div>
+          <div class="sub-sec-heading">Licenses &amp; Certifications</div>
+          <div id="p-certs-list"></div>
+        </div>
+
+        <!-- Tab 4: Reviews -->
+        <div class="tab-pane" id="tab-rev">
+          <div class="rev-overview-card">
+            <div>
+              <div class="ro-score" id="ro-score-val">4.96</div>
+              <div class="ro-stars">★★★★★</div>
+              <div class="ro-count" id="ro-reviews-count">248 Verified</div>
+            </div>
+            <div class="ro-bars">
+              <div class="bar-line"><span class="bl-label">5</span><div class="bl-track"><div class="bl-fill" style="width:88%"></div></div></div>
+              <div class="bar-line"><span class="bl-label">4</span><div class="bl-track"><div class="bl-fill" style="width:9%"></div></div></div>
+              <div class="bar-line"><span class="bl-label">3</span><div class="bl-track"><div class="bl-fill" style="width:3%"></div></div></div>
+              <div class="bar-line"><span class="bl-label">2</span><div class="bl-track"><div class="bl-fill" style="width:0%"></div></div></div>
+              <div class="bar-line"><span class="bl-label">1</span><div class="bl-track"><div class="bl-fill" style="width:0%"></div></div></div>
+            </div>
+          </div>
+          <div id="p-reviews-feed"></div>
+        </div>
+
+        <div style="height:20px"></div>
+      </div>
+
+      <!-- Sticky Schedule CTA -->
+      <div class="sticky-profile-action">
+        <button class="sticky-book-btn" id="sticky-book-btn" onclick="openBookingSheet()">
+          📅 Schedule Now — Available Today
+        </button>
+      </div>
+    </div><!-- /screen-provider -->
+
+
+    <!-- ── SCREEN: SEARCH ── -->
+    <div class="screen" id="screen-search">
+      <div class="search-strip">
+        <div class="search-input-box">
+          <span style="font-size:16px">🔍</span>
+          <input class="search-input-field" id="search-keyword" placeholder="Search service, keyword or pro..." oninput="handleSearch(this.value)"/>
+          <button style="font-size:13px;font-weight:700;color:var(--text-light)" onclick="navTo('home')">Done</button>
+        </div>
+      </div>
+      <div class="scroll-body">
+        <div class="sec-header" style="padding-top:14px">
+          <h2 class="sec-title">Popular Searches</h2>
+        </div>
+        <div class="trend-tags-wrap">
+          <div class="trend-tag" onclick="quickSearch('Circuit Breaker')">⚡ Circuit Breaker</div>
+          <div class="trend-tag" onclick="quickSearch('Deep Cleaning')">✨ Deep Cleaning</div>
+          <div class="trend-tag" onclick="quickSearch('AC Freon Leak')">❄️ AC Freon Leak</div>
+          <div class="trend-tag" onclick="quickSearch('Pipe Burst')">🔧 Pipe Burst</div>
+          <div class="trend-tag" onclick="quickSearch('EV Charger')">🚗 EV Charger</div>
+          <div class="trend-tag" onclick="quickSearch('Wall Repaint')">🎨 Wall Repaint</div>
+        </div>
+        <div class="sec-header">
+          <h2 class="sec-title">All Service Providers</h2>
+        </div>
+        <div class="providers-vertical-list" id="search-results-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div><!-- /screen-search -->
+
+
+    <!-- ── SCREEN: BOOKINGS ── -->
+    <div class="screen" id="screen-bookings">
+      <header class="top-bar">
+        <h1 style="font-size:18px;font-weight:900;color:var(--text)">My Bookings</h1>
+        <button class="icon-circle-btn" onclick="toast('ℹ️ Help & FAQ')">❓</button>
+      </header>
+      <div class="bookings-top-nav">
+        <div class="b-tab-btn active" onclick="setBookingFilter('upcoming', this)">Upcoming (2)</div>
+        <div class="b-tab-btn" onclick="setBookingFilter('ongoing', this)">Ongoing (0)</div>
+        <div class="b-tab-btn" onclick="setBookingFilter('completed', this)">History (1)</div>
+      </div>
+      <div class="scroll-body" id="bookings-feed">
+        <!-- Upcoming 1 -->
+        <div class="booking-ticket">
+          <div class="bt-header">
+            <span class="bt-status active">● Confirmed</span>
+            <span class="bt-id">#TUGON-8921</span>
+          </div>
+          <div class="bt-body">
+            <img class="bt-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt=""/>
+            <div class="bt-info">
+              <div class="bt-name">Engr. Marcus Vance</div>
+              <div class="bt-service">Electrical Subpanel Diagnostic</div>
+              <div class="bt-time">📅 Tomorrow at 10:00 AM • 2 hrs</div>
+            </div>
+          </div>
+          <div class="bt-actions">
+            <button class="bt-action-btn primary" onclick="toast('📞 Connecting to Marcus Vance...')">Call Pro</button>
+            <button class="bt-action-btn" onclick="openProvider('marcus')">View Profile</button>
+          </div>
+        </div>
+
+        <!-- Upcoming 2 -->
+        <div class="booking-ticket">
+          <div class="bt-header">
+            <span class="bt-status active">● Confirmed</span>
+            <span class="bt-id">#TUGON-8924</span>
+          </div>
+          <div class="bt-body">
+            <img class="bt-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt=""/>
+            <div class="bt-info">
+              <div class="bt-name">Elena Santos</div>
+              <div class="bt-service">Post-Renovation Eco Deep Clean</div>
+              <div class="bt-time">📅 Saturday at 09:00 AM • 4 hrs</div>
+            </div>
+          </div>
+          <div class="bt-actions">
+            <button class="bt-action-btn primary" onclick="toast('💬 Chatting with Elena...')">Message</button>
+            <button class="bt-action-btn" onclick="openProvider('elena')">View Profile</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /screen-bookings -->
+
+
+    <!-- ── SCREEN: SAVED ── -->
+    <div class="screen" id="screen-saved">
+      <header class="top-bar">
+        <h1 style="font-size:18px;font-weight:900;color:var(--text)">Favorite Pros</h1>
+      </header>
+      <div class="scroll-body">
+        <div style="padding:16px 18px 0" class="providers-vertical-list">
+          <div class="provider-v-card" onclick="openProvider('marcus')">
+            <img class="pv-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt=""/>
+            <div class="pv-info">
+              <div class="pv-name">Engr. Marcus Vance</div>
+              <div class="pv-role">Electrical • 4.96 ★</div>
+              <div class="pv-meta"><span style="color:var(--red)">❤️ Saved</span></div>
+            </div>
+            <div class="pv-rate">$48<span>/hr</span></div>
+          </div>
+
+          <div class="provider-v-card" onclick="openProvider('elena')">
+            <img class="pv-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt=""/>
+            <div class="pv-info">
+              <div class="pv-name">Elena Santos</div>
+              <div class="pv-role">Deep Cleaning • 4.98 ★</div>
+              <div class="pv-meta"><span style="color:var(--red)">❤️ Saved</span></div>
+            </div>
+            <div class="pv-rate">$36<span>/hr</span></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /screen-saved -->
+
+
+    <!-- ── SCREEN: USER PROFILE ── -->
+    <div class="screen" id="screen-user-profile">
+      <div class="scroll-body">
+        <div class="user-hero-box">
+          <div class="uh-avatar">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt=""/>
+          </div>
+          <div class="uh-name">Benjamin Cruz</div>
+          <div class="uh-email">benjamin.cruz@gmail.com</div>
+          <div class="uh-stats-row">
+            <div class="uh-stat">
+              <span class="uh-stat-val">12</span>
+              <span class="uh-stat-lbl">Jobs Done</span>
+            </div>
+            <div class="uh-stat">
+              <span class="uh-stat-val">4.9★</span>
+              <span class="uh-stat-lbl">User Rating</span>
+            </div>
+            <div class="uh-stat">
+              <span class="uh-stat-val">3</span>
+              <span class="uh-stat-lbl">Saved Pros</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-menu">
+          <div class="sm-item" onclick="toast('👤 Personal details updated')">
+            <div class="sm-icon-wrap" style="background:#EFF6FF">👤</div>
+            <div class="sm-label">Account Details</div>
+            <div class="sm-arrow">›</div>
+          </div>
+          <div class="sm-item" onclick="toast('📍 Saved addresses: 2 locations')">
+            <div class="sm-icon-wrap" style="background:#F0FDF4">📍</div>
+            <div class="sm-label">Saved Addresses</div>
+            <div class="sm-arrow">›</div>
+          </div>
+          <div class="sm-item" onclick="toast('💳 Visa ending in 4291 active')">
+            <div class="sm-icon-wrap" style="background:#FFFBEB">💳</div>
+            <div class="sm-label">Payment Methods</div>
+            <div class="sm-arrow">›</div>
+          </div>
+          <div class="sm-item" onclick="toast('🔔 Notification preferences')">
+            <div class="sm-icon-wrap" style="background:#FFF7ED">🔔</div>
+            <div class="sm-label">Notifications</div>
+            <div class="sm-arrow">›</div>
+          </div>
+          <div class="sm-item" onclick="toast('🛡️ All bookings protected by Tugon Guarantee')">
+            <div class="sm-icon-wrap" style="background:#F5F3FF">🛡️</div>
+            <div class="sm-label">Protection &amp; Insurance</div>
+            <div class="sm-arrow">›</div>
+          </div>
+          <div class="sm-item" onclick="toast('👋 Goodbye!')" style="color:var(--red)">
+            <div class="sm-icon-wrap" style="background:#FEF2F2">🚪</div>
+            <div class="sm-label" style="color:var(--red)">Sign Out</div>
+            <div class="sm-arrow">›</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /screen-user-profile -->
+
+
+    <!-- ── SCREEN: SUCCESS CELEBRATION ── -->
+    <div class="screen" id="screen-success">
+      <div class="success-stage">
+        <div class="check-badge-animated">✓</div>
+        <h1 class="success-heading">Appointment Booked!</h1>
+        <p class="success-desc">Your verified expert has received the dispatch and will arrive at your scheduled window.</p>
+        <div class="receipt-card">
+          <div class="rc-row">
+            <span class="rc-label">Provider</span>
+            <span class="rc-val" id="suc-provider-name">Engr. Marcus Vance</span>
+          </div>
+          <div class="modal-sep"></div>
+          <div class="rc-row">
+            <span class="rc-label">Date &amp; Window</span>
+            <span class="rc-val" id="suc-datetime">Tomorrow at 10:00 AM</span>
+          </div>
+          <div class="modal-sep"></div>
+          <div class="rc-row">
+            <span class="rc-label">Booking Reference</span>
+            <span class="rc-val" id="suc-ref" style="font-family:monospace;color:var(--blue)">#TUGON-8930</span>
+          </div>
+          <div class="modal-sep"></div>
+          <div class="rc-row">
+            <span class="rc-label">Estimated Total</span>
+            <span class="rc-val" id="suc-price" style="font-size:17px;color:var(--orange)">$96.00</span>
+          </div>
+        </div>
+        <button class="confirm-action-btn" onclick="navTo('bookings')">View In My Bookings →</button>
+        <button class="cancel-action-btn" onclick="navTo('home')">Return Home</button>
+      </div>
+    </div><!-- /screen-success -->
+
+  </main><!-- /main-stage -->
+
+
+  <!-- ═══════════════════════════════════════════
+       BOOKING MODAL BOTTOM SHEET
+  ═══════════════════════════════════════════ -->
+  <div class="modal-overlay" id="booking-modal" onclick="onModalBgClick(event)">
+    <div class="modal-sheet">
+      <div class="modal-drag-pill"></div>
+      <h2 class="modal-title">Confirm Appointment</h2>
+      <p class="modal-sub">Review job details before dispatching verified pro.</p>
+      <div class="order-summary-box">
+        <div class="os-row">
+          <span class="os-label">👤 Verified Pro</span>
+          <span class="os-val" id="bm-pname">Engr. Marcus Vance</span>
+        </div>
+        <div class="modal-sep"></div>
+        <div class="os-row">
+          <span class="os-label">🛠️ Service Category</span>
+          <span class="os-val" id="bm-pcat">Electrical</span>
+        </div>
+        <div class="modal-sep"></div>
+        <div class="os-row">
+          <span class="os-label">📅 Chosen Slot</span>
+          <span class="os-val" id="bm-pslot">Tomorrow, 10:00 AM</span>
+        </div>
+        <div class="modal-sep"></div>
+        <div class="os-row">
+          <span class="os-label">⏱️ Duration</span>
+          <span class="os-val">2 Hours (Standard)</span>
+        </div>
+        <div class="modal-sep"></div>
+        <div class="os-row">
+          <span class="os-label">💰 Estimated Total</span>
+          <span class="os-val price" id="bm-ptotal">$96.00</span>
+        </div>
+      </div>
+      <button class="confirm-action-btn" onclick="submitBooking()">
+        ✓ Authorize &amp; Book Pro
+      </button>
+      <button class="cancel-action-btn" onclick="closeBookingSheet()">Cancel</button>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════
+       FLOATING BOTTOM NAVIGATION (Mobile)
+  ═══════════════════════════════════════════ -->
+  <nav class="bottom-nav">
+    <div class="nav-btn active" id="nav-home" onclick="navTo('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-txt">Home</span>
+    </div>
+    <div class="nav-btn" id="nav-search" onclick="navTo('search')">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-txt">Search</span>
+    </div>
+    <div class="nav-btn center-action" id="nav-bookings" onclick="navTo('bookings')">
+      <div class="center-circle-cta">📅</div>
+      <span class="nav-txt">Bookings</span>
+    </div>
+    <div class="nav-btn" id="nav-saved" onclick="navTo('saved')">
+      <span class="nav-icon">❤️</span>
+      <span class="nav-txt">Saved</span>
+    </div>
+    <div class="nav-btn" id="nav-user-profile" onclick="navTo('user-profile')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-txt">Profile</span>
+    </div>
+  </nav>
+
+  <!-- Toast Notification Bubble -->
+  <div id="toast-bubble">Notification text</div>
+
+</div><!-- /app-root -->
+
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA STORE
+═══════════════════════════════════════════ */
+const PROS = {
+  marcus: {
+    key: 'marcus',
+    name: 'Engr. Marcus Vance',
+    title: 'Master Licensed Electrician & Smart Home Tech',
+    category: 'Electrical',
+    rating: 4.96,
+    reviewsCount: 248,
+    rate: 48,
+    distance: '2.4 km away',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80',
+    hero: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1000&q=80',
+    stats: { exp: '9 Yrs', rating: '4.96', jobs: '1,420+', sat: '99.4%' },
+    bio: 'Certified Master Electrician with over 9 years of practical field engineering across residential circuit rewiring, subpanel upgrades, smart EV charger installations, and diagnostics. Committed to zero-defect safety standards and leaving work areas immaculately clean.',
+    specialties: [
+      'Circuit Breaker & Subpanel Upgrades',
+      'Fault Detection & Short Circuit Diagnostics',
+      'EV Charger & Generator Transfer Switches',
+      'Whole-Home Recessed LED & Smart Lighting',
+      'Electrical Code Compliance & Safety Certification'
+    ],
+    tools: [
+      'Fluke Commercial Multimeter',
+      '1000V Insulated VDE Tool Set',
+      'FLIR Thermal Imaging Circuit Camera',
+      'Greenlee Conduit Benders'
+    ],
+    certs: [
+      'State Master Electrician License #ME-89421',
+      'OSHA 30 Construction Safety Standard',
+      'Certified Level 2 EV Wallbox Installer',
+      'NEC 2023 Code Compliance Specialist'
+    ],
+    slots: [
+      { time: '08:30 AM', period: 'Morning', booked: false },
+      { time: '10:00 AM', period: 'Morning', booked: false },
+      { time: '01:30 PM', period: 'Afternoon', booked: false },
+      { time: '03:45 PM', period: 'Afternoon', booked: true },
+      { time: '05:30 PM', period: 'Evening', booked: false }
+    ],
+    reviews: [
+      { author: 'Sarah Jenkins', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=100&q=80', tag: 'Main Breaker Panel Upgrade', time: 'Yesterday', comment: 'Marcus arrived exactly on time with complete safety gear. Rebuilt our breaker panel with surgical precision in under 4 hours.' },
+      { author: 'David R. Chen', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80', tag: 'Tesla EV Wallbox Setup', time: '3 days ago', comment: 'Explained every wire and permit requirement. Tested the charger with our car before leaving. Outstanding professionalism.' }
+    ]
+  },
+
+  elena: {
+    key: 'elena',
+    name: 'Elena Santos',
+    title: 'Lead Specialist · Eco-Sanitation & Deep Clean',
+    category: 'Cleaning',
+    rating: 4.98,
+    reviewsCount: 312,
+    rate: 36,
+    distance: '1.8 km away',
+    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80',
+    hero: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1000&q=80',
+    stats: { exp: '7 Yrs', rating: '4.98', jobs: '1,890+', sat: '99.8%' },
+    bio: 'Dedicated home sanitization lead specializing in non-toxic, pet-friendly deep cleaning protocols, post-renovation dust elimination, and upholstery restoration. Equipped with hospital-grade HEPA filtration units.',
+    specialties: [
+      'Post-Renovation & Move-In Dust Extraction',
+      'Steam Upholstery & Mattress Sanitization',
+      'Kitchen Grease Extraction & Grout Cleaning',
+      'Hypoallergenic Plant-Based Solutions'
+    ],
+    tools: [
+      'Kärcher Commercial Steam Extractor',
+      'True HEPA Multi-Stage Vacuum',
+      'Organic Microfiber & pH-Neutral Cleaners'
+    ],
+    certs: [
+      'IICRC Certified Cleaning Technician',
+      'Green Clean Institute Environmental Certified'
+    ],
+    slots: [
+      { time: '09:00 AM', period: 'Morning', booked: false },
+      { time: '11:00 AM', period: 'Morning', booked: false },
+      { time: '01:00 PM', period: 'Afternoon', booked: true },
+      { time: '03:30 PM', period: 'Afternoon', booked: false }
+    ],
+    reviews: [
+      { author: 'Michael Torres', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80', tag: '3-Bedroom Deep Clean', time: '2 days ago', comment: 'The apartment feels brand new. Elena cleaned baseboards and window tracks that most cleaners completely ignore.' }
+    ]
+  },
+
+  ramon: {
+    key: 'ramon',
+    name: 'Ramon Dela Cruz',
+    title: 'Senior Hydraulic & Pipe System Specialist',
+    category: 'Plumbing',
+    rating: 4.92,
+    reviewsCount: 195,
+    rate: 44,
+    distance: '3.1 km away',
+    avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300&q=80',
+    hero: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1000&q=80',
+    stats: { exp: '12 Yrs', rating: '4.92', jobs: '2,150+', sat: '98.9%' },
+    bio: '12 years resolving high-pressure pipe bursts, sewer camera diagnostics, gas line routing, and water heater maintenance. Renowned for prompt emergency dispatch and thorough root-cause troubleshooting.',
+    specialties: [
+      'Trenchless Pipe Repair & Hydro-Jetting',
+      'Tankless Water Heater Installation',
+      'Emergency Leak Isolation & Valve Repair',
+      'Sewer Fiber-Optic Camera Inspection'
+    ],
+    tools: [
+      'Ridgid Fiber-Optic Inspection Camera',
+      'Rothenberger Pipe Freezing Unit',
+      'High-Pressure Hydro-Jetting Rig'
+    ],
+    certs: [
+      'Master Plumber Board Certification #MP-4402',
+      'Backflow Prevention Assembly Inspector'
+    ],
+    slots: [
+      { time: '08:00 AM', period: 'Morning', booked: false },
+      { time: '10:30 AM', period: 'Morning', booked: false },
+      { time: '01:00 PM', period: 'Afternoon', booked: false },
+      { time: '04:00 PM', period: 'Evening', booked: false }
+    ],
+    reviews: [
+      { author: 'Clara Oswald', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80', tag: 'Emergency Pipe Leak', time: '5 days ago', comment: 'Arrived within 30 minutes of our request. Solved a leak that two previous contractors could not figure out.' }
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════════
+   APP STATE & NAVIGATION
+═══════════════════════════════════════════ */
+let curScreen = 'home';
+let prevScreen = 'home';
+let curPro = PROS.marcus;
+let selectedSlot = '10:00 AM';
+let savedMap = { marcus: true, elena: true };
+let toastTimer = null;
+
+function navTo(screenId) {
+  if (screenId === curScreen) return;
+  prevScreen = curScreen;
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('screen-' + screenId);
+  if (target) {
+    target.classList.add('active');
+    curScreen = screenId;
+  }
+
+  // Update navigation items
+  const navIds = ['home','search','bookings','saved','user-profile'];
+  navIds.forEach(id => {
+    const el = document.getElementById('nav-' + id);
+    if (el) el.classList.toggle('active', id === screenId);
+    const dsEl = document.getElementById('ds-nav-' + id);
+    if (dsEl) dsEl.classList.toggle('active', id === screenId);
+  });
+
+  // Check URL hash sync
+  if (window.location.hash !== '#' + screenId) {
+    history.pushState(null, '', '#' + screenId);
+  }
+}
+
+function navBack() {
+  navTo(prevScreen === 'provider' ? 'home' : (prevScreen || 'home'));
+}
+
+/* ═══════════════════════════════════════════
+   OPEN PROVIDER PROFILE
+═══════════════════════════════════════════ */
+function openProvider(proKey) {
+  const p = PROS[proKey] || PROS.marcus;
+  curPro = p;
+
+  document.getElementById('p-hero-img').src = p.hero;
+  document.getElementById('p-avatar').src = p.avatar;
+  document.getElementById('p-name').textContent = p.name;
+  document.getElementById('p-title').textContent = p.title;
+  document.getElementById('p-cat').textContent = p.category;
+  document.getElementById('p-dist').textContent = '📍 ' + p.distance;
+  document.getElementById('p-rate').innerHTML = '$' + p.rate + '<span>/hour</span>';
+
+  // Stats
+  document.getElementById('p-stat-exp').textContent = p.stats.exp;
+  document.getElementById('p-stat-rating').textContent = p.stats.rating;
+  document.getElementById('p-stat-jobs').textContent = p.stats.jobs;
+  document.getElementById('p-stat-sat').textContent = p.stats.sat;
+
+  // Bio & Specs
+  document.getElementById('p-bio').textContent = p.bio;
+  document.getElementById('p-spec-list').innerHTML = p.specialties.map(s =>
+    '<div class="spec-item"><div class="spec-check">✓</div><span>' + s + '</span></div>'
+  ).join('');
+
+  // Tools & Certs
+  document.getElementById('p-tools-list').innerHTML = p.tools.map(t =>
+    '<div class="exp-chip">🔩 ' + t + '</div>'
+  ).join('');
+  document.getElementById('p-certs-list').innerHTML = p.certs.map(c =>
+    '<div class="cert-card"><div class="cert-badge-icon">🏅</div><div class="cert-text">' + c + '</div></div>'
+  ).join('');
+
+  // Availability Date Chips
+  buildDateChips();
+  renderTimeSlots(p.slots);
+
+  // Reviews
+  document.getElementById('ro-score-val').textContent = p.rating.toFixed(2);
+  document.getElementById('ro-reviews-count').textContent = p.reviewsCount + ' Verified';
+  document.getElementById('p-reviews-feed').innerHTML = p.reviews.map(r =>
+    '<div class="review-item-card"><div class="ric-head"><img class="ric-avatar" src="' + r.avatar + '" alt=""/><div><div class="ric-author">' + r.author + '</div><div class="ric-time">' + r.time + ' • Verified Client</div></div></div><div class="ric-tag">' + r.tag + '</div><div class="ric-comment">' + r.comment + '</div></div>'
+  ).join('');
+
+  // Reset to About tab
+  switchProfileTab('about');
+  updateSaveButtonState();
+
+  navTo('provider');
+}
+
+function switchProfileTab(tabKey) {
+  const tabs = ['about','avail','exp','rev'];
+  tabs.forEach(t => {
+    const pane = document.getElementById('tab-' + t);
+    if (pane) pane.classList.toggle('active', t === tabKey);
+  });
+  document.querySelectorAll('.pt-tab-btn').forEach((btn, idx) => {
+    btn.classList.toggle('active', tabs[idx] === tabKey);
+  });
+}
+
+function buildDateChips() {
+  const container = document.getElementById('days-picker-row');
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const today = new Date();
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = new Date();
+    d.setDate(today.getDate() + i);
+    const dayLabel = i === 0 ? 'Today' : i === 1 ? 'Tmr' : days[d.getDay()];
+    html += '<div class="day-chip ' + (i === 0 ? 'active' : '') + '" onclick="selectDay(this)"><span class="dc-name">' + dayLabel + '</span><span class="dc-num">' + d.getDate() + '</span></div>';
+  }
+  container.innerHTML = html;
+}
+
+function selectDay(el) {
+  document.querySelectorAll('.day-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  toast('📅 Date updated');
+}
+
+function renderTimeSlots(slots) {
+  const grid = document.getElementById('slots-picker-grid');
+  grid.innerHTML = slots.map((s, idx) => {
+    const isSel = idx === 0 && !s.booked;
+    if (isSel) selectedSlot = s.time;
+    return '<div class="slot-tile ' + (s.booked ? 'booked' : (isSel ? 'selected' : '')) + '" onclick="selectSlotTile(this, \'' + s.time + '\', ' + s.booked + ')"><div class="st-time">' + s.time + '</div><div class="st-period">' + s.period + '</div><div class="st-status">' + (s.booked ? 'Booked' : 'Available') + '</div></div>';
+  }).join('');
+  updateStickyButtonText();
+}
+
+function selectSlotTile(el, time, isBooked) {
+  if (isBooked) return;
+  document.querySelectorAll('.slot-tile:not(.booked)').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSlot = time;
+  updateStickyButtonText();
+}
+
+function updateStickyButtonText() {
+  const btn = document.getElementById('sticky-book-btn');
+  if (btn) btn.textContent = '📅 Book for ' + selectedSlot + ' — $' + (curPro.rate * 2);
+}
+
+function toggleSaveCurrent() {
+  savedMap[curPro.key] = !savedMap[curPro.key];
+  updateSaveButtonState();
+  toast(savedMap[curPro.key] ? '❤️ Added to saved pros' : '💔 Removed from saved');
+}
+
+function updateSaveButtonState() {
+  const lbl = document.getElementById('save-label');
+  if (lbl) lbl.textContent = savedMap[curPro.key] ? 'Saved' : 'Save';
+}
+
+/* ═══════════════════════════════════════════
+   BOOKING MODAL FLOW
+═══════════════════════════════════════════ */
+function openBookingSheet() {
+  document.getElementById('bm-pname').textContent = curPro.name;
+  document.getElementById('bm-pcat').textContent = curPro.category;
+  document.getElementById('bm-pslot').textContent = 'Tomorrow, ' + selectedSlot;
+  document.getElementById('bm-ptotal').textContent = '$' + (curPro.rate * 2) + '.00';
+  document.getElementById('booking-modal').classList.add('active');
+}
+
+function closeBookingSheet() {
+  document.getElementById('booking-modal').classList.remove('active');
+}
+
+function onModalBgClick(e) {
+  if (e.target === document.getElementById('booking-modal')) {
+    closeBookingSheet();
+  }
+}
+
+function submitBooking() {
+  closeBookingSheet();
+  document.getElementById('suc-provider-name').textContent = curPro.name;
+  document.getElementById('suc-datetime').textContent = 'Tomorrow at ' + selectedSlot;
+  document.getElementById('suc-ref').textContent = '#TUGON-' + Math.floor(8930 + Math.random() * 90);
+  document.getElementById('suc-price').textContent = '$' + (curPro.rate * 2) + '.00';
+  setTimeout(() => navTo('success'), 200);
+}
+
+/* ═══════════════════════════════════════════
+   SEARCH & FILTER LOGIC
+═══════════════════════════════════════════ */
+function renderAllSearchCards(items) {
+  const c = document.getElementById('search-results-list');
+  c.innerHTML = items.map(p =>
+    '<div class="provider-v-card" onclick="openProvider(\'' + p.key + '\')"><img class="pv-avatar" src="' + p.avatar + '" alt=""/><div class="pv-info"><div class="pv-name">' + p.name + '</div><div class="pv-role">' + p.title + '</div><div class="pv-meta"><span style="color:var(--orange)">★ ' + p.rating + '</span><span>• ' + p.stats.exp + ' Exp</span><span class="verified-tag">✓ Verified</span></div></div><div class="pv-rate">$' + p.rate + '<span>/hr</span></div></div>'
+  ).join('');
+}
+
+function handleSearch(q) {
+  const norm = (q || '').toLowerCase();
+  const list = Object.values(PROS).filter(p =>
+    p.name.toLowerCase().includes(norm) ||
+    p.category.toLowerCase().includes(norm) ||
+    p.title.toLowerCase().includes(norm)
+  );
+  renderAllSearchCards(list);
+}
+
+function quickSearch(tag) {
+  document.getElementById('search-keyword').value = tag;
+  handleSearch(tag);
+}
+
+function filterChip(el) {
+  document.querySelectorAll('#home-chips .cat-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  toast('🔍 Showing ' + el.textContent.trim());
+}
+
+function setBookingFilter(tab, el) {
+  document.querySelectorAll('.b-tab-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  toast('Showing ' + tab + ' jobs');
+}
+
+/* ═══════════════════════════════════════════
+   PROMO CAROUSEL SLIDER
+═══════════════════════════════════════════ */
+const PROMOS = [
+  {
+    badge: '🔥 50% OFF TODAY',
+    title: 'Certified Electrical Overhaul',
+    sub: 'Safety panel upgrade, thermal scan & breaker check',
+    code: 'POWER50',
+    img: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1000&q=80',
+    proKey: 'marcus'
+  },
+  {
+    badge: '✨ ECO DEEP CLEAN',
+    title: 'Whole-Home Steam Sanitization',
+    sub: 'Non-toxic, pet-safe hospital-grade dust elimination',
+    code: 'CLEAN30',
+    img: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1000&q=80',
+    proKey: 'elena'
+  },
+  {
+    badge: '🔧 FREE DIAGNOSTICS',
+    title: 'Precision Hydraulic Pipe Check',
+    sub: 'Fiber-optic drain inspection with zero call-out fee',
+    code: 'PIPEFREE',
+    img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1000&q=80',
+    proKey: 'ramon'
+  }
+];
+
+let curPromoIdx = 0;
+function setPromoSlide(idx) {
+  curPromoIdx = idx;
+  const p = PROMOS[idx];
+  document.getElementById('promo-badge').textContent = p.badge;
+  document.getElementById('promo-title').textContent = p.title;
+  document.getElementById('promo-sub').textContent = p.sub;
+  document.getElementById('promo-code').textContent = 'Code: ' + p.code;
+  document.getElementById('promo-img').src = p.img;
+  document.querySelectorAll('.p-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+setInterval(() => {
+  curPromoIdx = (curPromoIdx + 1) % PROMOS.length;
+  setPromoSlide(curPromoIdx);
+}, 4500);
+
+/* ═══════════════════════════════════════════
+   TOAST HELPER
+═══════════════════════════════════════════ */
+function toast(msg) {
+  const b = document.getElementById('toast-bubble');
+  b.textContent = msg;
+  b.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => b.classList.remove('show'), 2200);
+}
+
+/* ═══════════════════════════════════════════
+   URL HASH & MESSAGE LISTENER (FOR SIMULATOR)
+═══════════════════════════════════════════ */
+function checkHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash === 'profile') {
+    openProvider('marcus');
+  } else if (hash === 'booking') {
+    openProvider('marcus');
+    setTimeout(openBookingSheet, 300);
+  } else if (hash && document.getElementById('screen-' + hash)) {
+    navTo(hash);
+  }
+}
+
+window.addEventListener('hashchange', checkHash);
+window.addEventListener('message', e => {
+  if (!e.data) return;
+  if (e.data === 'home') navTo('home');
+  else if (e.data === 'profile') openProvider('marcus');
+  else if (e.data === 'booking') { openProvider('marcus'); setTimeout(openBookingSheet, 200); }
+  else if (e.data === 'search') navTo('search');
+});
+
+/* ═══════════════════════════════════════════
+   INITIALIZATION
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  renderAllSearchCards(Object.values(PROS));
+  checkHash();
+});
+</script>
+</body>
+</html>
+`;
+
+// Write to preview.html and index.html
+fs.writeFileSync(path.join(__dirname, 'preview.html'), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, 'index.html'), htmlContent, 'utf8');
+console.log('Successfully written preview.html and index.html! Size: ' + htmlContent.length + ' bytes.');

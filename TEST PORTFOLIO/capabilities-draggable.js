@@ -11,20 +11,20 @@
 
   function initDraggableCapabilities() {
     if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
+
     gsap.registerPlugin(Draggable);
 
     // 1. Draggable Inner Pills (UI/UX, Full-Stack, etc.)
     const pills = document.querySelectorAll('.bento-pill-item, .stack-mini-pill');
     pills.forEach(pill => {
-      // Prevent parent card dragging when interacting with inner pill
-      pill.addEventListener('pointerdown', (e) => {
-        e.stopPropagation();
-      });
+      pill.addEventListener('pointerdown', (e) => { e.stopPropagation(); });
 
       Draggable.create(pill, {
         type: "x,y",
         edgeResistance: 0.2,
         zIndexBoost: true,
+        cursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        activeCursor: "url('assets/custom-cursor.svg') 4 3, auto",
         onPress: function () {
           pill.classList.add('is-dragging');
           gsap.killTweensOf(pill);
@@ -39,9 +39,7 @@
         onDragEnd: function () {
           pill.classList.remove('is-dragging');
           gsap.to(pill, {
-            x: 0,
-            y: 0,
-            scale: 1,
+            x: 0, y: 0, scale: 1,
             boxShadow: "0 0 0 rgba(0, 0, 0, 0)",
             borderColor: "",
             duration: 0.75,
@@ -59,6 +57,9 @@
         type: "x,y",
         edgeResistance: 0.25,
         zIndexBoost: true,
+        cursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        activeCursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        dragClickables: false,
         onPress: function () {
           card.classList.add('is-dragging');
           gsap.killTweensOf(card);
@@ -72,9 +73,7 @@
         onDragEnd: function () {
           card.classList.remove('is-dragging');
           gsap.to(card, {
-            x: 0,
-            y: 0,
-            scale: 1,
+            x: 0, y: 0, scale: 1,
             boxShadow: "0 12px 32px rgba(0, 40, 80, 0.06)",
             duration: 0.85,
             ease: "elastic.out(1, 0.45)",

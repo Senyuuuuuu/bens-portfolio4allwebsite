@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reelin — Reel in the Top 1% of Philippine Talent</title>
+  <meta name="description" content="Elite remote graphic designers, full-stack web developers, and AI automation specialists from the Philippines, trained and integrated into fast-scaling teams."/>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+  <!-- FLOATING STICKY PILL NAVBAR (Phase 3) -->
+  <nav class="sticky-navbar" id="stickyNavbar" role="navigation" aria-label="Main Navigation">
+    <a href="#" class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      <span>REELIN</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Why Us</a></li>
+      <li><a href="#academy">Creative Academy</a></li>
+      <li><a href="#team">Our Team</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <a href="#cta" class="nav-cta-pill">Work with us</a>
+  </nav>
+
+  <!-- MAIN HERO SECTION & FLOATING SOFTWARE BADGES (Phase 2) -->
+  <section class="hero-section" id="hero">
+    
+    <!-- Floating 3D Software Badges (GSAP Parallax & Float) -->
+    <div class="hero-floating-icons" aria-hidden="true">
+      <div class="floating-badge icon-ps" data-speed="0.35">Ps</div>
+      <div class="floating-badge icon-ae" data-speed="0.55">Ae</div>
+      <div class="floating-badge icon-ai" data-speed="0.25">Ai</div>
+      <div class="floating-badge icon-figma" data-speed="0.45">
+        <i class="fa-brands fa-figma" style="color:#F24E1E;"></i>
+      </div>
+      <div class="floating-badge icon-gpt" data-speed="0.6">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+      <div class="floating-badge icon-n8n" data-speed="0.3">n8n</div>
+      <div class="floating-badge icon-claude" data-speed="0.5">
+        <i class="fa-solid fa-brain"></i>
+      </div>
+    </div>
+
+    <div class="container" style="position: relative; z-index: 10;">
+      
+      <!-- Overline Rating Pill -->
+      <div class="hero-rating-pill gsap-hero-reveal">
+        <span class="hero-stars">★★★★★</span>
+        <span>5/5 Rated by 30+ Venture CEOs</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="hero-headline gsap-hero-reveal">
+        Reel in the top 1% of <span class="serif-italic">Philippine talent</span>.
+      </h1>
+
+      <!-- Subhead -->
+      <p class="hero-subhead gsap-hero-reveal">
+        We handpick, rigorously train in-house, and seamlessly integrate elite graphic designers, full-stack web architects, and AI automation engineers directly into your team.
+      </p>
+
+      <!-- Pill Action Buttons -->
+      <div class="hero-btn-row gsap-hero-reveal">
+        <a href="#cta" class="btn-pill-primary">
+          <span>Work with us</span>
+          <i class="fa-solid fa-arrow-right" style="font-size: 0.85rem;"></i>
+        </a>
+        <a href="#about" class="btn-pill-outline">Don't work with us</a>
+      </div>
+
+      <!-- Overlapping Team Hero Showcase -->
+      <div class="hero-team-stage gsap-hero-reveal">
+        <div class="hero-team-img-wrap">
+          <img src="assets/stats-team.jpg" alt="Reelin Core Philippine Creative and Technical Team" loading="eager"/>
+          <div class="hero-stat-floating-pill">
+            <span class="stat-pulse-dot"></span>
+            <span>✦ 99.4% Client Retention Rate Across 140+ Placements</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CLIENT LOGO MARQUEE (Phase 3) -->
+  <section class="marquee-section">
+    <div class="marquee-label">TRUSTED BY FOUNDERS &amp; EXECUTIVES BACKED BY</div>
+    <div class="marquee-track-wrap">
+      <div class="marquee-track">
+        <div class="marquee-item"><i class="fa-solid fa-cube"></i> SEQUOIA CAPITAL</div>
+        <div class="marquee-item"><i class="fa-solid fa-layer-group"></i> Y COMBINATOR</div>
+        <div class="marquee-item"><i class="fa-solid fa-rocket"></i> TECHSTARS</div>
+        <div class="marquee-item"><i class="fa-solid fa-infinity"></i> ANDREESSEN HOROWITZ</div>
+        <div class="marquee-item"><i class="fa-solid fa-bolt"></i> HYPERGROWTH LABS</div>
+        <div class="marquee-item"><i class="fa-solid fa-atom"></i> AVENUE STUDIO</div>
+        <!-- Duplicate for infinite seamless scroll -->
+        <div class="marquee-item"><i class="fa-solid fa-cube"></i> SEQUOIA CAPITAL</div>
+        <div class="marquee-item"><i class="fa-solid fa-layer-group"></i> Y COMBINATOR</div>
+        <div class="marquee-item"><i class="fa-solid fa-rocket"></i> TECHSTARS</div>
+        <div class="marquee-item"><i class="fa-solid fa-infinity"></i> ANDREESSEN HOROWITZ</div>
+        <div class="marquee-item"><i class="fa-solid fa-bolt"></i> HYPERGROWTH LABS</div>
+        <div class="marquee-item"><i class="fa-solid fa-atom"></i> AVENUE STUDIO</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE PROPOSITION / COMPARISON (Phase 3) -->
+  <section class="value-section" id="about">
+    <div class="container">
+      
+      <div class="section-head-center gsap-reveal">
+        <div class="section-tag-pill">THE TALENT PARADOX</div>
+        <h2 class="section-h2">
+          Tired of unreliable freelancers and <span class="serif-italic">expensive</span> employees?
+        </h2>
+        <p class="section-p">
+          Traditional hiring is either painfully sluggish or unpredictable. We architected a third way that guarantees world-class velocity from day one.
+        </p>
+      </div>
+
+      <div class="comparison-grid">
+        
+        <!-- Card 1: Freelancers -->
+        <div class="comparison-card gsap-reveal">
+          <div>
+            <span class="comp-badge bad">Unreliable</span>
+            <h3 class="comp-title">The Freelance Gamble</h3>
+            <p class="comp-desc">Juggling multiple random contractors across platforms with zero quality control.</p>
+          </div>
+          <ul class="comp-points">
+            <li class="negative"><i class="fa-solid fa-xmark"></i> High ghosting &amp; sudden drop-offs</li>
+            <li class="negative"><i class="fa-solid fa-xmark"></i> Inconsistent design standards</li>
+            <li class="negative"><i class="fa-solid fa-xmark"></i> Endless management overhead</li>
+          </ul>
+        </div>
+
+        <!-- Card 2: In-House -->
+        <div class="comparison-card gsap-reveal">
+          <div>
+            <span class="comp-badge bad">Cost Prohibitive</span>
+            <h3 class="comp-title">The In-House Bottleneck</h3>
+            <p class="comp-desc">Spending 3+ months and six figures on local headcount and payroll burdens.</p>
+          </div>
+          <ul class="comp-points">
+            <li class="negative"><i class="fa-solid fa-xmark"></i> $140,000+ average annual compensation</li>
+            <li class="negative"><i class="fa-solid fa-xmark"></i> 60-90 days recruitment lag</li>
+            <li class="negative"><i class="fa-solid fa-xmark"></i> Complex equity and legal setup</li>
+          </ul>
+        </div>
+
+        <!-- Card 3: Reelin -->
+        <div class="comparison-card highlight gsap-reveal">
+          <div>
+            <span class="comp-badge good">✦ The Reelin Model</span>
+            <h3 class="comp-title">Dedicated Top 1% Talent</h3>
+            <p class="comp-desc">Pre-vetted, academy-trained Philippine professionals embedded directly in your Slack.</p>
+          </div>
+          <ul class="comp-points">
+            <li class="positive"><i class="fa-solid fa-check"></i> Vetted via rigorous 4-stage trials</li>
+            <li class="positive"><i class="fa-solid fa-check"></i> Daily overlap with US &amp; European timezones</li>
+            <li class="positive"><i class="fa-solid fa-check"></i> Ready to deploy in under 5 business days</li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DARK MODE TRANSITION: CREATIVE ACADEMY (Phase 3) -->
+  <section class="academy-dark-section" id="academy">
+    <div class="container">
+      <div class="academy-layout">
+        
+        <!-- Left Column Text -->
+        <div class="academy-content gsap-reveal">
+          <div class="section-tag-pill">INTERNAL CREATIVE ACADEMY</div>
+          <h2 class="section-h2">
+            We don't just hire talent. We <span class="serif-italic">train</span> them in-house.
+          </h2>
+          <p class="section-p">
+            Every candidate accepted into Reelin passes through our intensive proprietary training facility in the Philippines before touching client workflows. We upskill them on modern toolchains, AI prompt engineering, and executive communication.
+          </p>
+
+          <div class="academy-curriculum-pills">
+            <div class="curriculum-pill"><span>✦</span> Advanced Figma Design Tokens</div>
+            <div class="curriculum-pill"><span>✦</span> Full-Stack React &amp; Next.js</div>
+            <div class="curriculum-pill"><span>✦</span> Autonomous n8n Workflow Architecture</div>
+            <div class="curriculum-pill"><span>✦</span> US B2B Communication Pacing</div>
+            <div class="curriculum-pill"><span>✦</span> High-End Motion &amp; After Effects</div>
+          </div>
+
+          <a href="#cta" class="btn-pill-primary" style="background:#FFFFFF; color:#000000;">
+            <span>Learn about our vetting</span>
+            <i class="fa-solid fa-arrow-right" style="font-size:0.85rem;"></i>
+          </a>
+        </div>
+
+        <!-- Right Column Parallax Photo Collage -->
+        <div class="academy-collage-stage" id="academyCollageStage">
+          <div class="collage-photo-card card-1" data-parallax="15">
+            <img src="assets/team1.jpg" alt="Senior Design Specialist at Work"/>
+            <div class="collage-tag-pill">UI/UX Architect</div>
+          </div>
+          <div class="collage-photo-card card-2" data-parallax="-20">
+            <img src="assets/team2.jpg" alt="Full-Stack Developer in Training"/>
+            <div class="collage-tag-pill">Full-Stack Lead</div>
+          </div>
+          <div class="collage-photo-card card-3" data-parallax="25">
+            <img src="assets/avatar.jpg" alt="Creative Director Mentorship"/>
+            <div class="collage-tag-pill">Creative Director</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DRAGGABLE PHOTO CANVAS ("A REAL TEAM...") (Phase 4) -->
+  <section class="real-team-section" id="team">
+    <div class="container-wide">
+      <div class="real-team-layout">
+        
+        <!-- Left Column: Sticky Context -->
+        <div class="team-sticky-sidebar gsap-reveal">
+          <div class="section-tag-pill">CULTURE &amp; PRESENCE</div>
+          <h2 class="section-h2">
+            A real team that just happens to be <span class="serif-italic">remote</span>.
+          </h2>
+          <p class="section-p">
+            No faceless agencies or anonymous brokers. Our team works out of state-of-the-art hubs across Manila and La Union, collaborating in real time with high energy.
+          </p>
+
+          <div class="team-meta-box">
+            <div class="meta-row">
+              <span>LOCAL TIME (PHT)</span>
+              <span class="meta-val tabular-nums" id="manilaClock">--:--:-- GMT+8</span>
+            </div>
+            <div class="meta-row">
+              <span>HEADQUARTERS</span>
+              <span class="meta-val">14.5995° N, 120.9842° E</span>
+            </div>
+            <div class="meta-row">
+              <span>ACTIVE PLACEMENTS</span>
+              <span class="meta-val">142 Full-Time Roles</span>
+            </div>
+            <div class="meta-row">
+              <span>AVERAGE TENURE</span>
+              <span class="meta-val">2.8 Years</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: 2D Draggable Canvas (GSAP Draggable with Inertia) -->
+        <div class="draggable-canvas-viewport" id="draggableCanvasViewport">
+          
+          <div class="draggable-canvas-grid" id="draggableCanvasGrid">
+            
+            <div class="canvas-card span-2-col">
+              <img src="assets/stats-team.jpg" alt="Team Strategic Planning Session"/>
+              <div class="canvas-caption">All-Hands Strategic Alignment</div>
+            </div>
+
+            <div class="canvas-card">
+              <img src="assets/team3.jpg" alt="Design Lead Reviewing Mobile Prototypes"/>
+              <div class="canvas-caption">Figma UI Masterclass</div>
+            </div>
+
+            <div class="canvas-card span-2-row">
+              <img src="assets/avatar.jpg" alt="Senior Creative Direction"/>
+              <div class="canvas-caption">Creative Direction &amp; Standards</div>
+            </div>
+
+            <div class="canvas-card">
+              <img src="assets/port2.jpg" alt="Full Stack Code Review"/>
+              <div class="canvas-caption">React &amp; Node Systems</div>
+            </div>
+
+            <div class="canvas-card">
+              <img src="assets/team1.jpg" alt="Customer Success Desk"/>
+              <div class="canvas-caption">Autonomous Support Desk</div>
+            </div>
+
+            <div class="canvas-card span-2-col">
+              <img src="assets/hero.jpg" alt="AI Workflow Architecture Session"/>
+              <div class="canvas-caption">n8n Workflow Automation Sprint</div>
+            </div>
+
+            <div class="canvas-card">
+              <img src="assets/team2.jpg" alt="Weekly Team Sync"/>
+              <div class="canvas-caption">Weekly Collaborative Sync</div>
+            </div>
+
+            <div class="canvas-card">
+              <img src="assets/port3.jpg" alt="MCP Tooling Engine"/>
+              <div class="canvas-caption">Custom AI Tooling Deployment</div>
+            </div>
+
+          </div>
+
+          <!-- Drag instruction floating pill -->
+          <div class="drag-instruction-pill">
+            <i class="fa-solid fa-hand-pointer"></i>
+            <span>Drag in any direction to explore</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL MASONRY GRID (Phase 3) -->
+  <section class="testimonials-section" id="reviews">
+    <div class="container">
+      
+      <div class="section-head-center gsap-reveal">
+        <div class="section-tag-pill">EXECUTIVE PROOF</div>
+        <h2 class="section-h2">
+          Backed by founders who value <span class="serif-italic">precision</span>.
+        </h2>
+        <p class="section-p">
+          Here is what happens when you replace fragmented freelance hiring with dedicated top-tier professionals.
+        </p>
+      </div>
+
+      <div class="masonry-grid">
+        
+        <!-- Review 1 -->
+        <div class="testimonial-card gsap-reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">
+            "Reelin completely changed how we build. Our dedicated front-end engineer from Manila ships faster and cleaner code than local contractors we used to pay $12,000/month."
+          </p>
+          <div class="testi-author-row">
+            <img src="assets/avatar.jpg" alt="David Sterling" class="testi-avatar"/>
+            <div class="testi-author-info">
+              <span class="author-name">David Sterling</span>
+              <span class="author-role">Founder &amp; CEO, HyperScale AI</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="testimonial-card gsap-reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">
+            "We filled three full-stack roles in 4 business days. The Academy onboarding meant zero downtime — they were committing to GitHub on day one."
+          </p>
+          <div class="testi-author-row">
+            <img src="assets/team1.jpg" alt="Elena Rostova" class="testi-avatar"/>
+            <div class="testi-author-info">
+              <span class="author-name">Elena Rostova</span>
+              <span class="author-role">VP of Product, Avenue SaaS</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="testimonial-card gsap-reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">
+            "The design sensibility is immaculate. Our brand assets look like they came straight out of a Tier-1 New York agency."
+          </p>
+          <div class="testi-author-row">
+            <img src="assets/team2.jpg" alt="Marcus Vance" class="testi-avatar"/>
+            <div class="testi-author-info">
+              <span class="author-name">Marcus Vance</span>
+              <span class="author-role">Co-Founder, Seoul Tokki Apparel</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 4 -->
+        <div class="testimonial-card gsap-reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">
+            "Our n8n automation pipeline automated 90% of our customer ticket routing within 2 weeks of hiring our Reelin automation specialist."
+          </p>
+          <div class="testi-author-row">
+            <img src="assets/team3.jpg" alt="Sarah Lin" class="testi-avatar"/>
+            <div class="testi-author-info">
+              <span class="author-name">Sarah Lin</span>
+              <span class="author-role">Chief of Staff, Veloce Labs</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 5 -->
+        <div class="testimonial-card gsap-reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">
+            "The communication is seamless. We have our daily standup at 9am PST and our developer is always right on time, clear, and proactive."
+          </p>
+          <div class="testi-author-row">
+            <img src="assets/port2.jpg" alt="Arthur Pendelton" class="testi-avatar"/>
+            <div class="testi-author-info">
+              <span class="author-name">Arthur Pendelton</span>
+              <span class="author-role">CTO, Bryance Digital</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 6 -->
+        <div class="testimonial-card gsap-reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-quote">
+            "We’ve scaled from 1 to 7 full-time Philippine team members through Reelin over the past 18 months. Zero regrets, 10x ROI."
+          </p>
+          <div class="testi-author-row">
+            <img src="assets/stats-team.jpg" alt="Claire Montagu" class="testi-avatar"/>
+            <div class="testi-author-info">
+              <span class="author-name">Claire Montagu</span>
+              <span class="author-role">Managing Director, Apex Ventures</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CALL TO ACTION BANNER (Phase 5) -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <div class="cta-banner-box gsap-reveal">
+        <div class="section-tag-pill" style="background: rgba(255,255,255,0.1); color:#FFF; border-color: rgba(255,255,255,0.15);">GET STARTED IN DAYS</div>
+        <h2 class="section-h2">
+          Ready to scale with the <span class="serif-italic">top 1%</span>?
+        </h2>
+        <p class="section-p">
+          Tell us about your technical or design bottlenecks. We will match you with hand-selected candidates ready to interview this week.
+        </p>
+        <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+          <a href="mailto:benyaminnamtalashvili726@gmail.com" class="btn-pill-primary" style="background:#FFFFFF; color:#000000;">
+            <span>Book a 15-Min Matching Call</span>
+            <i class="fa-solid fa-arrow-right" style="font-size:0.85rem;"></i>
+          </a>
+          <a href="mailto:benyaminnamtalashvili726@gmail.com" class="btn-pill-outline" style="color:#FFF; border-color: rgba(255,255,255,0.3);">
+            <span>Email Leadership</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INVERTED BLACK FOOTER (Phase 5) -->
+  <footer class="footer-section">
+    <div class="container">
+      
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>REELIN</h3>
+          <p>
+            Curating and placing the top 1% of Philippine creative, engineering, and AI automation talent for high-growth global ventures.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Talent Tracks</h4>
+          <ul class="footer-links">
+            <li><a href="#about">UI/UX &amp; Graphic Design</a></li>
+            <li><a href="#about">Full-Stack Web Engineering</a></li>
+            <li><a href="#about">n8n AI Workflow Automation</a></li>
+            <li><a href="#about">Motion &amp; Video Production</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Agency</h4>
+          <ul class="footer-links">
+            <li><a href="#academy">Creative Academy</a></li>
+            <li><a href="#team">Our Philippine Team</a></li>
+            <li><a href="#reviews">Case Studies &amp; Reviews</a></li>
+            <li><a href="#cta">Vetting Process</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Offices</h4>
+          <ul class="footer-links">
+            <li><span style="color:#FFF; font-weight:600;">Manila HQ:</span> Bonifacio Global City</li>
+            <li><span style="color:#FFF; font-weight:600;">Creative Lab:</span> Bauang, La Union</li>
+            <li><span style="color:#FFF; font-weight:600;">Timezone:</span> GMT+8 (PHT)</li>
+            <li><a href="mailto:benyaminnamtalashvili726@gmail.com">benyaminnamtalashvili726@gmail.com</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 REELIN Inc. All rights reserved. Crafted with precision for high-growth teams.</div>
+        <div style="display:flex; gap:1.5rem;">
+          <a href="#" style="color:inherit; text-decoration:none;">Privacy Policy</a>
+          <a href="#" style="color:inherit; text-decoration:none;">Terms of Service</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts: Lenis Virtual Scroll + GSAP 3 Ecosystem -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/InertiaPlugin.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

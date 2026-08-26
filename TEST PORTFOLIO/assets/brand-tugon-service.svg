@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 140" width="380" height="140">
+  <defs>
+    <style>
+      .tugon-main { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif; font-size: 86px; font-weight: 900; fill: #0077C8; letter-spacing: -0.04em; }
+      .tugon-sub { font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif; font-size: 34px; font-weight: 800; fill: #0077C8; letter-spacing: -0.02em; }
+    </style>
+  </defs>
+  <text x="6" y="82" class="tugon-main">Tugon</text>
+  <text x="212" y="122" class="tugon-sub">Service</text>
+</svg>

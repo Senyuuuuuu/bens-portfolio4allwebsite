@@ -151,13 +151,6 @@
       // Hover Cursor State
       canvas.addEventListener('pointermove', (e) => {
         if (draggedBody) return;
-        const pt = getCanvasCoords(e);
-        const hits = Query.point(pillBodies, pt);
-        if (hits.length > 0) {
-          canvas.style.cursor = 'grab';
-        } else {
-          canvas.style.cursor = 'default';
-        }
       });
 
       // Pointer Down (Grab)
@@ -172,7 +165,6 @@
           };
           recentPositions = [{ x: pt.x, y: pt.y, t: performance.now() }];
           draggedBody.isBeingDragged = true;
-          canvas.style.cursor = 'grabbing';
           try {
             canvas.setPointerCapture(e.pointerId);
           } catch (err) {}
@@ -221,7 +213,6 @@
         try {
           canvas.releasePointerCapture(e.pointerId);
         } catch (err) {}
-        canvas.style.cursor = 'default';
       }
 
       canvas.addEventListener('pointerup', handlePointerUp);

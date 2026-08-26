@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modeling Portfolio Interactive Burst Button</title>
+  
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- GSAP 3 CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    /* =========================================================================
+       RESET & TYPOGRAPHY
+       ========================================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #FFFFFF;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================================
+       PHASE 1: THE CONTAINER (PURE WHITE + #F0F0F0 50px ENGINEERING GRID)
+       ========================================================================= */
+    .burst-btn-container {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #FFFFFF;
+      background-image: 
+        linear-gradient(to right, #F0F0F0 1px, transparent 1px),
+        linear-gradient(to bottom, #F0F0F0 1px, transparent 1px);
+      background-size: 50px 50px;
+      background-position: center center;
+      overflow: visible;
+      padding: 40px;
+    }
+
+    /* =========================================================================
+       THE BUTTON WRAPPER & MAIN PILL BUTTON
+       ========================================================================= */
+    .modeling-burst-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      isolation: isolate;
+      z-index: 10;
+    }
+
+    .modeling-burst-btn {
+      position: relative;
+      z-index: 2;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 30px;
+      border-radius: 999px;
+      background-color: #FFFFFF;
+      border: 2px solid #FF4500;
+      color: #111111;
+      text-decoration: none;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 14px rgba(255, 69, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      will-change: transform, box-shadow;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .modeling-burst-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .modeling-burst-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    /* Solid Orange Camera Icon on Left */
+    .btn-icon-camera {
+      width: 18px;
+      height: 18px;
+      fill: #FF4500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Dark Charcoal Sans-Serif Text */
+    .btn-text {
+      color: #111111;
+      white-space: nowrap;
+    }
+
+    /* Orange External Link Icon on Right */
+    .btn-icon-link {
+      width: 14px;
+      height: 14px;
+      stroke: #FF4500;
+      stroke-width: 2.4;
+      fill: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.24s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .modeling-burst-btn:hover .btn-icon-link {
+      transform: translate(2px, -2px);
+    }
+
+    /* =========================================================================
+       PHASE 1: HIDDEN POP-OUT ICONS (CENTERED BEHIND BUTTON, SCALE 0, OPACITY 0)
+       ========================================================================= */
+    .pop-out-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+      will-change: transform, opacity;
+      transform-origin: center center;
+      display: block;
+    }
+
+    /* 1. Black Sunglasses (Top-Left) */
+    .pop-icon-sunglasses {
+      width: 32px;
+      height: 32px;
+      fill: #111111;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+    }
+
+    /* 2. Black Glasses (Top-Right) */
+    .pop-icon-glasses {
+      width: 28px;
+      height: 28px;
+      stroke: #111111;
+      fill: none;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+    }
+
+    /* 3. Solid Orange Star (Bottom-Left) */
+    .pop-icon-star {
+      width: 24px;
+      height: 24px;
+      fill: #FF4500;
+      filter: drop-shadow(0 6px 14px rgba(255, 69, 0, 0.4));
+    }
+
+    /* 4. Solid Orange Camera (Bottom-Right) */
+    .pop-icon-camera {
+      width: 24px;
+      height: 24px;
+      fill: #FF4500;
+      filter: drop-shadow(0 6px 14px rgba(255, 69, 0, 0.4));
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Phase 1: Grid Grounded Container -->
+  <main class="burst-btn-container" role="main">
+    <div class="modeling-burst-wrapper" id="modelingBurstWrapper">
+      
+      <!-- Pop-Out Icon 1: Black Sunglasses (Shoots to Top-Left) -->
+      <svg class="pop-out-icon pop-icon-sunglasses" width="32" height="32" viewBox="0 0 32 32" fill="#111111" aria-hidden="true">
+        <path d="M3.2 10.8C6.5 10 10.8 10.2 14.5 11.5c.7.2 1.3.4 2 .4s1.3-.2 2-.4c3.7-1.3 8-1.5 11.3-.7.9.2 1.5 1 1.4 2l-1.2 6.5c-.5 2.5-2.6 4.3-5.2 4.3-2.8 0-5.2-2-5.7-4.8-.2-1-.8-1.8-1.8-1.8s-1.6.8-1.8 1.8c-.5 2.8-2.9 4.8-5.7 4.8-2.6 0-4.7-1.8-5.2-4.3L1.8 12.8c-.1-1 .5-1.8 1.4-2z"/>
+      </svg>
+
+      <!-- Pop-Out Icon 2: Black Glasses (Shoots to Top-Right) -->
+      <svg class="pop-out-icon pop-icon-glasses" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="16" r="6"/>
+        <circle cx="23" cy="16" r="6"/>
+        <path d="M15 15.5c1-1 3-1 4 0"/>
+        <path d="M3 15.5l2 0.5"/>
+        <path d="M29 15.5l-2 0.5"/>
+      </svg>
+
+      <!-- Pop-Out Icon 3: Solid Orange Star (Shoots to Bottom-Left) -->
+      <svg class="pop-out-icon pop-icon-star" width="24" height="24" viewBox="0 0 24 24" fill="#FF4500" aria-hidden="true">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+
+      <!-- Pop-Out Icon 4: Solid Orange Camera (Shoots to Bottom-Right) -->
+      <svg class="pop-out-icon pop-icon-camera" width="24" height="24" viewBox="0 0 24 24" fill="#FF4500" aria-hidden="true">
+        <path d="M4 7h3.17L8.85 4.74A2 2 0 0 1 10.5 4h3a2 2 0 0 1 1.65.74L16.83 7H20a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3zm8 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+      </svg>
+
+      <!-- Main Button: Pill Shaped with Burnt Orange Border & Centered Elements -->
+      <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="modeling-burst-btn" id="modelingBurstBtn" aria-label="Open 9:16 Modeling Portfolio Gallery">
+        <!-- Solid Orange Camera Icon on Left -->
+        <svg class="btn-icon-camera" width="18" height="18" viewBox="0 0 24 24" fill="#FF4500" aria-hidden="true">
+          <path d="M4 7h3.17L8.85 4.74A2 2 0 0 1 10.5 4h3a2 2 0 0 1 1.65.74L16.83 7H20a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H4a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3zm8 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-2a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+        </svg>
+        
+        <!-- Dark Charcoal Sans-Serif Text -->
+        <span class="btn-text">Modeling Portfolio</span>
+        
+        <!-- Orange External Link Icon on Right -->
+        <svg class="btn-icon-link" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FF4500" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       PHASE 2: GSAP MOTION & HOVER MECHANICS
+       ========================================================================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('modelingBurstBtn');
+      const wrapper = document.getElementById('modelingBurstWrapper');
+      
+      const glasses = wrapper.querySelector('.pop-icon-glasses');
+      const sunglasses = wrapper.querySelector('.pop-icon-sunglasses');
+      const star = wrapper.querySelector('.pop-icon-star');
+      const camera = wrapper.querySelector('.pop-icon-camera');
+
+      // Initialize GSAP Hardware Acceleration and Initial State
+      gsap.set([glasses, sunglasses, star, camera], {
+        xPercent: -50,
+        yPercent: -50,
+        x: 0,
+        y: 0,
+        scale: 0,
+        opacity: 0,
+        transformOrigin: '50% 50%',
+        force3D: true
+      });
+
+      gsap.set(btn, { force3D: true });
+
+      let currentTl = null;
+
+      // Phase 2: The Eruption (mouseenter)
+      btn.addEventListener('mouseenter', () => {
+        if (currentTl) currentTl.kill();
+
+        currentTl = gsap.timeline();
+
+        // 1. Soft glowing orange drop shadow
+        currentTl.to(btn, {
+          boxShadow: '0 12px 32px rgba(255, 69, 0, 0.38), 0 0 20px rgba(255, 69, 0, 0.22)',
+          duration: 0.35,
+          ease: 'power2.out'
+        }, 0);
+
+        // 2. Shoot 4 hidden icons out to the four corners with bouncy spring-like elastic ease
+        // Top-Left: Black Sunglasses
+        currentTl.to(sunglasses, {
+          x: -115,
+          y: -52,
+          rotation: -12,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+
+        // Top-Right: Black Glasses
+        currentTl.to(glasses, {
+          x: 115,
+          y: -52,
+          rotation: 12,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+
+        // Bottom-Left: Solid Orange Star
+        currentTl.to(star, {
+          x: -105,
+          y: 52,
+          rotation: -18,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+
+        // Bottom-Right: Solid Orange Camera
+        currentTl.to(camera, {
+          x: 105,
+          y: 52,
+          rotation: 14,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+      });
+
+      // Phase 2: The Retraction (mouseleave)
+      btn.addEventListener('mouseleave', () => {
+        if (currentTl) currentTl.kill();
+
+        currentTl = gsap.timeline();
+
+        // Orange glow fades out
+        currentTl.to(btn, {
+          boxShadow: '0 4px 14px rgba(255, 69, 0, 0.08)',
+          duration: 0.3,
+          ease: 'power3.inOut'
+        }, 0);
+
+        // Rapidly suck 4 icons back to exact center (x: 0, y: 0), scale: 0, opacity: 0
+        currentTl.to([sunglasses, glasses, star, camera], {
+          x: 0,
+          y: 0,
+          rotation: 0,
+          scale: 0,
+          opacity: 0,
+          duration: 0.32,
+          ease: 'power3.inOut'
+        }, 0);
+      });
+    });
+  </script>
+</body>
+</html>

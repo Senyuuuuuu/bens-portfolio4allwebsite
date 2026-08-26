@@ -12,12 +12,37 @@
       return;
     }
 
+    // Only fallback on mobile screens (<= 768px)
+    const isSmallScreen = window.innerWidth <= 768;
+    if (isSmallScreen) {
+      // On small mobile screens: let the items sit in a clean flex layout
+      const stage = document.getElementById('heroAntigravityStage');
+      if (stage) {
+        stage.style.minHeight = '200px';
+        stage.style.display = 'flex';
+        stage.style.flexWrap = 'wrap';
+        stage.style.gap = '10px';
+        stage.style.padding = '1rem';
+        stage.style.alignItems = 'center';
+        stage.style.justifyContent = 'center';
+        Array.from(stage.querySelectorAll('.antigravity-item')).forEach(el => {
+          el.style.position = 'relative';
+          el.style.left = 'auto';
+          el.style.top = 'auto';
+          el.style.transform = 'none';
+          el.style.cursor = 'default';
+        });
+      }
+      return;
+    }
+
     const heroSection = document.getElementById('hero');
     const stageContainer = document.getElementById('heroAntigravityStage');
     if (!heroSection || !stageContainer) return;
 
     const items = Array.from(stageContainer.querySelectorAll('.antigravity-item'));
     if (items.length === 0) return;
+
 
     // Matter.js Module Aliases
     const {
@@ -159,7 +184,6 @@
         pair.recentPositions = [{ x: stagePointerX, y: stagePointerY, t: performance.now() }];
 
         el.classList.add('is-dragging');
-        document.body.style.cursor = 'grabbing';
 
         Body.setVelocity(body, { x: 0, y: 0 });
         Body.setAngularVelocity(body, 0);
@@ -191,7 +215,6 @@
         pair.isDragging = false;
         pair.targetScale = pair.baseScale;
         el.classList.remove('is-dragging');
-        document.body.style.cursor = '';
 
         try {
           el.releasePointerCapture(e.pointerId);

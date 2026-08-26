@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tugon Service — Interactive App Simulator</title>
+  <meta name="description" content="Experience the Tugon Service app live in your browser. Interact with a fully working, clickable prototype inside an iPhone or Android device frame."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ══════════════════════════════════════════════════════════════
+       DESIGN TOKENS
+    ══════════════════════════════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --brand:         #0A3D62;
+      --brand-light:   #0E4F7D;
+      --accent:        #F97316;
+      --bg:            #0C1420;
+      --bg-panel:      #111D2C;
+      --bg-card:       rgba(255,255,255,0.035);
+      --bg-card-hover: rgba(255,255,255,0.055);
+      --border:        rgba(255,255,255,0.07);
+      --border-hover:  rgba(255,255,255,0.14);
+      --text-primary:  #F1F5F9;
+      --text-secondary:#94A3B8;
+      --text-muted:    #475569;
+      --text-accent:   #FB923C;
+      --device-w-ios:      393px;
+      --device-h-ios:      852px;
+      --device-w-android:  412px;
+      --device-h-android:  915px;
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --ease-crisp:  cubic-bezier(0.16, 1, 0.3, 1);
+      --sidebar-w: 260px;
+      --right-panel-w: 280px;
+      --nav-h: 56px;
+      --shadow-device: 0 40px 80px rgba(0,0,0,0.7), 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+    }
+    html { height: 100%; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text-primary); height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 4px; }
+
+    /* ══ AMBIENT MESH ══ */
+    .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .bg-mesh::before { content: ''; position: absolute; width: 900px; height: 900px; border-radius: 50%; background: radial-gradient(circle, rgba(10,61,98,0.28) 0%, transparent 70%); top: -200px; left: -200px; animation: drift1 18s ease-in-out infinite alternate; }
+    .bg-mesh::after { content: ''; position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%); bottom: -150px; right: -100px; animation: drift2 22s ease-in-out infinite alternate; }
+    .bg-mesh-mid { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(10,61,98,0.15) 0%, transparent 70%); top: 50%; right: 30%; transform: translate(50%,-50%); animation: drift3 14s ease-in-out infinite alternate; }
+    @keyframes drift1 { from { transform: translate(0,0) scale(1); } to { transform: translate(80px,60px) scale(1.1); } }
+    @keyframes drift2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-60px,40px) scale(1.08); } }
+    @keyframes drift3 { from { transform: translate(50%,-50%) scale(1); } to { transform: translate(50%,-50%) scale(1.15); } }
+
+    /* ══ TOP NAV ══ */
+    .top-nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 1.25rem; background: rgba(12,20,32,0.85); backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--border); }
+    .nav-brand { display: flex; align-items: center; gap: 0.6rem; }
+    .nav-logo { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, var(--brand), var(--brand-light)); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 900; color: #fff; }
+    .nav-title { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; }
+    .nav-subtitle { font-size: 0.68rem; color: var(--text-muted); font-weight: 500; }
+    .nav-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.65rem; border-radius: 100px; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); font-size: 0.65rem; font-weight: 700; color: #34D399; letter-spacing: 0.05em; text-transform: uppercase; }
+    .live-dot { width: 5px; height: 5px; border-radius: 50%; background: #34D399; box-shadow: 0 0 6px #34D399; animation: live-pulse 2s ease-in-out infinite; }
+    @keyframes live-pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+    .nav-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .nav-btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.85rem; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 150ms var(--ease-crisp); text-decoration: none; }
+    .nav-btn:hover { background: var(--bg-card-hover); border-color: var(--border-hover); color: var(--text-primary); }
+    .nav-btn:active { transform: scale(0.96); }
+    .nav-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* ══ LAYOUT ══ */
+    .simulator-layout { position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: var(--sidebar-w) 1fr var(--right-panel-w); overflow: hidden; z-index: 1; }
+
+    /* ══ LEFT SIDEBAR ══ */
+    .sidebar { background: var(--bg-panel); border-right: 1px solid var(--border); overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; }
+    .sidebar-section { padding: 1rem 1rem 0.75rem; border-bottom: 1px solid var(--border); }
+    .sidebar-section:last-child { border-bottom: none; }
+    .section-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.65rem; display: flex; align-items: center; gap: 0.4rem; }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .ctrl-group { display: flex; flex-direction: column; gap: 0.4rem; }
+
+    .device-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .device-btn { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; padding: 0.65rem 0.5rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); font-size: 0.7rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 180ms var(--ease-spring); }
+    .device-btn:hover { background: var(--bg-card-hover); border-color: var(--border-hover); color: var(--text-primary); }
+    .device-btn.active { background: rgba(249,115,22,0.12); border-color: rgba(249,115,22,0.4); color: var(--accent); }
+    .device-btn:active { transform: scale(0.95); }
+    .device-icon { font-size: 1.4rem; line-height: 1; }
+
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 0.55rem 0.75rem; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); cursor: pointer; transition: all 150ms ease; }
+    .toggle-row:hover { background: var(--bg-card-hover); border-color: var(--border-hover); }
+    .toggle-row-left { display: flex; align-items: center; gap: 0.55rem; }
+    .toggle-row-label { font-size: 0.75rem; font-weight: 600; color: var(--text-primary); }
+    .toggle-row-sub { font-size: 0.65rem; color: var(--text-muted); font-weight: 500; }
+    .toggle-icon { width: 28px; height: 28px; border-radius: 8px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink: 0; }
+    .toggle-switch { position: relative; width: 36px; height: 20px; background: var(--text-muted); border-radius: 100px; transition: background 200ms ease; flex-shrink: 0; }
+    .toggle-switch.on { background: var(--accent); }
+    .toggle-switch::after { content: ''; position: absolute; width: 14px; height: 14px; border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: transform 200ms var(--ease-spring); box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+    .toggle-switch.on::after { transform: translateX(16px); }
+
+    .orient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .orient-btn { display: flex; align-items: center; justify-content: center; gap: 0.35rem; padding: 0.55rem 0.4rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); font-size: 0.7rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 180ms var(--ease-spring); }
+    .orient-btn:hover { background: var(--bg-card-hover); border-color: var(--border-hover); color: var(--text-primary); }
+    .orient-btn.active { background: rgba(10,61,98,0.25); border-color: rgba(14,79,125,0.6); color: #60B4FF; }
+    .orient-btn:active { transform: scale(0.95); }
+
+    .scale-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    .scale-row { display: flex; align-items: center; justify-content: space-between; }
+    .scale-val { font-family: var(--mono); font-size: 0.72rem; color: var(--text-accent); font-weight: 600; }
+    input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 100px; outline: none; cursor: pointer; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); box-shadow: 0 2px 8px rgba(249,115,22,0.4); cursor: pointer; transition: transform 150ms var(--ease-spring); }
+    input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+    .action-btn { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.6rem 0.75rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); font-size: 0.75rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 150ms ease; }
+    .action-btn:hover { background: var(--bg-card-hover); border-color: var(--border-hover); color: var(--text-primary); }
+    .action-btn:active { transform: scale(0.98); }
+    .action-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .action-btn.danger:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.3); color: #F87171; }
+
+    .sidebar-footer { margin-top: auto; padding: 0.75rem 1rem; border-top: 1px solid var(--border); }
+    .version-tag { font-size: 0.62rem; color: var(--text-muted); font-family: var(--mono); text-align: center; }
+
+    /* ══ DEVICE STAGE ══ */
+    .device-stage { display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; background: transparent; }
+    .stage-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 0; }
+    .stage-grid::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 70% at 50% 50%, transparent 40%, var(--bg) 100%); }
+    .device-spotlight { position: absolute; inset: -80px; border-radius: 50%; background: radial-gradient(circle, rgba(10,61,98,0.2) 0%, transparent 70%); pointer-events: none; z-index: 1; opacity: 0; transition: opacity 400ms ease; }
+    .device-stage:hover .device-spotlight { opacity: 1; }
+    .device-wrapper { position: relative; z-index: 2; transition: transform 400ms var(--ease-spring); transform-origin: center center; }
+
+    /* ══ PHONE FRAME ══ */
+    .phone-frame { position: relative; border-radius: 54px; background: #1A1A1C; overflow: visible; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-device); transition: all 400ms var(--ease-spring); }
+    .phone-frame::before { content: ''; position: absolute; inset: -2px; border-radius: 56px; background: linear-gradient(145deg, #4A4A4E, #2A2A2E, #3A3A3C, #1A1A1C, #4A4A4E); z-index: -1; }
+
+    /* Side buttons */
+    .btn-side-l, .btn-side-r { position: absolute; border-radius: 3px; background: linear-gradient(145deg, #3A3A3C, #2A2A2E); }
+    .ios .btn-vol-up   { width: 3px; height: 36px; left: -5px; top: 130px; box-shadow: -1px 0 2px rgba(0,0,0,0.5); }
+    .ios .btn-vol-down { width: 3px; height: 36px; left: -5px; top: 178px; box-shadow: -1px 0 2px rgba(0,0,0,0.5); }
+    .ios .btn-mute     { width: 3px; height: 26px; left: -5px; top: 96px;  box-shadow: -1px 0 2px rgba(0,0,0,0.5); }
+    .ios .btn-power    { width: 3px; height: 80px; right: -5px; top: 150px; box-shadow: 1px 0 2px rgba(0,0,0,0.5); }
+    .android .btn-power    { width: 3px; height: 60px; right: -5px; top: 180px; box-shadow: 1px 0 2px rgba(0,0,0,0.5); }
+    .android .btn-vol-up   { width: 3px; height: 44px; left: -5px; top: 160px; box-shadow: -1px 0 2px rgba(0,0,0,0.5); }
+    .android .btn-vol-down { width: 3px; height: 44px; left: -5px; top: 216px; box-shadow: -1px 0 2px rgba(0,0,0,0.5); }
+
+    .phone-screen-wrap { width: 100%; height: 100%; border-radius: 46px; overflow: hidden; background: #000; position: relative; }
+    .ios .phone-screen-wrap     { border-radius: 50px; }
+    .android .phone-screen-wrap { border-radius: 28px; }
+
+    /* iOS Dynamic Island */
+    .dynamic-island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 118px; height: 34px; background: #000; border-radius: 100px; z-index: 10; display: flex; align-items: center; justify-content: center; gap: 7px; transition: all 300ms var(--ease-spring); }
+    .di-camera { width: 10px; height: 10px; border-radius: 50%; background: #1C1C1E; border: 2px solid #2A2A2E; position: relative; }
+    .di-camera::after { content: ''; position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #0A3D62; top: 50%; left: 50%; transform: translate(-50%,-50%); opacity: 0.7; }
+    .di-dot { width: 6px; height: 6px; border-radius: 50%; background: #2A2A2E; }
+
+    /* Android punch-hole */
+    .punch-hole { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 12px; height: 12px; border-radius: 50%; background: #000; z-index: 10; border: 2px solid rgba(0,0,0,0.8); }
+    .punch-hole::after { content: ''; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #1A1A2E; top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+    /* iOS home bar */
+    .home-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 130px; height: 5px; background: rgba(255,255,255,0.3); border-radius: 100px; z-index: 10; }
+
+    /* Android nav */
+    .android-nav { position: absolute; bottom: 0; left: 0; right: 0; height: 36px; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; gap: 28px; z-index: 10; }
+    .android-nav-btn { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.6); cursor: pointer; }
+    .android-nav-btn svg { width: 16px; height: 16px; }
+
+    /* Status bar */
+    .status-bar { position: absolute; top: 0; left: 0; right: 0; height: 52px; display: flex; align-items: flex-start; justify-content: space-between; padding: 14px 22px 0; z-index: 9; pointer-events: none; }
+    .ios .status-bar    { height: 56px; padding-top: 16px; }
+    .android .status-bar { height: 30px; padding-top: 8px; }
+    .status-time { font-size: 0.78rem; font-weight: 700; color: #1A1A1A; font-family: var(--font); line-height: 1; }
+    .status-icons { display: flex; align-items: center; gap: 5px; }
+    .status-icons svg { width: 14px; height: 14px; color: #1A1A1A; }
+    .status-bar.dark .status-time { color: #fff; }
+    .status-bar.dark .status-icons svg { color: #fff; }
+
+    .phone-frame.ios { width: var(--device-w-ios); height: var(--device-h-ios); }
+    .phone-frame.android { width: var(--device-w-android); height: var(--device-h-android); }
+
+    /* The iframe */
+    .app-frame { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: inherit; }
+    .ios .app-frame { border-radius: 50px; }
+    .android .app-frame { border-radius: 28px; }
+
+    /* Loading overlay */
+    .frame-loading { position: absolute; inset: 0; background: #F3F4F6; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; z-index: 20; border-radius: inherit; transition: opacity 400ms ease; }
+    .frame-loading.hidden { opacity: 0; pointer-events: none; }
+    .spinner { width: 36px; height: 36px; border: 3px solid rgba(10,61,98,0.15); border-top-color: #0A3D62; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 0.75rem; color: #64748B; font-weight: 600; }
+
+    /* ══ RIGHT PANEL ══ */
+    .right-panel { background: var(--bg-panel); border-left: 1px solid var(--border); overflow-y: auto; display: flex; flex-direction: column; }
+    .rp-section { padding: 1rem; border-bottom: 1px solid var(--border); }
+    .rp-title { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+    .rp-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .feature-list { display: flex; flex-direction: column; gap: 0.45rem; }
+    .feature-item { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0.7rem; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); cursor: pointer; transition: all 150ms ease; }
+    .feature-item:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateX(2px); }
+    .feature-item:active { transform: scale(0.98); }
+    .fi-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; flex-shrink: 0; }
+    .fi-text { flex: 1; }
+    .fi-label { font-size: 0.72rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.15rem; }
+    .fi-desc { font-size: 0.64rem; color: var(--text-muted); line-height: 1.4; }
+    .fi-badge { font-size: 0.58rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 100px; background: rgba(249,115,22,0.12); color: var(--text-accent); border: 1px solid rgba(249,115,22,0.2); white-space: nowrap; align-self: flex-start; }
+
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .spec-item { padding: 0.55rem 0.65rem; border-radius: 9px; background: var(--bg-card); border: 1px solid var(--border); }
+    .spec-label { font-size: 0.6rem; color: var(--text-muted); font-weight: 600; margin-bottom: 0.2rem; }
+    .spec-val { font-size: 0.75rem; font-weight: 700; color: var(--text-primary); font-family: var(--mono); }
+    .spec-val.accent { color: var(--text-accent); }
+
+    .qr-container { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+    .qr-box { width: 140px; height: 140px; border-radius: 14px; background: #fff; padding: 10px; display: flex; align-items: center; justify-content: center; position: relative; }
+    .qr-box svg { width: 120px; height: 120px; }
+    .qr-corner { position: absolute; width: 18px; height: 18px; border-color: var(--accent); border-style: solid; }
+    .qr-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
+    .qr-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
+    .qr-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
+    .qr-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
+    .qr-url { font-size: 0.62rem; color: var(--text-muted); font-family: var(--mono); text-align: center; word-break: break-all; }
+    .qr-note { font-size: 0.64rem; color: var(--text-secondary); text-align: center; line-height: 1.5; }
+
+    .screen-switcher-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+    .ss-btn { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; padding: 0.55rem 0.4rem; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-secondary); font-size: 0.65rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 150ms var(--ease-spring); text-align: center; }
+    .ss-btn:hover { background: var(--bg-card-hover); border-color: var(--border-hover); color: var(--text-primary); }
+    .ss-btn.active { background: rgba(10,61,98,0.2); border-color: rgba(14,79,125,0.5); color: #60B4FF; }
+    .ss-btn:active { transform: scale(0.96); }
+    .ss-icon { font-size: 1rem; }
+
+    .rp-footer { margin-top: auto; padding: 0.85rem 1rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.4rem; }
+    .rp-link { display: flex; align-items: center; gap: 0.5rem; font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); text-decoration: none; padding: 0.4rem 0.5rem; border-radius: 8px; transition: all 150ms ease; cursor: pointer; }
+    .rp-link:hover { background: var(--bg-card); color: var(--text-primary); }
+    .rp-link svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* ══ TOAST ══ */
+    .toast-container { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 999; display: flex; flex-direction: column; gap: 0.5rem; align-items: center; pointer-events: none; }
+    .toast { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border-radius: 100px; background: rgba(15,26,39,0.95); backdrop-filter: blur(16px); border: 1px solid var(--border); color: var(--text-primary); font-size: 0.75rem; font-weight: 600; box-shadow: 0 8px 24px rgba(0,0,0,0.4); animation: toastIn 300ms var(--ease-spring) both; }
+    .toast.out { animation: toastOut 300ms var(--ease-smooth) both; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(12px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-8px) scale(0.95); } }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 1280px) { :root { --right-panel-w: 240px; --sidebar-w: 230px; } }
+    @media (max-width: 1024px) { .right-panel { display: none; } .simulator-layout { grid-template-columns: var(--sidebar-w) 1fr; } }
+    @media (max-width: 720px) { .sidebar { display: none; } .simulator-layout { grid-template-columns: 1fr; } body { overflow: auto; } .device-stage { min-height: calc(100vh - var(--nav-h)); } }
+  </style>
+</head>
+<body>
+  <!-- Ambient Background -->
+  <div class="bg-mesh" aria-hidden="true"><div class="bg-mesh-mid"></div></div>
+
+  <!-- TOP NAV -->
+  <nav class="top-nav" role="banner">
+    <div class="nav-brand">
+      <div class="nav-logo">T</div>
+      <div>
+        <div class="nav-title">Tugon Simulator</div>
+        <div class="nav-subtitle">Interactive App Preview</div>
+      </div>
+    </div>
+    <div class="nav-badge"><span class="live-dot"></span>Live Preview</div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="openInNewTab()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Open Tab
+      </button>
+      <button class="nav-btn" onclick="toggleFullscreen()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3m18 0V5a2 2 0 00-2-2h-3m0 18h3a2 2 0 002-2v-3M3 16v3a2 2 0 002 2h3"/></svg>
+        Fullscreen
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <main class="simulator-layout" role="main">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar" aria-label="Simulator controls">
+
+      <div class="sidebar-section">
+        <div class="section-label">Device Frame</div>
+        <div class="device-btn-grid">
+          <button class="device-btn active" id="btn-ios" onclick="setDevice('ios')" aria-pressed="true">
+            <span class="device-icon">📱</span>
+            <span>iPhone 15</span>
+            <span style="font-size:0.6rem;color:var(--text-muted)">Pro Max</span>
+          </button>
+          <button class="device-btn" id="btn-android" onclick="setDevice('android')" aria-pressed="false">
+            <span class="device-icon">🤖</span>
+            <span>Android</span>
+            <span style="font-size:0.6rem;color:var(--text-muted)">Pixel 8</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Orientation</div>
+        <div class="orient-grid">
+          <button class="orient-btn active" id="btn-portrait" onclick="setOrientation('portrait')" aria-pressed="true">
+            <svg style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="7" y="2" width="10" height="20" rx="2"/></svg>
+            Portrait
+          </button>
+          <button class="orient-btn" id="btn-landscape" onclick="setOrientation('landscape')" aria-pressed="false">
+            <svg style="width:14px;height:14px;transform:rotate(90deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="7" y="2" width="10" height="20" rx="2"/></svg>
+            Landscape
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Scale</div>
+        <div class="scale-group">
+          <div class="scale-row">
+            <span style="font-size:0.7rem;color:var(--text-secondary)">Zoom Level</span>
+            <span class="scale-val" id="scale-val">75%</span>
+          </div>
+          <input type="range" id="scale-slider" min="40" max="100" value="75" oninput="setScale(this.value)" aria-label="Device scale"/>
+          <div class="scale-row" style="margin-top:0.3rem">
+            <button class="action-btn" style="flex:1;font-size:0.68rem;padding:0.4rem 0.5rem;justify-content:center" onclick="autoFitAndApply()">Fit</button>
+            <button class="action-btn" style="flex:1;font-size:0.68rem;padding:0.4rem 0.5rem;margin-left:0.3rem;justify-content:center" onclick="setScale(100)">1:1</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Display</div>
+        <div class="ctrl-group">
+          <div class="toggle-row" onclick="toggleDarkMode()" role="switch" aria-checked="false" id="dark-mode-row" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleDarkMode()">
+            <div class="toggle-row-left">
+              <div class="toggle-icon">🌙</div>
+              <div>
+                <div class="toggle-row-label">Dark Mode</div>
+                <div class="toggle-row-sub">Force dark theme</div>
+              </div>
+            </div>
+            <div class="toggle-switch" id="dark-mode-switch"></div>
+          </div>
+          <div class="toggle-row" onclick="toggleStatusBar()" role="switch" aria-checked="true" id="statusbar-row" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleStatusBar()">
+            <div class="toggle-row-left">
+              <div class="toggle-icon">📶</div>
+              <div>
+                <div class="toggle-row-label">Status Bar</div>
+                <div class="toggle-row-sub">Show device status</div>
+              </div>
+            </div>
+            <div class="toggle-switch on" id="statusbar-switch"></div>
+          </div>
+          <div class="toggle-row" onclick="toggleNotch()" role="switch" aria-checked="true" id="notch-row" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')toggleNotch()">
+            <div class="toggle-row-left">
+              <div class="toggle-icon">⬛</div>
+              <div>
+                <div class="toggle-row-label">Camera Notch</div>
+                <div class="toggle-row-sub">Dynamic island / punch</div>
+              </div>
+            </div>
+            <div class="toggle-switch on" id="notch-switch"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Navigate To</div>
+        <div class="ctrl-group">
+          <button class="action-btn" onclick="navigateTo('home')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Home Screen
+          </button>
+          <button class="action-btn" onclick="navigateTo('profile')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Provider Profile
+          </button>
+          <button class="action-btn" onclick="navigateTo('booking')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Book a Service
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-label">Actions</div>
+        <div class="ctrl-group">
+          <button class="action-btn" onclick="reloadFrame()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Refresh App
+          </button>
+          <button class="action-btn danger" onclick="resetApp()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Reset to Start
+          </button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="version-tag">tugon-simulator · v1.0 · 2026</div>
+      </div>
+    </aside>
+
+    <!-- CENTER DEVICE STAGE -->
+    <section class="device-stage" aria-label="App preview">
+      <div class="stage-grid" aria-hidden="true"></div>
+      <div class="device-spotlight" aria-hidden="true"></div>
+
+      <div class="device-wrapper" id="device-wrapper">
+        <div class="phone-frame ios" id="phone-frame" role="region" aria-label="Device frame">
+
+          <!-- Side Buttons -->
+          <div class="btn-side-l btn-mute"     aria-hidden="true"></div>
+          <div class="btn-side-l btn-vol-up"   aria-hidden="true"></div>
+          <div class="btn-side-l btn-vol-down" aria-hidden="true"></div>
+          <div class="btn-side-r btn-power"    aria-hidden="true"></div>
+
+          <!-- Screen -->
+          <div class="phone-screen-wrap">
+
+            <!-- Dynamic Island (iOS) -->
+            <div class="dynamic-island" id="dynamic-island" aria-hidden="true">
+              <div class="di-dot"></div>
+              <div class="di-camera"></div>
+            </div>
+
+            <!-- Punch-hole (Android, hidden by default) -->
+            <div class="punch-hole" id="punch-hole" style="display:none" aria-hidden="true"></div>
+
+            <!-- Status Bar -->
+            <div class="status-bar" id="status-bar" aria-hidden="true">
+              <span class="status-time" id="status-time">9:41</span>
+              <div class="status-icons">
+                <svg viewBox="0 0 24 24" fill="currentColor"><rect x="1" y="17" width="4" height="6" rx="1"/><rect x="7" y="13" width="4" height="10" rx="1"/><rect x="13" y="9" width="4" height="14" rx="1"/><rect x="19" y="5" width="4" height="18" rx="1"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.98 7.32a16 16 0 0120.04 0M5.5 11.28a10 10 0 0113 0M9.5 15.24a4 4 0 015 0"/><circle cx="12" cy="18" r="1.5"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="7" width="17" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="8.5" width="12" height="8" rx="1.5"/><path d="M20 10.5v4c1.1-.49 1.1-3.51 0-4z"/></svg>
+              </div>
+            </div>
+
+            <!-- Android Nav -->
+            <div class="android-nav" id="android-nav" style="display:none" aria-hidden="true">
+              <div class="android-nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></div>
+              <div class="android-nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/></svg></div>
+              <div class="android-nav-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg></div>
+            </div>
+
+            <!-- Home Indicator -->
+            <div class="home-bar" id="home-bar" aria-hidden="true"></div>
+
+            <!-- Loading Overlay -->
+            <div class="frame-loading" id="frame-loading" aria-live="polite">
+              <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#0A3D62,#0E4F7D);display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff;font-size:1.2rem">T</div>
+              <div class="spinner"></div>
+              <div class="loading-text">Loading Tugon App…</div>
+            </div>
+
+            <!-- THE APP IFRAME -->
+            <iframe
+              id="app-iframe"
+              class="app-frame"
+              src="preview.html"
+              title="Tugon Service App Preview"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
+              onload="onFrameLoad()"
+              allow="autoplay"
+            ></iframe>
+
+          </div><!-- /phone-screen-wrap -->
+        </div><!-- /phone-frame -->
+      </div><!-- /device-wrapper -->
+    </section>
+
+    <!-- RIGHT PANEL -->
+    <aside class="right-panel" aria-label="Features and guide">
+
+      <div class="rp-section">
+        <div class="rp-title">Quick Navigate</div>
+        <div class="screen-switcher-grid">
+          <button class="ss-btn active" id="ss-home"    onclick="navigateTo('home');    setActiveSSBtn('ss-home')"><span class="ss-icon">🏠</span>Home</button>
+          <button class="ss-btn"        id="ss-profile" onclick="navigateTo('profile'); setActiveSSBtn('ss-profile')"><span class="ss-icon">👤</span>Profile</button>
+          <button class="ss-btn"        id="ss-search"  onclick="navigateTo('home');    setActiveSSBtn('ss-search');  showToast('🔍','Use the search bar in the app')"><span class="ss-icon">🔍</span>Search</button>
+          <button class="ss-btn"        id="ss-book"    onclick="navigateTo('booking'); setActiveSSBtn('ss-book')"><span class="ss-icon">📅</span>Book</button>
+        </div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-title">Try These</div>
+        <div class="feature-list">
+          <div class="feature-item" onclick="navigateTo('home'); showToast('🔍','Tap the search bar to filter services')">
+            <div class="fi-icon" style="background:rgba(14,165,233,0.12)">🔍</div>
+            <div class="fi-text">
+              <div class="fi-label">Search Services</div>
+              <div class="fi-desc">Filter by category, rating, or distance</div>
+            </div>
+            <div class="fi-badge">Try it</div>
+          </div>
+          <div class="feature-item" onclick="navigateTo('profile'); showToast('📅','Tap Availability tab to pick a slot')">
+            <div class="fi-icon" style="background:rgba(249,115,22,0.12)">📅</div>
+            <div class="fi-text">
+              <div class="fi-label">Book a Provider</div>
+              <div class="fi-desc">Select a time slot &amp; confirm booking</div>
+            </div>
+            <div class="fi-badge">Try it</div>
+          </div>
+          <div class="feature-item" onclick="navigateTo('profile'); showToast('⭐','Navigate to the Reviews tab')">
+            <div class="fi-icon" style="background:rgba(251,191,36,0.12)">⭐</div>
+            <div class="fi-text">
+              <div class="fi-label">Read Reviews</div>
+              <div class="fi-desc">Verified client reviews &amp; star ratings</div>
+            </div>
+            <div class="fi-badge">Try it</div>
+          </div>
+          <div class="feature-item" onclick="navigateTo('home'); showToast('🛡️','See the Guarantee banner on Home')">
+            <div class="fi-icon" style="background:rgba(16,185,129,0.12)">🛡️</div>
+            <div class="fi-text">
+              <div class="fi-label">Tugon Guarantee</div>
+              <div class="fi-desc">$2,500 property protection per job</div>
+            </div>
+          </div>
+          <div class="feature-item" onclick="navigateTo('profile'); showToast('📋','Tap the Experience tab')">
+            <div class="fi-icon" style="background:rgba(139,92,246,0.12)">📋</div>
+            <div class="fi-text">
+              <div class="fi-label">View Certifications</div>
+              <div class="fi-desc">Background-checked &amp; licensed pros</div>
+            </div>
+            <div class="fi-badge">Try it</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-title">Current Viewport</div>
+        <div class="spec-grid">
+          <div class="spec-item"><div class="spec-label">Width</div><div class="spec-val accent" id="spec-w">393px</div></div>
+          <div class="spec-item"><div class="spec-label">Height</div><div class="spec-val accent" id="spec-h">852px</div></div>
+          <div class="spec-item"><div class="spec-label">Device</div><div class="spec-val" id="spec-device">iPhone 15</div></div>
+          <div class="spec-item"><div class="spec-label">Scale</div><div class="spec-val" id="spec-scale">75%</div></div>
+        </div>
+      </div>
+
+      <div class="rp-section">
+        <div class="rp-title">Open on Device</div>
+        <div class="qr-container">
+          <div class="qr-box">
+            <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+              <rect width="120" height="120" fill="white"/>
+              <rect x="4" y="4" width="36" height="36" rx="4" fill="black"/>
+              <rect x="8" y="8" width="28" height="28" rx="2" fill="white"/>
+              <rect x="12" y="12" width="20" height="20" rx="1.5" fill="black"/>
+              <rect x="80" y="4" width="36" height="36" rx="4" fill="black"/>
+              <rect x="84" y="8" width="28" height="28" rx="2" fill="white"/>
+              <rect x="88" y="12" width="20" height="20" rx="1.5" fill="black"/>
+              <rect x="4" y="80" width="36" height="36" rx="4" fill="black"/>
+              <rect x="8" y="84" width="28" height="28" rx="2" fill="white"/>
+              <rect x="12" y="88" width="20" height="20" rx="1.5" fill="black"/>
+              <rect x="44" y="4" width="8" height="8" rx="1" fill="#0A3D62"/>
+              <rect x="56" y="4" width="8" height="8" rx="1" fill="#0A3D62"/>
+              <rect x="68" y="4" width="8" height="8" rx="1" fill="#0A3D62"/>
+              <rect x="44" y="16" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="52" y="16" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="64" y="16" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="44" y="24" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="60" y="24" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="68" y="24" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="44" y="32" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="52" y="36" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="60" y="32" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="68" y="36" width="8" height="4" rx="0.5" fill="#F97316"/>
+              <rect x="4" y="44" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="12" y="44" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="24" y="44" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="32" y="44" width="8" height="8" rx="0.5" fill="#0A3D62"/>
+              <rect x="44" y="44" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="52" y="44" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="64" y="44" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="72" y="44" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="80" y="44" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="92" y="44" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="100" y="44" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="48" y="48" width="24" height="24" rx="4" fill="white" stroke="#E5E7EB" stroke-width="1"/>
+              <rect x="52" y="52" width="16" height="16" rx="3" fill="#0A3D62"/>
+              <text x="60" y="63" text-anchor="middle" fill="white" font-size="9" font-weight="900" font-family="Inter,sans-serif">T</text>
+              <rect x="4" y="56" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="16" y="56" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="24" y="56" width="8" height="4" rx="0.5" fill="#F97316"/>
+              <rect x="76" y="52" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="84" y="56" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="104" y="56" width="8" height="8" rx="0.5" fill="#0A3D62"/>
+              <rect x="44" y="76" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="52" y="76" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="64" y="76" width="4" height="4" rx="0.5" fill="#F97316"/>
+              <rect x="72" y="76" width="8" height="8" rx="0.5" fill="black"/>
+              <rect x="84" y="76" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="92" y="76" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="104" y="76" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="44" y="84" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="56" y="84" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="64" y="84" width="8" height="8" rx="0.5" fill="black"/>
+              <rect x="84" y="88" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="44" y="92" width="4" height="8" rx="0.5" fill="#F97316"/>
+              <rect x="52" y="96" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="60" y="92" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="80" y="92" width="4" height="4" rx="0.5" fill="black"/>
+              <rect x="88" y="96" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="108" y="96" width="4" height="4" rx="0.5" fill="#0A3D62"/>
+              <rect x="44" y="100" width="8" height="8" rx="0.5" fill="black"/>
+              <rect x="64" y="100" width="4" height="8" rx="0.5" fill="black"/>
+              <rect x="80" y="100" width="4" height="4" rx="0.5" fill="#F97316"/>
+              <rect x="88" y="104" width="8" height="4" rx="0.5" fill="black"/>
+              <rect x="108" y="100" width="8" height="8" rx="0.5" fill="#0A3D62"/>
+            </svg>
+            <div class="qr-corner tl"></div><div class="qr-corner tr"></div>
+            <div class="qr-corner bl"></div><div class="qr-corner br"></div>
+          </div>
+          <div class="qr-note">Scan to open preview<br/>on your phone</div>
+          <div class="qr-url">tugon-app/preview.html</div>
+        </div>
+      </div>
+
+      <div class="rp-footer">
+        <div class="rp-link" onclick="openInNewTab()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open in New Tab
+        </div>
+        <div class="rp-link" onclick="reloadFrame()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+          Refresh Preview
+        </div>
+        <div class="rp-link" onclick="copyShareLink()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Copy Share Link
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <script>
+    /* ═══ STATE ═══ */
+    const state = { device: 'ios', orientation: 'portrait', scale: 75, darkMode: false, statusBar: true, notch: true };
+    const $ = id => document.getElementById(id);
+
+    /* ═══ CLOCK ═══ */
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours() % 12 || 12;
+      const m = String(now.getMinutes()).padStart(2,'0');
+      const el = $('status-time');
+      if (el) el.textContent = `${h}:${m}`;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+
+    /* ═══ FRAME LOAD ═══ */
+    function onFrameLoad() {
+      setTimeout(() => {
+        const loading = $('frame-loading');
+        if (loading) loading.classList.add('hidden');
+      }, 700);
+    }
+
+    /* ═══ DEVICE SWITCHER ═══ */
+    function setDevice(type) {
+      state.device = type;
+      const f = $('phone-frame');
+      f.classList.remove('ios','android');
+      f.classList.add(type);
+      f.style.width = ''; f.style.height = ''; f.style.borderRadius = '';
+
+      if (type === 'ios') {
+        $('dynamic-island').style.display = 'flex';
+        $('punch-hole').style.display     = 'none';
+        $('home-bar').style.display       = 'block';
+        $('android-nav').style.display    = 'none';
+        $('spec-device').textContent = 'iPhone 15';
+        $('spec-w').textContent = '393px';
+        $('spec-h').textContent = '852px';
+      } else {
+        $('dynamic-island').style.display = 'none';
+        $('punch-hole').style.display     = 'block';
+        $('home-bar').style.display       = 'none';
+        $('android-nav').style.display    = 'flex';
+        $('spec-device').textContent = 'Android';
+        $('spec-w').textContent = '412px';
+        $('spec-h').textContent = '915px';
+      }
+
+      $('btn-ios').classList.toggle('active', type === 'ios');
+      $('btn-ios').setAttribute('aria-pressed', type === 'ios');
+      $('btn-android').classList.toggle('active', type === 'android');
+      $('btn-android').setAttribute('aria-pressed', type === 'android');
+
+      if (state.orientation === 'landscape') setOrientation('portrait', true);
+      applyScale(state.scale);
+      showToast(type === 'ios' ? '📱' : '🤖', type === 'ios' ? 'iPhone 15 Pro Max frame' : 'Android Pixel 8 frame');
+    }
+
+    /* ═══ ORIENTATION ═══ */
+    function setOrientation(dir, silent) {
+      state.orientation = dir;
+      const f = $('phone-frame');
+      const isIos = state.device === 'ios';
+      if (dir === 'landscape') {
+        f.style.width         = isIos ? '852px' : '915px';
+        f.style.height        = isIos ? '393px' : '412px';
+        f.style.borderRadius  = isIos ? '46px' : '28px';
+        f.style.removeProperty && f.style.removeProperty('--device-w');
+      } else {
+        f.style.width = ''; f.style.height = ''; f.style.borderRadius = '';
+      }
+      $('btn-portrait').classList.toggle('active', dir === 'portrait');
+      $('btn-portrait').setAttribute('aria-pressed', dir === 'portrait');
+      $('btn-landscape').classList.toggle('active', dir === 'landscape');
+      $('btn-landscape').setAttribute('aria-pressed', dir === 'landscape');
+      applyScale(state.scale);
+      if (!silent) showToast(dir === 'portrait' ? '📱' : '📺', `${dir.charAt(0).toUpperCase()+dir.slice(1)} mode`);
+    }
+
+    /* ═══ SCALE ═══ */
+    function setScale(val) {
+      val = parseInt(val);
+      if (isNaN(val)) return;
+      state.scale = val;
+      applyScale(val);
+      $('scale-val').textContent  = val + '%';
+      $('spec-scale').textContent = val + '%';
+      const s = $('scale-slider');
+      if (s) s.value = val;
+    }
+    function applyScale(val) {
+      $('device-wrapper').style.transform = `scale(${val / 100})`;
+    }
+    function autoFitAndApply() {
+      const stage = document.querySelector('.device-stage');
+      if (!stage) return;
+      const sw = stage.clientWidth - 100;
+      const sh = stage.clientHeight - 100;
+      const f  = $('phone-frame');
+      const fw = parseFloat(f.style.width)  || (state.device === 'ios' ? 393 : 412);
+      const fh = parseFloat(f.style.height) || (state.device === 'ios' ? 852 : 915);
+      const fit = Math.floor(Math.min((sw/fw)*100, (sh/fh)*100, 100));
+      setScale(Math.max(fit, 40));
+      showToast('📐', 'Fit to screen');
+    }
+
+    /* ═══ DARK MODE ═══ */
+    function toggleDarkMode() {
+      state.darkMode = !state.darkMode;
+      $('dark-mode-switch').classList.toggle('on', state.darkMode);
+      $('dark-mode-row').setAttribute('aria-checked', state.darkMode);
+      const sb = $('status-bar');
+      sb.classList.toggle('dark', state.darkMode);
+      try {
+        const doc = $('app-iframe').contentDocument || $('app-iframe').contentWindow.document;
+        if (state.darkMode) {
+          if (!doc.getElementById('sim-dm')) {
+            const s = doc.createElement('style');
+            s.id = 'sim-dm';
+            s.textContent = 'html{filter:invert(1) hue-rotate(180deg)!important}img,video{filter:invert(1) hue-rotate(180deg)!important}';
+            doc.head.appendChild(s);
+          }
+        } else {
+          const s = doc.getElementById('sim-dm');
+          if (s) s.remove();
+        }
+      } catch(e) {}
+      showToast(state.darkMode ? '🌙' : '☀️', state.darkMode ? 'Dark mode on' : 'Light mode on');
+    }
+
+    /* ═══ STATUS BAR ═══ */
+    function toggleStatusBar() {
+      state.statusBar = !state.statusBar;
+      $('statusbar-switch').classList.toggle('on', state.statusBar);
+      $('statusbar-row').setAttribute('aria-checked', state.statusBar);
+      $('status-bar').style.display = state.statusBar ? 'flex' : 'none';
+      showToast('📶', state.statusBar ? 'Status bar shown' : 'Status bar hidden');
+    }
+
+    /* ═══ NOTCH ═══ */
+    function toggleNotch() {
+      state.notch = !state.notch;
+      $('notch-switch').classList.toggle('on', state.notch);
+      $('notch-row').setAttribute('aria-checked', state.notch);
+      if (state.device === 'ios') {
+        $('dynamic-island').style.display = state.notch ? 'flex' : 'none';
+      } else {
+        $('punch-hole').style.display = state.notch ? 'block' : 'none';
+      }
+      showToast('⬛', state.notch ? 'Camera notch visible' : 'Camera notch hidden');
+    }
+
+    /* ═══ NAVIGATION ═══ */
+    function navigateTo(screen) {
+      const loading = $('frame-loading');
+      loading.classList.remove('hidden');
+      const iframe = $('app-iframe');
+      const base   = 'preview.html';
+      iframe.src   = base + (screen === 'profile' || screen === 'booking' ? '#profile' : '');
+      const labels  = { home:'🏠 Home', profile:'👤 Provider Profile', booking:'📅 Booking', search:'🔍 Search' };
+      showToast('📲', `Going to ${labels[screen]||screen}`);
+    }
+
+    function setActiveSSBtn(id) {
+      ['ss-home','ss-profile','ss-search','ss-book'].forEach(bid => {
+        const el = $(bid);
+        if (el) el.classList.toggle('active', bid === id);
+      });
+    }
+
+    /* ═══ RELOAD ═══ */
+    function reloadFrame() {
+      $('frame-loading').classList.remove('hidden');
+      const iframe = $('app-iframe');
+      iframe.src = iframe.src;
+      showToast('🔄', 'App refreshed');
+    }
+
+    function resetApp() {
+      setDevice('ios');
+      setOrientation('portrait', true);
+      setScale(75);
+      if (state.darkMode) toggleDarkMode();
+      if (!state.statusBar) toggleStatusBar();
+      if (!state.notch) toggleNotch();
+      reloadFrame();
+      showToast('✨', 'Reset to defaults');
+    }
+
+    /* ═══ MISC ═══ */
+    function openInNewTab() { window.open('preview.html','_blank'); }
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(()=>{});
+        showToast('⛶', 'Fullscreen on');
+      } else {
+        document.exitFullscreen();
+        showToast('🗗', 'Fullscreen off');
+      }
+    }
+    function copyShareLink() {
+      const url = window.location.href.replace('simulator.html','preview.html');
+      navigator.clipboard.writeText(url).then(()=>showToast('📋','Link copied!')).catch(()=>showToast('⚠️','Copy failed'));
+    }
+
+    /* ═══ TOAST ═══ */
+    function showToast(icon, msg) {
+      const c = $('toast-container');
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerHTML = `<span>${icon}</span><span>${msg}</span>`;
+      c.appendChild(t);
+      setTimeout(()=>{ t.classList.add('out'); t.addEventListener('animationend',()=>t.remove(),{once:true}); }, 2200);
+    }
+
+    /* ═══ KEYBOARD ═══ */
+    document.addEventListener('keydown', e => {
+      const tag = document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+      if ((e.metaKey||e.ctrlKey) && e.key==='r') { e.preventDefault(); reloadFrame(); }
+      if ((e.metaKey||e.ctrlKey) && e.key==='1') { e.preventDefault(); setDevice('ios'); }
+      if ((e.metaKey||e.ctrlKey) && e.key==='2') { e.preventDefault(); setDevice('android'); }
+      if ((e.metaKey||e.ctrlKey) && e.key==='ArrowUp')   { e.preventDefault(); setScale(Math.min(state.scale+5,100)); }
+      if ((e.metaKey||e.ctrlKey) && e.key==='ArrowDown') { e.preventDefault(); setScale(Math.max(state.scale-5,40)); }
+      if (e.key==='p' && !e.metaKey && !e.ctrlKey) setOrientation('portrait');
+      if (e.key==='l' && !e.metaKey && !e.ctrlKey) setOrientation('landscape');
+    });
+
+    /* ═══ AUTO-RESIZE ═══ */
+    let rzTimer;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(rzTimer);
+      rzTimer = setTimeout(()=>{ if(state.scale < 80) autoFitAndApply(); }, 200);
+    });
+
+    /* ═══ INIT ═══ */
+    (function() {
+      setTimeout(()=>showToast('🚀','Tugon Simulator ready! Tap the app to interact.'), 1200);
+      setTimeout(()=>showToast('⌨️','Tip: ⌘1 iOS · ⌘2 Android · ⌘R Refresh'), 4000);
+      // Auto-fit scale on init
+      const stage = document.querySelector('.device-stage');
+      if (stage) {
+        const sw = stage.clientWidth - 100;
+        const sh = stage.clientHeight - 100;
+        const fit = Math.floor(Math.min((sw/393)*100,(sh/852)*100,100));
+        if (fit > 0 && fit < 75) setScale(Math.max(fit,40));
+      }
+    })();
+  </script>
+</body>
+</html>

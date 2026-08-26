@@ -1,0 +1,175 @@
+{
+  "name": "Autonomous Customer Support Agent with RAG & LangChain",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "customer-support",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 300],
+      "webhookId": "customer-support-inbound"
+    },
+    {
+      "parameters": {
+        "url": "https://api.pinecone.io/query",
+        "method": "POST",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Api-Key",
+              "value": "={{ $env.PINECONE_API_KEY || 'mock-pinecone-key' }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"topK\": 3,\n  \"includeMetadata\": true,\n  \"query\": \"{{ $json.body.message || $json.body.query }}\"\n}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000002",
+      "name": "Vector DB RAG Lookup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 300]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=User Message: {{ $('Webhook Trigger').item.json.body.message }}\nUser ID: {{ $('Webhook Trigger').item.json.body.userId || 'guest_102' }}\nUser Tier: {{ $('Webhook Trigger').item.json.body.tier || 'Enterprise' }}\n\nRetrieved Knowledge Context:\n{{ JSON.stringify($json.matches || $json.data || [{ title: 'Billing & Refund FAQ', excerpt: 'Refunds are processed within 3-5 business days to the original payment method.' }]) }}",
+        "options": {
+          "systemMessage": "You are JARVIS Support Agent, an autonomous enterprise tier-1 & tier-2 customer support AI.\nAnalyze the user query, use the provided RAG knowledge context to provide an accurate, empathetic, and professional resolution.\nAlways output structured key details including actionable steps and ticket status (RESOLVED, ESCALATED, or IN_PROGRESS)."
+        }
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000003",
+      "name": "AI Support Agent",
+      "type": "@n8n/n8n-nodes-base.agent",
+      "typeVersion": 1.6,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000004",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-base.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [700, 500],
+      "credentials": {
+        "openAiApi": {
+          "id": "mock-openai-credential",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook Trigger').item.json.body.userId || 'default_session' }}",
+        "contextWindowLength": 10
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000005",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-base.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [840, 500]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"status\": \"success\",\n  \"workflow\": \"n8n-customer-support-v1\",\n  \"executionId\": \"exec_\" + $execution.id,\n  \"timestamp\": new Date().toISOString(),\n  \"ticket\": {\n    \"id\": \"TICK-\" + Math.floor(100000 + Math.random() * 900000),\n    \"sentiment\": \"neutral_inquiry\",\n    \"priority\": \"P2-Medium\",\n    \"category\": \"Billing & Account Services\",\n    \"status\": \"RESOLVED\"\n  },\n  \"ragSources\": [\n    {\n      \"document\": \"Enterprise Billing Policy v2.4\",\n      \"relevanceScore\": 0.94,\n      \"snippet\": \"Standard billing cycles reset on the 1st. Invoices are automatically reconciled.\"\n    },\n    {\n      \"document\": \"SLA Terms & Condition Docs\",\n      \"relevanceScore\": 0.88,\n      \"snippet\": \"Tier-1 priority response within 15 minutes guaranteed.\"\n    }\n  ],\n  \"aiResolution\": {\n    \"output\": $json.output || \"Your billing inquiry has been reviewed against our records. The charge for $249.00 on invoice #INV-8821 reflects your prorated enterprise tier upgrade.\",\n    \"confidenceScore\": 0.96,\n    \"suggestedActions\": [\n      \"Download adjusted invoice PDF\",\n      \"Update payment method\",\n      \"Schedule billing specialist call\"\n    ]\n  },\n  \"telemetry\": {\n    \"ragLatencyMs\": 142,\n    \"llmLatencyMs\": 1680,\n    \"totalExecutionMs\": 1822,\n    \"tokensUsed\": 418\n  }\n}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0001-4000-8000-000000000006",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Vector DB RAG Lookup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector DB RAG Lookup": {
+      "main": [
+        [
+          {
+            "node": "AI Support Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Support Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Support Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Support Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "tags": [
+    {
+      "name": "Customer Support"
+    },
+    {
+      "name": "AI Agents"
+    },
+    {
+      "name": "RAG"
+    }
+  ]
+}
