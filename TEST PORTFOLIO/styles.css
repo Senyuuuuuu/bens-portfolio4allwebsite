@@ -57,9 +57,9 @@
   --radius-xl: 30px;
   --radius-pill: 9999px;
 
-  /* Font Families */
-  --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, serif;
+  /* Font Families — Signature Editorial System (Plus Jakarta Sans 800 + Playfair Display Italic 600) */
+  --font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-mono: 'Space Mono', 'JetBrains Mono', SFMono-Regular, Menlo, monospace;
 
   /* Spring Physics & Fluid Easings */
@@ -143,11 +143,35 @@ a, button, [role="button"], input, select, textarea,
   padding-right: 2rem;
 }
 
-.serif-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  color: #FF6B00 !important;
+.serif-italic,
+.serif-accent,
+.stories-accent-serif {
+  font-family: var(--font-serif) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  color: #FF4500 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Master Editorial Typography System (Plus Jakarta Sans 800 + Playfair Display Italic 600) */
+h1, h2, h3, h4,
+.hero-title,
+.section-h2,
+.stories-headline,
+.portfolio-hero-title,
+.about-hero-title,
+.case-study-hero-title,
+.case-study-h2,
+.case-study-section-title,
+.contact-hero-h1,
+.featured-title,
+.card-title-text,
+.bento-title {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.15 !important;
+  color: #18181B;
 }
 
 /* Universal Typography Visibility & Crisp Contrast Guarantees */
@@ -162,18 +186,9 @@ h1, h2, h3, h4, h5, h6, p, span, a, li {
   opacity: 1;
 }
 
-/* Interactive Ambient Glow Follower */
+/* Interactive Ambient Glow Follower — Disabled per user directive */
 #ambientGlow {
-  position: fixed;
-  width: 580px;
-  height: 580px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 120, 20, 0.16) 0%, rgba(255, 149, 0, 0.06) 45%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.4s ease;
-  will-change: transform;
+  display: none !important;
 }
 
 /* Custom Cursor Follower Pill */
@@ -233,12 +248,14 @@ button {
   z-index: 2;
 }
 
-.serif-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  color: var(--apple-blue);
+.serif-italic,
+.serif-accent,
+.stories-accent-serif {
+  font-family: var(--font-serif) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  color: #FF4500 !important;
 }
 
 /* ==========================================================================
@@ -1033,7 +1050,7 @@ section,
   max-height: 1080px;
   padding: 5.2rem 1.5rem 1.5rem;
   box-sizing: border-box;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 120, 20, 0.08) 0%, rgba(255, 149, 0, 0.03) 45%, transparent 70%), transparent !important;
+  background: transparent !important;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1052,24 +1069,9 @@ section,
   display: none !important;
 }
 
-/* Radiant Orange Light Bloom & Glow (Matching Get In Touch Page Architecture) */
+/* Hero Section Glow — Disabled per user directive */
 .hero-section::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 820px;
-  max-width: 95vw;
-  height: 520px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.65) 0%,
-    rgba(255, 120, 20, 0.52) 45%,
-    rgba(255, 120, 20, 0) 70%
-  );
-  pointer-events: none;
-  z-index: 1;
+  display: none !important;
 }
 
 .hero-content-container {
@@ -1110,11 +1112,12 @@ section,
 }
 
 .hero-title {
+  font-family: var(--font-display) !important;
   font-size: clamp(2.4rem, 4.4vw, 4.4rem);
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.04em;
-  color: #111111;
+  font-weight: 800 !important;
+  line-height: 1.12 !important;
+  letter-spacing: -0.035em !important;
+  color: #18181B !important;
   margin-bottom: 1.15rem;
   text-wrap: balance;
   max-width: 920px;
@@ -2474,12 +2477,13 @@ section,
 .sec-tag.dark { color: var(--apple-sky); }
 
 .section-h2 {
+  font-family: var(--font-display) !important;
   font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--ink-primary);
+  font-weight: 800 !important;
+  letter-spacing: -0.035em !important;
+  color: #18181B !important;
   margin-bottom: 1rem;
-  line-height: 1.15;
+  line-height: 1.15 !important;
 }
 
 .section-h2.dark { color: var(--canvas-pure); }
@@ -4946,7 +4950,7 @@ section,
 .portfolio-hero-section {
   position: relative;
   padding: 10.5rem 0 4rem;
-  background: radial-gradient(circle at 50% 20%, rgba(255, 107, 0, 0.05) 0%, rgba(255, 255, 255, 0) 65%), #FFFFFF;
+  background: transparent !important;
   border-bottom: none !important;
   outline: none !important;
   overflow: hidden;
@@ -5179,7 +5183,7 @@ section,
 .case-study-hero-stage {
   position: relative;
   padding: 10.5rem 0 4.5rem;
-  background: radial-gradient(circle at 50% 12%, rgba(255, 107, 0, 0.06) 0%, rgba(255, 255, 255, 0) 70%), #FFFFFF;
+  background: transparent !important;
   border-bottom: none !important;
   overflow: hidden;
 }
@@ -5617,7 +5621,7 @@ section,
 
 /* Testimonial Quote Card */
 .case-study-quote-card {
-  background: radial-gradient(circle at 80% 20%, rgba(255, 107, 0, 0.07) 0%, rgba(255, 255, 255, 0) 70%), #FFFFFF;
+  background: #FFFFFF;
   border: 1.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 24px;
   padding: 2.5rem;
