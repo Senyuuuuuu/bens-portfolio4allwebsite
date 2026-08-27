@@ -1045,10 +1045,8 @@ section,
    HERO SECTION & INTERACTIVE ANTIGRAVITY FLOATING CAPSULES
    ========================================================================== */
 .hero-section {
-  height: 100vh;
-  min-height: 640px;
-  max-height: 1080px;
-  padding: 5.2rem 1.5rem 1.5rem;
+  min-height: 100vh;
+  padding: 7.2rem 1.5rem 2.5rem;
   box-sizing: border-box;
   background: transparent !important;
   display: flex;
