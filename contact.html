@@ -3,7 +3,19 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Get in Touch — Benyamin Namtalashvili</title>
+  
+  <!-- High-DPI Favicon & Web App Touch Icons -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="BENYAMIN">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0B0B0E">
+
+<title>Get in Touch — Benyamin Namtalashvili</title>
   <meta name="description" content="Get in touch with Benyamin Namtalashvili — AI Automation Specialist, Full-Stack Developer &amp; Graphic Designer."/>
   
   <!-- Fonts & Stylesheets -->
@@ -464,7 +476,12 @@
           <h2 class="card-title">Send a Project Brief</h2>
           <p class="card-desc">Fill in the details below and receive a direct proposal response within 24 hours.</p>
 
-          <form id="projectInquiryForm" onsubmit="handleFormSubmit(event)">
+          <form id="projectInquiryForm" name="project-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="handleFormSubmit(event)">
+            <!-- Netlify Form Detection & Honeypot Spam Filter -->
+            <input type="hidden" name="form-name" value="project-inquiry" />
+            <p style="display:none;" aria-hidden="true">
+              <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+            </p>
             
             <!-- Row 1: Name & Email Side-by-Side -->
             <div class="form-row-2col">
@@ -698,14 +715,69 @@
       }
     });
 
-    // Form Submit Handler
+    // Netlify AJAX Form Submit Handler
     function handleFormSubmit(e) {
       e.preventDefault();
-      const name = document.getElementById('clientName').value;
-      const category = document.getElementById('serviceCategory').value;
+      const form = e.target;
+      const submitBtn = document.getElementById('btnSendRequest');
+      const originalBtnHtml = submitBtn.innerHTML;
       
-      alert(`Thank you, ${name}! Your project inquiry for "${category}" has been received. Benyamin will review the details and respond within 24 hours.`);
-      e.target.reset();
+      // Visual feedback: Sending state
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.75';
+      submitBtn.innerHTML = `<span>Transmitting Brief...</span><i class="fa-solid fa-circle-notch fa-spin" style="margin-left: 8px;"></i>`;
+
+      const formData = new FormData(form);
+      const urlEncodedData = new URLSearchParams(formData).toString();
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: urlEncodedData
+      })
+      .then(response => {
+        if (response.ok) {
+          // Animate Form to Clean Success Card
+          gsap.to(form, {
+            opacity: 0,
+            y: -12,
+            duration: 0.3,
+            ease: 'power2.in',
+            onComplete: () => {
+              const clientName = formData.get('name') || 'there';
+              const category = formData.get('category') || 'Creative Engineering';
+              
+              form.innerHTML = `
+                <div class="form-success-state" style="text-align: center; padding: 2.8rem 1rem 1.5rem;">
+                  <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(52, 199, 89, 0.12); color: #34C759; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.25rem; border: 1px solid rgba(52, 199, 89, 0.25);">
+                    <i class="fa-solid fa-check"></i>
+                  </div>
+                  <h3 style="font-size: 1.45rem; font-weight: 800; color: #000; margin-bottom: 0.5rem; letter-spacing: -0.02em;">
+                    Project Brief Received
+                  </h3>
+                  <p style="font-size: 0.94rem; color: #64748B; max-width: 420px; margin: 0 auto 1.75rem; line-height: 1.55;">
+                    Thank you, <strong style="color: #000;">${clientName}</strong>. Your inquiry for <strong style="color: #FF5E00;">${category}</strong> has been received by Benyamin. A detailed response and proposal will be sent to your email within 24 hours.
+                  </p>
+                  <button type="button" onclick="location.reload()" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #0B0B0D; color: #FFF; font-weight: 700; font-size: 0.85rem; padding: 0.7rem 1.5rem; border-radius: 9999px; border: none; cursor: pointer; transition: transform 0.2s ease;">
+                    <span>Send Another Brief</span>
+                    <span>➔</span>
+                  </button>
+                </div>
+              `;
+              gsap.fromTo(form, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+            }
+          });
+        } else {
+          throw new Error('Netlify form submission failed with status ' + response.status);
+        }
+      })
+      .catch(error => {
+        console.error('Form submission error:', error);
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.innerHTML = originalBtnHtml;
+        alert('We encountered an issue submitting your brief. Please email Benyamin directly at benyaminnamtalashvili726@gmail.com.');
+      });
     }
   </script>
 
