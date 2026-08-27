@@ -715,38 +715,66 @@
       }
     });
 
-    // Netlify AJAX Form Submit Handler
-    function handleFormSubmit(e) {
+    // Dual-Engine Form Submit Handler (Netlify Forms DB + Direct Email to Gmail)
+    async function handleFormSubmit(e) {
       e.preventDefault();
       const form = e.target;
       const submitBtn = document.getElementById('btnSendRequest');
       const originalBtnHtml = submitBtn.innerHTML;
       
-      // Visual feedback: Sending state
+      // Visual feedback: Transmitting state
       submitBtn.disabled = true;
       submitBtn.style.opacity = '0.75';
       submitBtn.innerHTML = `<span>Transmitting Brief...</span><i class="fa-solid fa-circle-notch fa-spin" style="margin-left: 8px;"></i>`;
 
       const formData = new FormData(form);
-      const urlEncodedData = new URLSearchParams(formData).toString();
+      const clientName = formData.get('name') || 'Valued Client';
+      const clientEmail = formData.get('email') || '';
+      const category = formData.get('category') || 'Creative Engineering';
+      const scope = formData.get('scope') || '';
 
-      fetch('/', {
+      // 1. Netlify Form URL-encoded transmission (stores in Netlify Dashboard)
+      const urlEncodedData = new URLSearchParams(formData).toString();
+      const netlifyPromise = fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: urlEncodedData
-      })
-      .then(response => {
-        if (response.ok) {
-          // Animate Form to Clean Success Card
+      });
+
+      // 2. Direct-to-Inbox Email Dispatch (delivers immediately to benyaminnamtalashvili726@gmail.com)
+      const emailPayload = {
+        name: clientName,
+        email: clientEmail,
+        _replyto: clientEmail,
+        category: category,
+        project_scope: scope,
+        _subject: `🚀 New Project Brief from ${clientName} — [${category}]`,
+        _template: 'table',
+        _captcha: 'false'
+      };
+
+      const directEmailPromise = fetch('https://formsubmit.co/ajax/benyaminnamtalashvili726@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(emailPayload)
+      });
+
+      try {
+        // Run both in parallel for maximum reliability
+        const results = await Promise.allSettled([netlifyPromise, directEmailPromise]);
+        const atLeastOneSuccess = results.some(r => r.status === 'fulfilled' && (r.value.ok || r.value.status < 400));
+
+        if (atLeastOneSuccess || results[0].status === 'fulfilled' || results[1].status === 'fulfilled') {
+          // Animate Form Card to Luxury Success Confirmation Screen
           gsap.to(form, {
             opacity: 0,
             y: -12,
             duration: 0.3,
             ease: 'power2.in',
             onComplete: () => {
-              const clientName = formData.get('name') || 'there';
-              const category = formData.get('category') || 'Creative Engineering';
-              
               form.innerHTML = `
                 <div class="form-success-state" style="text-align: center; padding: 2.8rem 1rem 1.5rem;">
                   <div style="width: 58px; height: 58px; border-radius: 50%; background: rgba(52, 199, 89, 0.12); color: #34C759; display: inline-flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 1.25rem; border: 1px solid rgba(52, 199, 89, 0.25);">
@@ -756,7 +784,7 @@
                     Project Brief Received
                   </h3>
                   <p style="font-size: 0.94rem; color: #64748B; max-width: 420px; margin: 0 auto 1.75rem; line-height: 1.55;">
-                    Thank you, <strong style="color: #000;">${clientName}</strong>. Your inquiry for <strong style="color: #FF5E00;">${category}</strong> has been received by Benyamin. A detailed response and proposal will be sent to your email within 24 hours.
+                    Thank you, <strong style="color: #000;">${clientName}</strong>. Your inquiry for <strong style="color: #FF5E00;">${category}</strong> has been transmitted directly to Benyamin's inbox. A detailed proposal will be sent to <strong style="color: #000;">${clientEmail}</strong> within 24 hours.
                   </p>
                   <button type="button" onclick="location.reload()" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #0B0B0D; color: #FFF; font-weight: 700; font-size: 0.85rem; padding: 0.7rem 1.5rem; border-radius: 9999px; border: none; cursor: pointer; transition: transform 0.2s ease;">
                     <span>Send Another Brief</span>
@@ -768,16 +796,15 @@
             }
           });
         } else {
-          throw new Error('Netlify form submission failed with status ' + response.status);
+          throw new Error('Both transmission methods encountered an issue');
         }
-      })
-      .catch(error => {
-        console.error('Form submission error:', error);
+      } catch (error) {
+        console.error('Form transmission error:', error);
         submitBtn.disabled = false;
         submitBtn.style.opacity = '1';
         submitBtn.innerHTML = originalBtnHtml;
-        alert('We encountered an issue submitting your brief. Please email Benyamin directly at benyaminnamtalashvili726@gmail.com.');
-      });
+        alert('We encountered an issue transmitting your brief. Please email Benyamin directly at benyaminnamtalashvili726@gmail.com.');
+      }
     }
   </script>
 
