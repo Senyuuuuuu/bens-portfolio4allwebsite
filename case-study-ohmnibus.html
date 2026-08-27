@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Case Study: Ohmnibus Cloud Fleet &amp; Transit Engine — Benyamin Namtalashvili</title>
-  <meta name="description" content="Next-gen real-time cloud dispatch, telemetry tracking, and driver mobile interface for Ohmnibus."/>
+  <title>Work in Progress: Ohmnibus Real-Time Fleet Engine — Benyamin Namtalashvili</title>
+  <meta name="description" content="Case study currently under active development: live GPS telemetry benchmarks, fleet dispatch system, and Mapbox routing architecture."/>
   
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles.css?v=2.2.0"/>
 </head>
 <body>
 
@@ -41,120 +41,61 @@
     </div>
   </nav>
 
-  <!-- CASE STUDY HERO SHOWCASE STAGE -->
-  <header class="case-study-hero-stage">
-    <div class="case-study-container">
-      <div class="case-study-breadcrumb">
-        <a href="portfolio.html" class="breadcrumb-back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          <span>Case Studies</span>
-        </a>
-        <span style="color:var(--ink-tertiary);">/</span>
-        <span style="font-family:var(--font-mono); font-size:0.78rem; color:var(--ink-secondary); font-weight:600;">Cloud Fleet &amp; Logistics</span>
+  <!-- 404 / WORK IN PROGRESS STAGE -->
+  <main style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 8.5rem 1.5rem 6rem; background: var(--canvas-pure);">
+    <div style="max-width: 760px; width: 100%; text-align: center; margin: 0 auto;">
+      
+      <!-- Staging Status Pill -->
+      <div style="display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.4rem 1.1rem; border-radius: var(--radius-pill); background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); font-family: var(--font-mono); font-size: 0.78rem; font-weight: 700; color: #D97706; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2rem;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #F59E0B; box-shadow: 0 0 10px #F59E0B; animation: pulseAmber 2s infinite ease-in-out;"></span>
+        <span>Work In Progress // Code 404_Staging</span>
       </div>
 
-      <div class="hero-rating-pill" style="margin-bottom:1.25rem;">
-        <span class="hero-stars">★★★★★</span>
-        <span>Logistics Platform Case Study // 06</span>
-      </div>
-
-      <h1 class="hero-title" style="max-width: 980px;">
-        Ohmnibus Real-Time Fleet &amp; <span class="serif-italic">Logistics Engine</span>
+      <!-- Main Headline -->
+      <h1 style="font-family: var(--font-display); font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; color: var(--ink-primary); line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 1.25rem;">
+        Ohmnibus Engine — <span class="serif-italic" style="color: #F59E0B;">Still Working On It</span>
       </h1>
-      <p class="hero-lead" style="max-width: 840px; margin: 0 0 1.5rem;">
-        Designed and engineered an automated GPS telemetry dashboard, multi-vehicle route optimization engine, and high-contrast driver dispatch interface.
+
+      <p style="font-size: 1.1rem; color: var(--ink-secondary); line-height: 1.7; max-width: 620px; margin: 0 auto 2.5rem;">
+        We are currently synthesizing telemetry benchmarks, real-time WebSocket architecture diagrams, and Mapbox GL routing metrics for this case study. Check back soon for the full technical breakdown.
       </p>
 
-      <div class="case-study-spec-bento">
-        <div class="case-study-spec-item">
-          <div class="case-study-spec-title">Timeline</div>
-          <div class="case-study-spec-value">6 Weeks Sprint</div>
+      <!-- Terminal Diagnostics Box -->
+      <div style="background: #0B0B0D; border: 1.5px solid rgba(255, 255, 255, 0.1); border-radius: 18px; padding: 1.6rem 1.8rem; text-align: left; font-family: var(--font-mono); font-size: 0.84rem; color: #A1A1AA; line-height: 1.7; box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12); margin-bottom: 2.75rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 0.8rem; margin-bottom: 1rem;">
+          <div style="display: flex; gap: 7px;">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: #FF5F56;"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: #FFBD2E;"></span>
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: #27C93F;"></span>
+          </div>
+          <span style="font-size: 0.72rem; color: rgba(255, 255, 255, 0.4);">ohmnibus-telemetry.staging</span>
         </div>
-        <div class="case-study-spec-item">
-          <div class="case-study-spec-title">Role</div>
-          <div class="case-study-spec-value">Full-Stack Architect &amp; UI/UX Lead</div>
-        </div>
-        <div class="case-study-spec-item">
-          <div class="case-study-spec-title">Tech Stack</div>
-          <div class="case-study-spec-value" style="font-size: 0.95rem;">Node.js · WebSockets · Mapbox GL · React</div>
-        </div>
-        <div class="case-study-spec-item">
-          <div class="case-study-spec-title">Latency</div>
-          <div class="case-study-spec-value" style="color: #34C759;">&lt; 50ms Live Telemetry</div>
+        <div><span style="color: #F59E0B;">[STAGING_PIPELINE]</span> Compiling Ohmnibus Real-Time Fleet &amp; Logistics Engine</div>
+        <div><span style="color: #34C759;">[MODULE]</span> WebSocket Server Telemetry &amp; GeoJSON Mapbox Layers</div>
+        <div><span style="color: #60A5FA;">[STATUS]</span> IN_ACTIVE_REFINEMENT // Documentation in Progress</div>
+        <div style="margin-top: 0.4rem; color: #FFFFFF; font-weight: 600;">
+          Release Progress: [████████████████░░░░] 84%
         </div>
       </div>
-    </div>
-  </header>
 
-  <!-- CASE STUDY CONTENT BODY -->
-  <main style="padding: 5rem 0 8rem; background: var(--canvas-pure);">
-    <div class="case-study-container">
-      
-      <!-- High-Fidelity macOS Device Frame -->
-      <div class="case-study-device-frame">
-        <div class="device-frame-topbar">
-          <div class="device-window-dots">
-            <span class="device-dot dot-red"></span>
-            <span class="device-dot dot-yellow"></span>
-            <span class="device-dot dot-green"></span>
-          </div>
-          <div class="device-window-title">
-            <i class="fa-solid fa-bus-simple" style="font-size: 0.65rem; color: #30D158;"></i>
-            <span>https://app.ohmnibus.cloud/fleet-telemetry/live</span>
-          </div>
-          <div class="device-live-status">
-            <span class="device-live-pulse"></span>
-            <span>Live WebSockets Connected · GPS Active</span>
-          </div>
-        </div>
-        <img src="assets/graphico-web-engine.jpg" alt="Ohmnibus Logistics Cloud Engine Web Interface" class="case-study-device-img"/>
-      </div>
-
-      <!-- Project Description Card -->
-      <div class="case-study-section-card">
-        <div class="case-study-section-badge">
-          <i class="fa-solid fa-file-lines"></i>
-          <span>Project Description</span>
-        </div>
-        <h2 class="case-study-heading">
-          High-Frequency Telemetry &amp; Intelligent Transit Dispatching
-        </h2>
-        <p class="case-study-paragraph">
-          Ohmnibus provides municipal transit authorities and private logistics fleets with real-time positional visibility and automated scheduling intelligence. We developed an interactive Mapbox GL dashboard that plots 450+ concurrent vehicle trajectories without UI stutter or memory leaks.
-        </p>
-        <p class="case-study-paragraph">
-          Using bi-directional WebSockets and lightweight MQTT protocols, dispatchers receive instantaneous traffic congestion reroutes, vehicle battery/fuel metrics, and driver duty-cycle notifications directly inside a streamlined Apple-inspired command interface.
-        </p>
-      </div>
-
-      <!-- Interactive Next / Previous Navigation -->
-      <div class="case-study-pagination">
-        <a href="case-study-brayne-digital.html" class="case-study-page-card">
-          <div class="page-card-direction">
-            <i class="fa-solid fa-arrow-left"></i> Previous Case Study
-          </div>
-          <div class="page-card-title">Brayne Digital Corporate Identity &amp; Print System</div>
+      <!-- Action Nav Buttons -->
+      <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+        <a href="portfolio.html" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--ink-primary); color: #FFFFFF; font-weight: 700; font-size: 0.92rem; padding: 0.75rem 1.6rem; border-radius: var(--radius-pill); text-decoration: none; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15); transition: transform 0.2s ease;">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Return to Case Studies</span>
         </a>
-
-        <a href="case-study-estilo-salon.html" class="case-study-page-card" style="text-align: right;">
-          <div class="page-card-direction" style="justify-content: flex-end;">
-            Next Case Study <i class="fa-solid fa-arrow-right"></i>
-          </div>
-          <div class="page-card-title">Estilo Salon Luxury Web &amp; Booking Experience</div>
+        <a href="contact.html" style="display: inline-flex; align-items: center; gap: 0.5rem; background: #FFFFFF; color: var(--ink-primary); font-weight: 700; font-size: 0.92rem; padding: 0.75rem 1.6rem; border-radius: var(--radius-pill); border: 1.5px solid rgba(0, 0, 0, 0.12); text-decoration: none; transition: transform 0.2s ease;">
+          <span>Inquire About Project</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.78rem;"></i>
         </a>
       </div>
-
-      <!-- CTA Masterpiece Banner -->
-      
 
     </div>
   </main>
 
-    <!-- FIGMA DESIGNER FRAME FOOTER -->
-    <!-- FIGMA DESIGNER FRAME FOOTER -->
+  <!-- FIGMA DESIGNER FRAME FOOTER -->
   <div class="floating-footer-wrapper">
     <footer class="floating-dark-footer designer-footer" id="designerFooter">
-      <!-- Fluid Topographical Contour Line Background Pattern -->
       <svg class="footer-topo-pattern" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0,100 C320,160 420,-40 720,60 C1020,160 1180,20 1440,80 L1440,600 L0,600 Z" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
         <path d="M0,180 C360,260 480,40 760,150 C1040,260 1200,90 1440,170" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
@@ -162,11 +103,8 @@
         <path d="M0,340 C400,420 580,200 860,320 C1140,440 1260,260 1440,330" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
         <path d="M0,420 C420,500 640,290 920,400 C1200,510 1300,340 1440,420" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1.5" />
       </svg>
-
-      <!-- Interactive Canvas Dot Matrix Background -->
       <canvas class="footer-grid-canvas"></canvas>
 
-      <!-- Top Meta Bar with Tag and Back to Top -->
       <div class="footer-frame-top">
         <div class="footer-frame-tag">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -174,7 +112,6 @@
           </svg>
           <span>BENYAMIN.FRAME</span>
         </div>
-        
         <button class="footer-top-btn" id="footerBackToTop" aria-label="Scroll back to top" onclick="window.scrollTo({top:0, behavior:'smooth'})">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M12 19V5M5 12l7-7 7 7" stroke-linecap="round" stroke-linejoin="round"/>
@@ -182,16 +119,13 @@
         </button>
       </div>
 
-      <!-- Main Content Layout -->
       <div class="footer-main-content">
         <div class="footer-left-col">
           <div class="footer-eyebrow">HAVE AN IDEA WORTH BUILDING?</div>
-          
           <a href="mailto:benyaminnamtalashvili726@gmail.com" class="footer-giant-email">
             <span>benyaminnamtalashvili726@gmail.com</span>
             <span class="footer-email-arrow">↗</span>
           </a>
-
           <div class="footer-cta-action-row">
             <div class="footer-avail-pill">
               <span class="avail-dot"></span>
@@ -200,7 +134,6 @@
           </div>
         </div>
 
-        <!-- Navigation Columns -->
         <div class="footer-nav-cols">
           <div class="footer-nav-col">
             <div class="footer-nav-heading">STUDIO</div>
@@ -211,7 +144,6 @@
               <li><a href="contact.html">Get in Touch</a></li>
             </ul>
           </div>
-
 
           <div class="footer-nav-col">
             <div class="footer-nav-heading">CONNECT</div>
@@ -226,12 +158,10 @@
         </div>
       </div>
 
-      <!-- Massive Bottom Wordmark Display -->
       <div class="footer-massive-wordmark" aria-hidden="true">
         <span class="wordmark-orange">B</span><span class="wordmark-white">enyamin</span>
       </div>
 
-      <!-- Bottom Technical Colophon Bar -->
       <div class="footer-technical-bar">
         <div class="tech-bar-right" style="width: 100%; text-align: center;">
           <span>&copy; 2026 · engineered by Benyamin Namtalashvili, not framer</span>
@@ -240,10 +170,17 @@
     </footer>
   </div>
 
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <style>
+    @keyframes pulseAmber {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+  </style>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="footer-interactive-canvas.js"></script>
-  <script src="main.js"></script>
+  <script src="footer-interactive-canvas.js?v=2.2.0"></script>
+  <script src="main.js?v=2.2.0"></script>
 </body>
 </html>
