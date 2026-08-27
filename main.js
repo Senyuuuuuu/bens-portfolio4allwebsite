@@ -549,6 +549,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       );
     }
+
+    // 3.8 Case Study Elements Scroll Reveal & Parallax
+    if (document.querySelector('.case-study-hero-stage') || document.querySelector('.case-study-device-frame')) {
+      gsap.fromTo('.case-study-breadcrumb, .case-study-hero-stage .hero-rating-pill, .case-study-hero-stage .hero-title, .case-study-hero-stage .hero-lead, .case-study-spec-bento',
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.75, stagger: 0.08, ease: 'power3.out', clearProps: 'opacity,transform' }
+      );
+
+      const deviceFrame = document.querySelector('.case-study-device-frame');
+      if (deviceFrame) {
+        gsap.fromTo(deviceFrame,
+          { y: 35, opacity: 0.85, scale: 0.98 },
+          {
+            scrollTrigger: {
+              trigger: deviceFrame,
+              start: 'top 92%',
+              toggleActions: 'play none none none'
+            },
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            clearProps: 'opacity,transform'
+          }
+        );
+      }
+
+      const sectionCards = document.querySelectorAll('.case-study-section-card, .case-study-pagination');
+      if (sectionCards.length > 0) {
+        sectionCards.forEach(card => {
+          gsap.fromTo(card,
+            { y: 30, opacity: 0 },
+            {
+              scrollTrigger: {
+                trigger: card,
+                start: 'top 90%',
+                toggleActions: 'play none none none'
+              },
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              ease: 'power3.out',
+              clearProps: 'opacity,transform'
+            }
+          );
+        });
+      }
+    }
   }
 
   initScrollAnimations();
@@ -791,4 +840,329 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  // =========================================================================
+  // 5. CUSTOMER STORIES (GSAP 3-TIER INFINITE MARQUEE & SYNCED HOVER CONTROLLER)
+  // =========================================================================
+  function initCustomerStoriesMarquee() {
+    const rowTop = document.getElementById('storiesRowTop');
+    const rowMiddle = document.getElementById('storiesRowMiddle');
+    const rowBottom = document.getElementById('storiesRowBottom');
+    if (!rowTop || !rowMiddle || !rowBottom || typeof gsap === 'undefined') return;
+
+    // Clone groups in all three rows to guarantee endless, seamless looping
+    [rowTop, rowMiddle, rowBottom].forEach(row => {
+      const group = row.querySelector('.stories-track-group');
+      if (group) {
+        const clone1 = group.cloneNode(true);
+        const clone2 = group.cloneNode(true);
+        row.appendChild(clone1);
+        row.appendChild(clone2);
+      }
+    });
+
+    requestAnimationFrame(() => {
+      const groupTop = rowTop.querySelector('.stories-track-group');
+      const groupMiddle = rowMiddle.querySelector('.stories-track-group');
+      const groupBottom = rowBottom.querySelector('.stories-track-group');
+      if (!groupTop || !groupMiddle || !groupBottom) return;
+
+      const getWidthTop = () => groupTop.offsetWidth;
+      const getWidthMiddle = () => groupMiddle.offsetWidth;
+      const getWidthBottom = () => groupBottom.offsetWidth;
+
+      // Row 1 (Top): Pans slowly to the left
+      const tweenTop = gsap.fromTo(rowTop,
+        { x: 0 },
+        {
+          x: () => -getWidthTop(),
+          duration: 38,
+          ease: "none",
+          repeat: -1
+        }
+      );
+
+      // Row 2 (Middle): Pans slowly to the right
+      const tweenMiddle = gsap.fromTo(rowMiddle,
+        { x: () => -getWidthMiddle() },
+        {
+          x: 0,
+          duration: 44,
+          ease: "none",
+          repeat: -1
+        }
+      );
+
+      // Row 3 (Bottom): Pans slowly to the left
+      const tweenBottom = gsap.fromTo(rowBottom,
+        { x: 0 },
+        {
+          x: () => -getWidthBottom(),
+          duration: 36,
+          ease: "none",
+          repeat: -1
+        }
+      );
+
+      const allTweens = [tweenTop, tweenMiddle, tweenBottom];
+
+      // Synchronized Hover Interactions:
+      // Hovering any individual card pauses ALL three rows and scales that card up to 1.03
+      const allCards = document.querySelectorAll('.story-card');
+      allCards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          allTweens.forEach(t => t.pause());
+          card.classList.add('is-hovered');
+          gsap.to(card, {
+            scale: 1.03,
+            duration: 0.28,
+            ease: "power2.out"
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.classList.remove('is-hovered');
+          gsap.to(card, {
+            scale: 1,
+            duration: 0.28,
+            ease: "power2.out",
+            onComplete: () => {
+              // Gracefully resume marquee motion across all 3 rows
+              allTweens.forEach(t => t.play());
+            }
+          });
+        });
+      });
+
+      // Recalculate dimensions smoothly on viewport resize
+      window.addEventListener('resize', () => {
+        allTweens.forEach(t => t.invalidate());
+      });
+    });
+  }
+
+  initCustomerStoriesMarquee();
+
+  // =========================================================================
+  // 6. FLOATING DARK-MODE FOOTER CARD CONTROLLER (GSAP ScrollTrigger & Magnetic)
+  // =========================================================================
+  function initFloatingDarkFooter() {
+    const footer = document.getElementById('designerFooter') || document.getElementById('floatingDarkFooter');
+    if (!footer || typeof gsap === 'undefined') return;
+
+    // 1. Scroll Reveal: Slide up from y: 100px and fade in with ScrollTrigger
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.fromTo(footer,
+        { y: 100, opacity: 0 },
+        {
+          scrollTrigger: {
+            trigger: '.floating-footer-wrapper',
+            start: 'top 88%',
+            toggleActions: 'play none none none'
+          },
+          y: 0,
+          opacity: 1,
+          duration: 1.1,
+          ease: 'power3.out'
+        }
+      );
+    }
+
+    // 2. Social Link Hover: Diagonal arrow animate up-right + neon accent color
+    const socialLinks = footer.querySelectorAll('.footer-social-link');
+    socialLinks.forEach(link => {
+      const arrow = link.querySelector('.social-diagonal-arrow');
+      if (arrow) {
+        link.addEventListener('mouseenter', () => {
+          gsap.to(arrow, {
+            x: 4,
+            y: -4,
+            color: '#00E5FF',
+            duration: 0.22,
+            ease: 'power2.out'
+          });
+        });
+        link.addEventListener('mouseleave', () => {
+          gsap.to(arrow, {
+            x: 0,
+            y: 0,
+            color: '#FF7A00',
+            duration: 0.22,
+            ease: 'power2.out'
+          });
+        });
+      }
+    });
+
+    // 3. Magnetic Physics on Central Pill Buttons
+    const magneticBtns = footer.querySelectorAll('.magnetic-btn');
+    magneticBtns.forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = (e.clientX - centerX) * 0.32;
+        const deltaY = (e.clientY - centerY) * 0.32;
+
+        gsap.to(btn, {
+          x: deltaX,
+          y: deltaY,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, {
+          x: 0,
+          y: 0,
+          duration: 0.6,
+          ease: 'elastic.out(1, 0.4)'
+        });
+      });
+    });
+
+    // 4. Copy Email Action
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const copyEmailText = document.getElementById('copyEmailText');
+    if (copyEmailBtn && copyEmailText) {
+      copyEmailBtn.addEventListener('click', () => {
+        const email = 'benyaminnamtalashvili726@gmail.com';
+        navigator.clipboard.writeText(email).then(() => {
+          copyEmailText.textContent = 'Copied! ✓';
+          copyEmailBtn.style.borderColor = '#00FF7F';
+          copyEmailBtn.style.color = '#00FF7F';
+          setTimeout(() => {
+            copyEmailText.textContent = 'Copy Email';
+            copyEmailBtn.style.borderColor = '';
+            copyEmailBtn.style.color = '';
+          }, 2200);
+        }).catch(() => {
+          copyEmailText.textContent = 'Copied! ✓';
+          setTimeout(() => { copyEmailText.textContent = 'Copy Email'; }, 2000);
+        });
+      });
+    }
+  }
+
+  // =========================================================================
+  // 12. MODELING PORTFOLIO INTERACTIVE BURST BUTTON (GSAP PHYSICS)
+  // =========================================================================
+  function initModelingBurstButton() {
+    const wrappers = document.querySelectorAll('.modeling-burst-wrapper, .burst-btn-container');
+    if (!wrappers.length || typeof gsap === 'undefined') return;
+
+    wrappers.forEach((wrapper) => {
+      const btn = wrapper.querySelector('.modeling-burst-btn, .modeling-btn-pill');
+      const glasses = wrapper.querySelector('.pop-icon-glasses');
+      const sunglasses = wrapper.querySelector('.pop-icon-sunglasses');
+      const star = wrapper.querySelector('.pop-icon-star');
+      const camera = wrapper.querySelector('.pop-icon-camera');
+
+      if (!btn || !glasses || !sunglasses || !star || !camera) return;
+
+      // Force hardware acceleration and initialize dead-center behind main button
+      gsap.set([glasses, sunglasses, star, camera], {
+        xPercent: -50,
+        yPercent: -50,
+        x: 0,
+        y: 0,
+        scale: 0,
+        opacity: 0,
+        transformOrigin: '50% 50%',
+        force3D: true
+      });
+
+      gsap.set(btn, {
+        force3D: true
+      });
+
+      let currentTl = null;
+
+      btn.addEventListener('mouseenter', () => {
+        if (currentTl) currentTl.kill();
+
+        currentTl = gsap.timeline();
+
+        // 1. Soft glowing orange drop shadow
+        currentTl.to(btn, {
+          boxShadow: '0 12px 32px rgba(255, 69, 0, 0.38), 0 0 20px rgba(255, 69, 0, 0.22)',
+          duration: 0.35,
+          ease: 'power2.out'
+        }, 0);
+
+        // 2. Burst eruption to four corners with spring-like elastic easing
+        // Top-Left: Black Sunglasses
+        currentTl.to(sunglasses, {
+          x: -115,
+          y: -52,
+          rotation: -12,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+
+        // Top-Right: Black Glasses
+        currentTl.to(glasses, {
+          x: 115,
+          y: -52,
+          rotation: 12,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+
+        // Bottom-Left: Solid Orange Star
+        currentTl.to(star, {
+          x: -105,
+          y: 52,
+          rotation: -18,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+
+        // Bottom-Right: Solid Orange Camera
+        currentTl.to(camera, {
+          x: 105,
+          y: 52,
+          rotation: 14,
+          scale: 1,
+          opacity: 1,
+          duration: 0.85,
+          ease: 'elastic.out(1, 0.6)'
+        }, 0);
+      });
+
+      btn.addEventListener('mouseleave', () => {
+        if (currentTl) currentTl.kill();
+
+        currentTl = gsap.timeline();
+
+        // Orange glow fades out
+        currentTl.to(btn, {
+          boxShadow: '0 4px 14px rgba(255, 69, 0, 0.08)',
+          duration: 0.3,
+          ease: 'power3.inOut'
+        }, 0);
+
+        // Rapidly suck four icons back to exact center (x: 0, y: 0), scale: 0, opacity: 0
+        currentTl.to([sunglasses, glasses, star, camera], {
+          x: 0,
+          y: 0,
+          rotation: 0,
+          scale: 0,
+          opacity: 0,
+          duration: 0.32,
+          ease: 'power3.inOut'
+        }, 0);
+      });
+    });
+  }
+
+  initFloatingDarkFooter();
+  initModelingBurstButton();
 });

@@ -62,43 +62,72 @@
     const timeHistory = [];
 
     // =========================================================================
-    // CUSTOM CURSOR TRACKING (APPLE GLASS BADGE)
+    // CUSTOM CURSOR TRACKING (HOVER DRAG CAPSULE COMPONENT)
     // =========================================================================
-    if (cursorBadge) {
-      const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 768;
+    const CAPSULE_HTML = `
+      <span class="capsule-chevron left">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </span>
+      <span class="capsule-pulse-dot"></span>
+      <span class="capsule-label">DRAG TO EXPLORE</span>
+      <span class="capsule-chevron right">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </span>
+    `;
 
-      if (!isTouch && typeof gsap !== 'undefined') {
-        const xTo = gsap.quickTo(cursorBadge, "x", { duration: 0.12, ease: "power3.out" });
-        const yTo = gsap.quickTo(cursorBadge, "y", { duration: 0.12, ease: "power3.out" });
+    let activeBadge = document.getElementById('carouselDragCapsule');
+    if (!activeBadge) {
+      activeBadge = document.createElement('div');
+      activeBadge.id = 'carouselDragCapsule';
+      activeBadge.className = 'carousel-drag-capsule';
+      activeBadge.innerHTML = CAPSULE_HTML;
+      document.body.appendChild(activeBadge);
+    } else {
+      activeBadge.innerHTML = CAPSULE_HTML;
+    }
 
-        viewport.addEventListener('mouseenter', () => {
-          isHovered = true;
-          cursorBadge.classList.add('is-active');
-        });
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth <= 768;
 
-        viewport.addEventListener('mouseleave', () => {
-          if (!isDragging) {
-            isHovered = false;
-            cursorBadge.classList.remove('is-active', 'is-pressed');
-          }
-        });
+    if (!isTouch && activeBadge) {
+      // Direct high-performance transform tracking with zero matrix clipping
+      let mouseX = -100;
+      let mouseY = -100;
+      let isOverCarousel = false;
 
-        window.addEventListener('mousemove', (e) => {
-          xTo(e.clientX);
-          yTo(e.clientY);
-        });
-
-        viewport.addEventListener('mousedown', () => {
-          cursorBadge.classList.add('is-pressed');
-        });
-
-        window.addEventListener('mouseup', () => {
-          cursorBadge.classList.remove('is-pressed');
-          if (!isHovered) {
-            cursorBadge.classList.remove('is-active');
-          }
-        });
+      function updateCapsulePosition(e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        activeBadge.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       }
+
+      window.addEventListener('pointermove', updateCapsulePosition, { passive: true });
+
+      viewport.addEventListener('pointerenter', (e) => {
+        isHovered = true;
+        isOverCarousel = true;
+        updateCapsulePosition(e);
+        activeBadge.classList.add('is-active');
+      });
+
+      viewport.addEventListener('pointerleave', () => {
+        isOverCarousel = false;
+        if (!isDragging) {
+          isHovered = false;
+          activeBadge.classList.remove('is-active', 'is-pressed');
+        }
+      });
+
+      viewport.addEventListener('pointerdown', () => {
+        activeBadge.classList.add('is-pressed');
+      });
+
+      window.addEventListener('pointerup', () => {
+        activeBadge.classList.remove('is-pressed');
+        if (!isOverCarousel) {
+          isHovered = false;
+          activeBadge.classList.remove('is-active');
+        }
+      });
     }
 
     // =========================================================================

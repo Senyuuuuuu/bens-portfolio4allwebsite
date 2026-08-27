@@ -7,7 +7,8 @@ echo   🚀 AUTOMATED WEBSITE PUSH - BENYAMIN NAMTALASHVILI
 echo ============================================================
 echo.
 
-cd /d "%~dp0\TEST PORTFOLIO"
+:: Ensure in correct directory
+cd /d "%~dp0"
 
 echo [1/3] 📦 Staging all website changes...
 git add -A

@@ -12,11 +12,10 @@
       return;
     }
 
-    // Skip heavy physics engine on mobile/touch devices
-    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-    const isSmallScreen = window.innerWidth < 768;
-    if (isTouchDevice || isSmallScreen) {
-      // On mobile: just let the items sit statically in normal flow
+    // Only fallback on mobile screens (<= 768px)
+    const isSmallScreen = window.innerWidth <= 768;
+    if (isSmallScreen) {
+      // On small mobile screens: let the items sit in a clean flex layout
       const stage = document.getElementById('heroAntigravityStage');
       if (stage) {
         stage.style.minHeight = '200px';
@@ -26,7 +25,6 @@
         stage.style.padding = '1rem';
         stage.style.alignItems = 'center';
         stage.style.justifyContent = 'center';
-        // Remove absolute positioning from items so they flow naturally
         Array.from(stage.querySelectorAll('.antigravity-item')).forEach(el => {
           el.style.position = 'relative';
           el.style.left = 'auto';
@@ -186,7 +184,6 @@
         pair.recentPositions = [{ x: stagePointerX, y: stagePointerY, t: performance.now() }];
 
         el.classList.add('is-dragging');
-        document.body.style.cursor = 'grabbing';
 
         Body.setVelocity(body, { x: 0, y: 0 });
         Body.setAngularVelocity(body, 0);
@@ -218,7 +215,6 @@
         pair.isDragging = false;
         pair.targetScale = pair.baseScale;
         el.classList.remove('is-dragging');
-        document.body.style.cursor = '';
 
         try {
           el.releasePointerCapture(e.pointerId);

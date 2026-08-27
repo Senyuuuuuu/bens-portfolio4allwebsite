@@ -4,7 +4,6 @@
  * - Free 2D dragging for all Bento Grid cards & capability pills
  * - Elastic spring-back physics to original anchor position on release
  * - Maintains custom orange vector cursor throughout
- * - DISABLED on mobile/touch devices (< 900px or any touch device)
  */
 
 (function () {
@@ -12,19 +11,6 @@
 
   function initDraggableCapabilities() {
     if (typeof gsap === 'undefined' || typeof Draggable === 'undefined') return;
-
-    // Strictly disable ALL dragging on mobile / touch devices or screens <= 900px
-    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia('(pointer: coarse)').matches);
-    const isSmallScreen = window.innerWidth <= 900;
-    if (isTouchDevice || isSmallScreen) {
-      // Ensure cards are non-draggable and smooth scrolling is completely uninhibited
-      document.querySelectorAll('.bento-card, .bento-pill-item, .stack-mini-pill').forEach(el => {
-        el.style.touchAction = 'auto';
-        el.style.cursor = 'default';
-        el.style.userSelect = 'auto';
-      });
-      return;
-    }
 
     gsap.registerPlugin(Draggable);
 
@@ -37,6 +23,8 @@
         type: "x,y",
         edgeResistance: 0.2,
         zIndexBoost: true,
+        cursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        activeCursor: "url('assets/custom-cursor.svg') 4 3, auto",
         onPress: function () {
           pill.classList.add('is-dragging');
           gsap.killTweensOf(pill);
@@ -69,6 +57,9 @@
         type: "x,y",
         edgeResistance: 0.25,
         zIndexBoost: true,
+        cursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        activeCursor: "url('assets/custom-cursor.svg') 4 3, auto",
+        dragClickables: false,
         onPress: function () {
           card.classList.add('is-dragging');
           gsap.killTweensOf(card);
