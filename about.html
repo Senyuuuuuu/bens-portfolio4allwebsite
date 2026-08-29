@@ -41,6 +41,704 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,600&family=Space+Mono:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <link rel="stylesheet" href="styles.css?v=2.2.0"/>
+  <style>
+    /* ==========================================================================
+       ABOUT & RESUME PAGE — APPLE LIQUID GLASS & VISIONOS RESPONSIVE SYSTEM
+       ========================================================================== */
+    
+    /* Layout Structure (Desktop Default) */
+    .about-main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    .about-sidebar-sticky {
+      position: sticky;
+      top: 6.5rem;
+    }
+
+    /* Apple Liquid Glass Profile Card */
+    .about-profile-card {
+      padding: 2.2rem;
+      background: rgba(255, 255, 255, 0.76);
+      backdrop-filter: blur(36px) saturate(200%);
+      -webkit-backdrop-filter: blur(36px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 28px;
+      box-shadow: 
+        inset 0 1.5px 1.5px 0 #FFFFFF,
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+        0 16px 40px -10px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .about-profile-header-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .about-profile-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: var(--obsidian-base);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .avatar-pulse-beacon {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 14px;
+      height: 14px;
+      background: #10B981;
+      border: 2.5px solid #FFFFFF;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+
+    .about-profile-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--ink-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .about-profile-role {
+      font-size: 0.88rem;
+      color: var(--apple-blue);
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+    }
+
+    /* iOS Quick Actions Row */
+    .ios-quick-actions-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+      width: 100%;
+    }
+
+    .ios-action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.75rem 0.5rem;
+      background: rgba(0, 0, 0, 0.035);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--ink-primary);
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .ios-action-btn i {
+      font-size: 1rem;
+      color: var(--apple-blue);
+      transition: transform 0.2s ease;
+    }
+
+    .ios-action-btn:hover, .ios-action-btn:active {
+      background: rgba(0, 113, 227, 0.08);
+      border-color: rgba(0, 113, 227, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .ios-action-btn:hover i {
+      transform: scale(1.15);
+    }
+
+    .about-profile-pills {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.86rem;
+      color: var(--ink-secondary);
+      border-top: 1px solid var(--hairline-light-soft);
+      padding-top: 1.35rem;
+      margin: 0;
+    }
+
+    .about-profile-pills li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.4;
+    }
+
+    .about-profile-pills i {
+      color: var(--apple-blue);
+      font-size: 0.88rem;
+      margin-top: 0.2rem;
+    }
+
+    /* Segmented Competency Tab Bar (Mobile/Tablet Only) */
+    .competency-segmented-tabs {
+      display: none;
+      gap: 0.45rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding: 0.35rem;
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: var(--radius-pill);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .competency-segmented-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .competency-tab-item {
+      padding: 0.42rem 0.95rem;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .competency-tab-item.active {
+      background: #FFFFFF;
+      color: var(--ink-primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      font-weight: 700;
+    }
+
+    /* Competencies List & Cards */
+    .competencies-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .competency-figma-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(32px) saturate(200%);
+      -webkit-backdrop-filter: blur(32px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.88);
+      border-radius: 24px;
+      padding: 2rem 2.2rem;
+      box-shadow: 
+        inset 0 1.5px 1.5px 0 #FFFFFF,
+        inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+        0 12px 32px -8px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .competency-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .competency-icon-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .competency-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      background: rgba(0, 113, 227, 0.08);
+      color: var(--apple-blue);
+      border: 1px solid rgba(0, 113, 227, 0.15);
+      flex-shrink: 0;
+    }
+
+    .competency-icon-box.icon-ai {
+      background: rgba(255, 140, 0, 0.1);
+      color: #FF8C00;
+      border-color: rgba(255, 140, 0, 0.2);
+    }
+
+    .competency-icon-box.icon-design {
+      background: rgba(147, 51, 234, 0.1);
+      color: #9333EA;
+      border-color: rgba(147, 51, 234, 0.2);
+    }
+
+    .competency-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin: 0;
+    }
+
+    .competency-spec-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.22rem 0.65rem;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      color: var(--ink-secondary);
+      white-space: nowrap;
+    }
+
+    .competency-desc {
+      font-size: 0.92rem;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .competency-chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+      padding-top: 1.15rem;
+      border-top: 1px solid var(--hairline-light-soft);
+    }
+
+    .competency-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.32rem 0.75rem;
+      border-radius: var(--radius-pill);
+      background: rgba(0, 0, 0, 0.035);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink-secondary);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transition: all 0.2s ease;
+    }
+
+    .competency-chip:hover {
+      background: rgba(0, 113, 227, 0.08);
+      color: var(--apple-blue);
+      border-color: rgba(0, 113, 227, 0.2);
+    }
+
+    /* Career Timeline (Desktop 3-Col, Connected Vertical Stepper on Tablet/Mobile) */
+    .career-timeline-section {
+      padding: 6.5rem 0;
+      background: transparent;
+      color: var(--ink-primary);
+    }
+
+    .career-timeline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.2rem;
+      margin-top: 3rem;
+    }
+
+    .career-card {
+      border-top: 2px solid var(--apple-blue);
+      padding-top: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 100%;
+    }
+
+    .career-date {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--apple-blue);
+      margin-bottom: 0.45rem;
+      letter-spacing: -0.02em;
+    }
+
+    .career-role {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+
+    .career-company {
+      font-size: 0.82rem;
+      color: var(--ink-secondary);
+      margin-bottom: 0.9rem;
+      font-weight: 600;
+    }
+
+    .career-list {
+      font-size: 0.86rem;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      padding-left: 1.15rem;
+      margin: 0;
+    }
+
+    /* ==========================================================================
+       TABLET BESPOKE RULES (max-width: 992px)
+       ========================================================================== */
+    @media (max-width: 992px) {
+      .about-hero-section {
+        padding: clamp(5.5rem, 9vh, 7rem) 0 2rem !important;
+      }
+
+      .about-main-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-sidebar-sticky {
+        position: static;
+        width: 100%;
+      }
+
+      .about-profile-card {
+        padding: 1.8rem 1.6rem;
+      }
+
+      .about-profile-header-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 1.25rem;
+      }
+
+      .avatar-wrapper {
+        margin-bottom: 0;
+      }
+
+      .about-profile-pills {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+      }
+
+      .competency-segmented-tabs {
+        display: flex;
+      }
+
+      /* Connected Vertical Stepper on Tablet */
+      .career-timeline-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.8rem;
+        position: relative;
+        padding-left: 2rem;
+        border-left: 2px solid rgba(0, 113, 227, 0.25);
+        margin-left: 1rem;
+      }
+
+      .career-card {
+        border-top: none;
+        padding-top: 0;
+        position: relative;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.88);
+        border-radius: 20px;
+        padding: 1.5rem 1.6rem;
+        box-shadow: 0 8px 24px -6px rgba(0,0,0,0.05);
+      }
+
+      .career-card::before {
+        content: '';
+        position: absolute;
+        left: -2rem;
+        top: 1.8rem;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--apple-blue);
+        transform: translateX(-50%);
+        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.2);
+      }
+
+      .career-card:first-child::before {
+        background: #10B981;
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.25);
+      }
+    }
+
+    /* ==========================================================================
+       MOBILE BESPOKE RULES (max-width: 640px)
+       ========================================================================== */
+    @media (max-width: 640px) {
+      .about-hero-section {
+        padding: 4.6rem 0 1.2rem !important;
+      }
+
+      .about-hero-section .hero-title {
+        font-size: clamp(1.58rem, 6.2vw, 1.95rem) !important;
+        line-height: 1.18 !important;
+        margin-bottom: 0.65rem !important;
+      }
+
+      .about-hero-section .hero-rating-pill {
+        font-size: 0.65rem !important;
+        padding: 0.22rem 0.6rem !important;
+        margin-bottom: 0.7rem !important;
+      }
+
+      .figma-draggable-box {
+        padding: 0.75rem 0.8rem !important;
+      }
+
+      .figma-text-content {
+        font-size: 0.82rem !important;
+        line-height: 1.46 !important;
+      }
+
+      .portfolio-stats-matrix {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0.5rem !important;
+        margin-top: 1rem !important;
+      }
+
+      .portfolio-stat-card {
+        padding: 0.7rem 0.75rem !important;
+        border-radius: 14px !important;
+      }
+
+      .portfolio-stat-val {
+        font-size: 1.25rem !important;
+      }
+
+      .portfolio-stat-label {
+        font-size: 0.64rem !important;
+      }
+
+      .portfolio-stat-sub {
+        font-size: 0.56rem !important;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Profile Bio Card on Mobile */
+      .about-main-grid {
+        gap: 1.5rem;
+      }
+
+      .about-profile-card {
+        padding: 1.25rem 1.15rem;
+        border-radius: 22px;
+      }
+
+      .about-profile-header-group {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.9rem;
+      }
+
+      .about-profile-avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 1.25rem;
+      }
+
+      .about-profile-name {
+        font-size: 1.15rem;
+      }
+
+      .about-profile-role {
+        font-size: 0.78rem;
+        margin-bottom: 0;
+      }
+
+      .ios-quick-actions-bar {
+        gap: 0.45rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .ios-action-btn {
+        padding: 0.58rem 0.35rem;
+        font-size: 0.68rem;
+        border-radius: 12px;
+      }
+
+      .ios-action-btn i {
+        font-size: 0.88rem;
+      }
+
+      .about-profile-pills {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        font-size: 0.78rem;
+        padding-top: 0.9rem;
+      }
+
+      /* Segmented Tabs on Mobile */
+      .competency-segmented-tabs {
+        display: flex;
+        gap: 0.35rem;
+        padding: 0.28rem;
+      }
+
+      .competency-tab-item {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.7rem;
+      }
+
+      .competency-figma-card {
+        padding: 1.15rem 1rem;
+        border-radius: 18px;
+      }
+
+      .competency-card-header {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.65rem;
+      }
+
+      .competency-icon-box {
+        width: 36px;
+        height: 36px;
+        font-size: 0.95rem;
+        border-radius: 10px;
+      }
+
+      .competency-title {
+        font-size: 0.98rem !important;
+      }
+
+      .competency-spec-tag {
+        display: none; /* Hide on ultra-compact mobile header to avoid crowding */
+      }
+
+      .competency-desc {
+        font-size: 0.8rem !important;
+        line-height: 1.48 !important;
+      }
+
+      .competency-chips-grid {
+        gap: 0.3rem;
+        padding-top: 0.75rem;
+        margin-top: 0.75rem;
+      }
+
+      .competency-chip {
+        font-size: 0.66rem;
+        padding: 0.18rem 0.5rem;
+      }
+
+      /* Connected Vertical Stepper on Mobile */
+      .career-timeline-section {
+        padding: 2.5rem 0 4.5rem;
+      }
+
+      .career-timeline-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        position: relative;
+        padding-left: 1.35rem;
+        border-left: 2px solid rgba(0, 113, 227, 0.2);
+        margin-left: 0.65rem;
+        margin-top: 1.5rem;
+      }
+
+      .career-card {
+        border-top: none;
+        padding-top: 0;
+        position: relative;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.88);
+        border-radius: 16px;
+        padding: 1rem 1.05rem;
+        box-shadow: 0 6px 18px -4px rgba(0,0,0,0.04);
+      }
+
+      .career-card::before {
+        content: '';
+        position: absolute;
+        left: -1.35rem;
+        top: 1.35rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--apple-blue);
+        transform: translateX(-50%);
+        box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+      }
+
+      .career-card:first-child::before {
+        background: #10B981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+      }
+
+      .career-date {
+        font-size: 1.15rem;
+        margin-bottom: 0.2rem;
+      }
+
+      .career-role {
+        font-size: 0.94rem;
+        margin-bottom: 0.15rem;
+      }
+
+      .career-company {
+        font-size: 0.75rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .career-list {
+        font-size: 0.78rem;
+        line-height: 1.45;
+        padding-left: 0.9rem;
+        gap: 0.35rem;
+      }
+    }
+
+    @keyframes fadeInCard {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
 
@@ -200,19 +898,17 @@
         </div>
       </div>
 
-
-
     </div>
   </section>
 
   <!-- RESUME & SKILLS DETAIL -->
-  <section style="padding: 4rem 0 7.5rem; background: transparent;">
+  <section style="padding: 3rem 0 5rem; background: transparent;">
     <div class="container">
-      <div style="display:grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start;">
+      <div class="about-main-grid">
         
         <!-- Profile Sidebar Card with Figma Selection Frame -->
-        <div style="position: sticky; top: 7rem;">
-          <div class="competency-figma-card" style="padding: 2.4rem;">
+        <div class="about-sidebar-sticky">
+          <div class="about-profile-card">
             <div class="figma-selection-box">
               <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: Benyamin Namtalashvili · Bio</span>
               <span class="figma-handle figma-handle-tl"></span>
@@ -221,22 +917,54 @@
               <span class="figma-handle figma-handle-br"></span>
             </div>
 
-            <div style="width: 76px; height: 76px; border-radius: 50%; background: var(--obsidian-base); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
-              BN
+            <!-- Profile Header with Status Beacon -->
+            <div class="about-profile-header-group">
+              <div class="avatar-wrapper">
+                <div class="about-profile-avatar">BN</div>
+                <div class="avatar-pulse-beacon" title="Active &amp; Available"></div>
+              </div>
+              <div>
+                <h3 class="about-profile-name">Benyamin Namtalashvili</h3>
+                <p class="about-profile-role">
+                  AI Specialist · Full-Stack Dev · Designer
+                </p>
+              </div>
             </div>
-            <h3 style="font-family:var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">Benyamin Namtalashvili</h3>
-            <p style="font-size: 0.9rem; color: var(--apple-blue); font-weight: 600; margin-bottom: 1.5rem;">
-              AI Specialist · Full-Stack Dev · Designer
-            </p>
 
-            <ul style="list-style:none; display:flex; flex-direction:column; gap:0.9rem; font-size:0.88rem; color:var(--ink-secondary); border-top:1px solid var(--hairline-light); padding-top:1.5rem;">
-              <li><strong>📍 Location:</strong> Bauang, La Union, Philippines</li>
-              <li><strong>✉️ Email:</strong> <a href="mailto:benyaminnamtalashvili726@gmail.com" style="color:var(--apple-blue);">benyaminnamtalashvili726@gmail.com</a></li>
-              <li><strong>📞 Phone:</strong> +63 9454836568</li>
-              <li><strong>🎓 Education:</strong> TESDA Visual Graphic Design NC III (Graduated March 2024)</li>
+            <!-- iOS Quick Action Bar (Mobile & Tablet Ergonomics) -->
+            <div class="ios-quick-actions-bar">
+              <a href="tel:+639454836568" class="ios-action-btn" aria-label="Call Benyamin">
+                <i class="fa-solid fa-phone"></i>
+                <span>Call</span>
+              </a>
+              <a href="mailto:benyaminnamtalashvili726@gmail.com" class="ios-action-btn" aria-label="Email Benyamin">
+                <i class="fa-solid fa-envelope"></i>
+                <span>Email</span>
+              </a>
+              <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="ios-action-btn" aria-label="View Modeling Portfolio">
+                <i class="fa-solid fa-camera"></i>
+                <span>Modeling</span>
+              </a>
+            </div>
+
+            <!-- Metadata Pills -->
+            <ul class="about-profile-pills">
+              <li>
+                <i class="fa-solid fa-location-dot"></i>
+                <span><strong>Location:</strong> Bauang, La Union, PH</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span><strong>Certified:</strong> TESDA NC III (March 2024)</span>
+              </li>
+              <li>
+                <i class="fa-solid fa-bolt"></i>
+                <span><strong>Specialty:</strong> Autonomous n8n &amp; Full-Stack</span>
+              </li>
             </ul>
 
-            <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-apple-secondary" style="width: 100%; margin-top: 1.5rem; justify-content:center; border-color: rgba(255, 107, 0, 0.35); background: rgba(255, 107, 0, 0.04);">
+            <!-- Modeling Link (Desktop View Extra) -->
+            <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="btn-apple-secondary" style="width: 100%; margin-top: 1.4rem; justify-content:center; border-color: rgba(255, 107, 0, 0.35); background: rgba(255, 107, 0, 0.04);">
               <i class="fa-solid fa-camera" style="color: var(--apple-blue); font-size: 0.85rem; margin-right: 4px;"></i>
               <span>Modeling Portfolio</span>
               <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.68rem; opacity: 0.6; margin-left: 2px;"></i>
@@ -247,13 +975,21 @@
         <!-- Technical Skills Breakdown -->
         <div>
           <div class="sec-tag">Technical Competencies</div>
-          <h2 class="section-h2" style="font-size: 2.4rem; margin-bottom: 2rem;">
+          <h2 class="section-h2" style="font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 1.25rem;">
             Core Skills &amp; Specialties
           </h2>
 
-          <div class="competencies-list">
+          <!-- Mobile & Tablet Segmented Tab Filter -->
+          <div class="competency-segmented-tabs" id="competencyTabs">
+            <button class="competency-tab-item active" data-filter="all">✨ All</button>
+            <button class="competency-tab-item" data-filter="ai">🤖 AI &amp; n8n</button>
+            <button class="competency-tab-item" data-filter="fullstack">💻 Full-Stack</button>
+            <button class="competency-tab-item" data-filter="design">🎨 UI/UX Craft</button>
+          </div>
+
+          <div class="competencies-list" id="competenciesList">
             <!-- Skill Category 1: AI & Workflow Automation -->
-            <div class="competency-figma-card">
+            <div class="competency-figma-card" data-category="ai">
               <div class="figma-selection-box">
                 <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: AI Pipelines &amp; Autonomous Agents</span>
                 <span class="figma-handle figma-handle-tl"></span>
@@ -264,10 +1000,10 @@
 
               <div class="competency-card-header">
                 <div class="competency-icon-wrap">
-                  <div class="competency-icon-box">
+                  <div class="competency-icon-box icon-ai">
                     <i class="fa-solid fa-robot"></i>
                   </div>
-                  <h3 class="competency-title">AI &amp; Autonomous Workflow Systems</h3>
+                  <h3 class="competency-title">AI &amp; Autonomous Systems</h3>
                 </div>
                 <span class="competency-spec-tag">99.4% Reliability</span>
               </div>
@@ -286,7 +1022,7 @@
             </div>
 
             <!-- Skill Category 2: Full-Stack Engineering -->
-            <div class="competency-figma-card">
+            <div class="competency-figma-card" data-category="fullstack">
               <div class="figma-selection-box">
                 <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: Full-Stack Web Architecture</span>
                 <span class="figma-handle figma-handle-tl"></span>
@@ -300,7 +1036,7 @@
                   <div class="competency-icon-box">
                     <i class="fa-solid fa-code"></i>
                   </div>
-                  <h3 class="competency-title">Full-Stack Web &amp; Backend Engineering</h3>
+                  <h3 class="competency-title">Full-Stack Web Engineering</h3>
                 </div>
                 <span class="competency-spec-tag">Sub-100ms API</span>
               </div>
@@ -320,7 +1056,7 @@
             </div>
 
             <!-- Skill Category 3: Graphic Design & UI/UX Craft -->
-            <div class="competency-figma-card">
+            <div class="competency-figma-card" data-category="design">
               <div class="figma-selection-box">
                 <span class="figma-tag"><i class="fa-brands fa-figma"></i> Frame: Visual Design &amp; Brand Systems</span>
                 <span class="figma-handle figma-handle-tl"></span>
@@ -331,12 +1067,12 @@
 
               <div class="competency-card-header">
                 <div class="competency-icon-wrap">
-                  <div class="competency-icon-box">
+                  <div class="competency-icon-box icon-design">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                   </div>
-                  <h3 class="competency-title">Graphic Design, UI/UX &amp; Creative Tools</h3>
+                  <h3 class="competency-title">Graphic Design &amp; UI/UX Craft</h3>
                 </div>
-                <span class="competency-spec-tag">TESDA NC III Standard</span>
+                <span class="competency-spec-tag">TESDA NC III</span>
               </div>
 
               <p class="competency-desc">
@@ -357,20 +1093,22 @@
     </div>
   </section>
 
-  <!-- WORK EXPERIENCE & CAREER TIMELINE (STUDIO WHITE) -->
-  <section style="padding: 7.5rem 0; background: transparent; color: var(--ink-primary);">
+  <!-- WORK EXPERIENCE & CAREER TIMELINE (CONNECTED STEPPER ON MOBILE/TABLET) -->
+  <section class="career-timeline-section">
     <div class="container">
       <div class="sec-tag">Career Timeline</div>
-      <h2 class="section-h2">Work &amp; Professional Experience</h2>
+      <h2 class="section-h2" style="font-size: clamp(1.8rem, 4vw, 2.4rem);">Work &amp; Professional Experience</h2>
 
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; margin-top: 3.5rem;">
+      <div class="career-timeline-grid">
         
         <!-- Experience 1 -->
-        <div style="border-top: 1px solid var(--hairline-light); padding-top: 1.5rem;">
-          <div style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--apple-sky); margin-bottom: 0.5rem;" class="tabular-nums">Oct 2024 – Present</div>
-          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--ink-primary); margin-bottom: 0.3rem;">AI Automation Specialist &amp; Full-Stack Dev</h4>
-          <div style="font-size: 0.85rem; color: var(--ink-secondary); margin-bottom: 1rem;">Freelance (Remote)</div>
-          <ul style="font-size: 0.88rem; color: var(--ink-secondary); line-height: 1.65; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1.2rem;">
+        <div class="career-card">
+          <div>
+            <div class="career-date tabular-nums">Oct 2024 – Present</div>
+            <h4 class="career-role">AI Automation Specialist &amp; Full-Stack Dev</h4>
+            <div class="career-company">Freelance (Remote) · Active</div>
+          </div>
+          <ul class="career-list">
             <li>Built automated n8n workflows integrated with Google Workspace, Slack, Telegram, Discord, and OpenAI/Claude APIs.</li>
             <li>Created autonomous AI agents using Claude and ChatGPT to automate business operations.</li>
             <li>Engineered backend systems, REST APIs, and responsive web apps in Laravel and WordPress.</li>
@@ -378,11 +1116,13 @@
         </div>
 
         <!-- Experience 2 -->
-        <div style="border-top: 1px solid var(--hairline-light); padding-top: 1.5rem;">
-          <div style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--apple-sky); margin-bottom: 0.5rem;" class="tabular-nums">Mar 2025 – Aug 2025</div>
-          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--ink-primary); margin-bottom: 0.3rem;">Graphic Designer &amp; Front-End Developer</h4>
-          <div style="font-size: 0.85rem; color: var(--ink-secondary); margin-bottom: 1rem;">Bryance Digital (Remote)</div>
-          <ul style="font-size: 0.88rem; color: var(--ink-secondary); line-height: 1.65; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1.2rem;">
+        <div class="career-card">
+          <div>
+            <div class="career-date tabular-nums">Mar 2025 – Aug 2025</div>
+            <h4 class="career-role">Graphic Designer &amp; Front-End Developer</h4>
+            <div class="career-company">Bryance Digital (Remote)</div>
+          </div>
+          <ul class="career-list">
             <li>Designed digital and print marketing collateral and high-converting landing pages.</li>
             <li>Developed responsive websites using HTML, CSS, JavaScript, Laravel, and WordPress.</li>
             <li>Significantly improved user engagement through responsive UI/UX refinement.</li>
@@ -390,11 +1130,13 @@
         </div>
 
         <!-- Experience 3 -->
-        <div style="border-top: 1px solid var(--hairline-light); padding-top: 1.5rem;">
-          <div style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; color: var(--apple-sky); margin-bottom: 0.5rem;" class="tabular-nums">May 2025 – Jun 2025</div>
-          <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--ink-primary); margin-bottom: 0.3rem;">Graphic Designer</h4>
-          <div style="font-size: 0.85rem; color: var(--ink-secondary); margin-bottom: 1rem;">The Aviator Store (Remote)</div>
-          <ul style="font-size: 0.88rem; color: var(--ink-secondary); line-height: 1.65; display: flex; flex-direction: column; gap: 0.5rem; padding-left: 1.2rem;">
+        <div class="career-card">
+          <div>
+            <div class="career-date tabular-nums">May 2025 – Jun 2025</div>
+            <h4 class="career-role">Graphic Designer</h4>
+            <div class="career-company">The Aviator Store (Remote)</div>
+          </div>
+          <ul class="career-list">
             <li>Designed promotional banners and e-commerce graphic assets.</li>
             <li>Maintained consistent branding standards and delivered all assets ahead of schedule.</li>
           </ul>
@@ -504,5 +1246,28 @@
   <script src="figma-draggable-text.js"></script>
   <script src="footer-interactive-canvas.js"></script>
   <script src="main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.competency-tab-item');
+      const cards = document.querySelectorAll('.competency-figma-card[data-category]');
+      if (tabs.length && cards.length) {
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.getAttribute('data-filter');
+            cards.forEach(card => {
+              if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeInCard 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+              } else {
+                card.style.display = 'none';
+              }
+            });
+          });
+        });
+      }
+    });
+  </script>
 </body>
 </html>

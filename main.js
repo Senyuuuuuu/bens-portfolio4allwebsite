@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // =========================================================================
-  // 1.5. GLOBAL VISIONOS MOBILE NAVIGATION DRAWER CONTROLLER
+  // 1.5. GLOBAL APPLE LIQUID GLASS MOBILE NAVIGATION DRAWER CONTROLLER
   // =========================================================================
   function initMobileNavigation() {
     const nav = document.getElementById('nav') || document.querySelector('nav');
@@ -177,10 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Determine active page
     const currentPath = window.location.pathname.toLowerCase();
-    const isOverview = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '';
+    const isOverview = currentPath.endsWith('index.html') || currentPath.endsWith('/') || currentPath === '' || currentPath.endsWith('test%20portfolio/');
     const isWorks = currentPath.includes('portfolio') || currentPath.includes('case-study');
     const isAbout = currentPath.includes('about');
-    const isServices = currentPath.includes('services');
     const isContact = currentPath.includes('contact');
 
     // Create or find Mobile Navigation Drawer Sheet & Backdrop
@@ -202,85 +201,116 @@ document.addEventListener('DOMContentLoaded', () => {
       sheet.setAttribute('aria-label', 'Mobile Navigation');
 
       sheet.innerHTML = `
+        <!-- Header Profile & Controls -->
         <div class="mobile-nav-header">
-          <div class="mobile-nav-brand">
-            <span class="nav-brand-avatar" style="width:28px; height:28px; border-radius:50%; background:#0B0B0D; color:#FFF; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800;">BN</span>
-            <span>Benyamin Namtalashvili</span>
+          <a href="index.html" class="mobile-nav-brand-lockup" aria-label="Benyamin Namtalashvili Home">
+            <span class="mobile-nav-avatar">BN</span>
+            <div class="mobile-nav-brand-meta">
+              <span class="mobile-nav-brand-name">Benyamin Namtalashvili</span>
+              <span class="mobile-nav-brand-sub">AI Workflow &amp; Web Architect</span>
+            </div>
+          </a>
+          <div class="mobile-nav-header-actions">
+            <button class="mobile-nav-close-btn" id="mobileNavCloseBtn" aria-label="Close Navigation Menu">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
           </div>
-          <button class="mobile-nav-close-btn" id="mobileNavCloseBtn" aria-label="Close Navigation Menu">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
         </div>
 
+        <!-- Navigation Links Matrix -->
         <ul class="mobile-nav-links">
           <li>
             <a href="index.html" class="mobile-nav-link-item ${isOverview ? 'active' : ''}">
               <div class="mobile-nav-link-left">
-                <span class="mobile-nav-link-icon"><i class="fa-solid fa-house"></i></span>
-                <span>Overview</span>
+                <span class="mobile-nav-link-icon"><i class="fa-solid fa-house-chimney"></i></span>
+                <div class="mobile-nav-link-text">
+                  <span class="mobile-nav-link-title">Overview</span>
+                  <span class="mobile-nav-link-sub">Core Showcase &amp; Architecture</span>
+                </div>
               </div>
-              <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              <div class="mobile-nav-link-badge">
+                <span class="mobile-nav-tag">Home</span>
+                <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              </div>
             </a>
           </li>
           <li>
             <a href="portfolio.html" class="mobile-nav-link-item ${isWorks ? 'active' : ''}">
               <div class="mobile-nav-link-left">
                 <span class="mobile-nav-link-icon"><i class="fa-solid fa-layer-group"></i></span>
-                <span>Works &amp; Case Studies</span>
+                <div class="mobile-nav-link-text">
+                  <span class="mobile-nav-link-title">Works &amp; Case Studies</span>
+                  <span class="mobile-nav-link-sub">9 Production Web &amp; AI Systems</span>
+                </div>
               </div>
-              <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              <div class="mobile-nav-link-badge">
+                <span class="mobile-nav-tag">9 Projects</span>
+                <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              </div>
             </a>
           </li>
           <li>
             <a href="about.html" class="mobile-nav-link-item ${isAbout ? 'active' : ''}">
               <div class="mobile-nav-link-left">
-                <span class="mobile-nav-link-icon"><i class="fa-solid fa-user-tie"></i></span>
-                <span>About &amp; Resume</span>
+                <span class="mobile-nav-link-icon"><i class="fa-solid fa-id-badge"></i></span>
+                <div class="mobile-nav-link-text">
+                  <span class="mobile-nav-link-title">About &amp; Resume</span>
+                  <span class="mobile-nav-link-sub">Engineering &amp; Design Philosophy</span>
+                </div>
               </div>
-              <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              <div class="mobile-nav-link-badge">
+                <span class="mobile-nav-tag">Bio</span>
+                <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              </div>
             </a>
           </li>
           <li>
             <a href="contact.html" class="mobile-nav-link-item ${isContact ? 'active' : ''}">
               <div class="mobile-nav-link-left">
-                <span class="mobile-nav-link-icon"><i class="fa-solid fa-envelope"></i></span>
-                <span>Contact &amp; Inquiries</span>
+                <span class="mobile-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></span>
+                <div class="mobile-nav-link-text">
+                  <span class="mobile-nav-link-title">Contact &amp; Booking</span>
+                  <span class="mobile-nav-link-sub">Direct Inquiries &amp; Discovery Calls</span>
+                </div>
               </div>
-              <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              <div class="mobile-nav-link-badge">
+                <span class="mobile-nav-tag">Let's Talk</span>
+                <i class="fa-solid fa-chevron-right mobile-nav-arrow"></i>
+              </div>
             </a>
           </li>
           <li>
-            <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="mobile-nav-modeling-pill">
+            <a href="https://bensmodelingportfolio.netlify.app/" target="_blank" rel="noopener noreferrer" class="mobile-nav-link-item mobile-nav-modeling-pill">
               <div class="mobile-nav-link-left">
                 <span class="mobile-nav-link-icon" style="background:rgba(255,107,0,0.15); color:var(--apple-blue);"><i class="fa-solid fa-camera"></i></span>
-                <span>Modeling Portfolio</span>
+                <div class="mobile-nav-link-text">
+                  <span class="mobile-nav-link-title">Modeling Portfolio</span>
+                  <span class="mobile-nav-link-sub">High-Fashion &amp; Lookbook Visuals</span>
+                </div>
               </div>
-              <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.75rem;"></i>
+              <div class="mobile-nav-link-badge">
+                <span class="mobile-nav-tag" style="background:rgba(255,107,0,0.12); color:var(--apple-blue);">Visuals ↗</span>
+              </div>
             </a>
           </li>
         </ul>
 
+        <!-- Bottom CTA & Quick Action Dock -->
         <div class="mobile-nav-cta-row">
-          <div class="mobile-nav-hire-badge">
-            <span class="status-dot"></span>
-            <span>Available for Hire</span>
-          </div>
-
-          <a href="contact.html" class="btn-apple-primary" style="width:100%; justify-content:center; padding:0.85rem;">
-            <span>Get in Touch</span>
-            <i class="fa-solid fa-arrow-right" style="font-size:0.85rem;"></i>
+          <a href="contact.html" class="nav-cta-btn" style="width:100%; justify-content:center; padding:0.85rem;">
+            <span>Get in Touch <i class="fa-solid fa-arrow-right" style="font-size:0.82rem; margin-left:0.35rem;"></i></span>
           </a>
 
-          <div class="mobile-nav-quick-actions">
-            <a href="mailto:benyaminnamtalashvili726@gmail.com" class="mobile-quick-btn" title="Send Email">
+          <div class="mobile-nav-dock">
+            <a href="mailto:benyaminnamtalashvili726@gmail.com" class="mobile-dock-btn" title="Send Email">
               <i class="fa-solid fa-envelope" style="color:var(--apple-blue);"></i>
               <span>Email</span>
             </a>
-            <a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer" class="mobile-quick-btn" title="WhatsApp Message">
+            <a href="https://wa.me/639454836568" target="_blank" rel="noopener noreferrer" class="mobile-dock-btn" title="WhatsApp Message">
               <i class="fa-brands fa-whatsapp" style="color:#25D366;"></i>
               <span>WhatsApp</span>
             </a>
-            <a href="tel:+639454836568" class="mobile-quick-btn" title="Call Phone">
+            <a href="tel:+639454836568" class="mobile-dock-btn" title="Direct Phone Call">
               <i class="fa-solid fa-phone" style="color:var(--apple-blue);"></i>
               <span>Call</span>
             </a>
@@ -296,19 +326,25 @@ document.addEventListener('DOMContentLoaded', () => {
       isOpen = true;
       mobileToggle.classList.add('is-active');
       mobileToggle.setAttribute('aria-expanded', 'true');
+      navIsland.classList.add('is-expanded');
       backdrop.classList.add('is-open');
       sheet.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-      playMenuTone();
+      document.documentElement.classList.add('mobile-nav-open');
+      document.body.classList.add('mobile-nav-open');
+      if (typeof lenis !== 'undefined' && lenis) lenis.stop();
+      playButtonClick();
     }
 
     function closeMobileNav() {
       isOpen = false;
       mobileToggle.classList.remove('is-active');
       mobileToggle.setAttribute('aria-expanded', 'false');
+      navIsland.classList.remove('is-expanded');
       backdrop.classList.remove('is-open');
       sheet.classList.remove('is-open');
-      document.body.style.overflow = '';
+      document.documentElement.classList.remove('mobile-nav-open');
+      document.body.classList.remove('mobile-nav-open');
+      if (typeof lenis !== 'undefined' && lenis) lenis.start();
       playButtonClick();
     }
 
@@ -328,7 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
       closeBtn.addEventListener('click', closeMobileNav);
     }
 
-    // Auto-close when clicking any navigation link
+    // Auto-close when clicking internal navigation links
     sheet.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => {
         if (!link.getAttribute('target')) {
@@ -336,6 +372,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    // Touch Swipe-Up / Pull to dismiss gesture
+    let touchStartY = 0;
+    let touchEndY = 0;
+    sheet.addEventListener('touchstart', (e) => {
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    sheet.addEventListener('touchend', (e) => {
+      touchEndY = e.changedTouches[0].screenY;
+      if (touchStartY - touchEndY > 80 && sheet.scrollTop <= 0) {
+        closeMobileNav();
+      }
+    }, { passive: true });
 
     // ESC key closes drawer
     window.addEventListener('keydown', (e) => {
@@ -346,6 +396,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initMobileNavigation();
+
+  // Dynamic Island Navbar Scroll Elevation Controller
+  const mainNavEl = document.getElementById('nav') || document.querySelector('nav');
+  if (mainNavEl) {
+    const handleNavScroll = () => {
+      if (window.scrollY > 24) {
+        mainNavEl.classList.add('is-scrolled');
+      } else {
+        mainNavEl.classList.remove('is-scrolled');
+      }
+    };
+    window.addEventListener('scroll', handleNavScroll, { passive: true });
+    handleNavScroll();
+  }
 
   // =========================================================================
   // 2. LENIS SMOOTH SCROLLING ENGINE (Synchronized with GSAP)
@@ -374,22 +438,120 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href === '#' || href === '') return;
-      const target = document.querySelector(href);
-      if (target) {
+  // =========================================================================
+  // SMOOTH APPLE-GRADE PAGE TRANSITIONS & INSTANT PRE-FETCH ENGINE
+  // =========================================================================
+  function initPageTransitions() {
+    // 1. Create or bind high-performance Apple Dynamic Island Transition Curtain
+    let curtain = document.querySelector('.page-transition-curtain');
+    if (!curtain) {
+      curtain = document.createElement('div');
+      curtain.className = 'page-transition-curtain';
+      curtain.innerHTML = `
+        <div class="page-transition-capsule">
+          <div class="page-transition-spinner"></div>
+          <span class="page-transition-label">Benyamin.Design</span>
+        </div>
+      `;
+      document.body.appendChild(curtain);
+    }
+
+    // Dismiss curtain smoothly on load / bfcache restore
+    const dismissCurtain = () => {
+      if (curtain) {
+        curtain.classList.remove('is-active');
+      }
+    };
+
+    window.addEventListener('pageshow', dismissCurtain);
+    requestAnimationFrame(dismissCurtain);
+
+    // 2. High-Velocity Link Pre-fetching on Hover / Touch (0ms Navigation Lag)
+    const prefetchedUrls = new Set();
+    function prefetchUrl(url) {
+      if (!url || prefetchedUrls.has(url) || url.startsWith('#') || url.startsWith('javascript:')) return;
+      prefetchedUrls.add(url);
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = url;
+      document.head.appendChild(link);
+    }
+
+    document.addEventListener('pointerenter', (e) => {
+      const a = e.target.closest('a');
+      if (a && a.href && a.origin === window.location.origin && !a.href.includes('#')) {
+        prefetchUrl(a.href);
+      }
+    }, { passive: true, capture: true });
+
+    document.addEventListener('touchstart', (e) => {
+      const a = e.target.closest('a');
+      if (a && a.href && a.origin === window.location.origin && !a.href.includes('#')) {
+        prefetchUrl(a.href);
+      }
+    }, { passive: true, capture: true });
+
+    // 3. Intercept internal page navigation links for silky Apple-grade transition
+    document.addEventListener('click', (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // Ignore in-page anchors, external links, downloads, new tabs, and modifier keys
+      if (
+        href.startsWith('#') ||
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        href.startsWith('javascript:') ||
+        link.target === '_blank' ||
+        link.getAttribute('download') !== null ||
+        e.ctrlKey || e.metaKey || e.shiftKey || e.altKey
+      ) {
+        return;
+      }
+
+      // Check if internal navigation target
+      const isInternal = !href.startsWith('http') || href.includes(window.location.hostname);
+      if (isInternal && (href.endsWith('.html') || !href.includes('.'))) {
         e.preventDefault();
-        if (lenis) {
-          lenis.scrollTo(target, { offset: -70 });
+        playButtonClick();
+
+        if (document.startViewTransition) {
+          curtain.classList.add('is-active');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 110);
         } else {
-          target.scrollIntoView({ behavior: 'smooth' });
+          curtain.classList.add('is-active');
+          setTimeout(() => {
+            window.location.href = href;
+          }, 110);
         }
       }
     });
-  });
+
+    // 4. Smooth scroll for internal in-page anchor links (#section)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#' || href === '') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          playButtonClick();
+          if (lenis) {
+            lenis.scrollTo(target, { offset: -80 });
+          } else {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  }
+
+  initPageTransitions();
 
   // =========================================================================
   // 3. HERO & SECTION SCROLL REVEAL ANIMATIONS (GSAP ScrollTrigger)
