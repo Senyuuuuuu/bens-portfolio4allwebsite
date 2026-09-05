@@ -6463,17 +6463,19 @@ section,
   /* Anti-Gravity Capsules Mobile Scaling */
   .antigravity-item {
     transform-origin: center center;
-    font-size: 0.75rem;
+    font-size: 0.62rem;
   }
 
   .capsule-item {
-    padding: 0.4rem 0.85rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.62rem;
   }
 
   .squircle-item {
-    width: 40px;
-    height: 40px;
-    font-size: 0.85rem;
+    width: 28px;
+    height: 28px;
+    font-size: 0.65rem;
+    border-radius: 8px;
   }
 
   /* Video Stage Mobile Viewport */
@@ -6731,19 +6733,41 @@ section,
   .antigravity-item {
     pointer-events: auto !important;
     cursor: grab !important;
-    z-index: 15;
+    z-index: 10;
   }
 
   .capsule-item {
-    padding: 0.45rem 1.05rem !important;
-    font-size: 0.82rem !important;
+    padding: 0.2rem 0.52rem !important;
+    font-size: 0.62rem !important;
+    font-weight: 700 !important;
+    border-radius: 9999px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
   }
 
   .squircle-item {
-    width: 44px !important;
-    height: 44px !important;
-    font-size: 0.88rem !important;
-    border-radius: 12px !important;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.65rem !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .squircle-item i {
+    font-size: 0.68rem !important;
+  }
+
+  /* Mobile Hero Anti-Gravity: Hide crowded/redundant capsules to keep center text & buttons crystal clear */
+  .capsule-good,
+  .capsule-please,
+  .capsule-serious,
+  .capsule-avail,
+  .capsule-metaverse,
+  .capsule-marketing,
+  .capsule-workflows,
+  .capsule-branding,
+  .capsule-animations,
+  .capsule-websites {
+    display: none !important;
   }
 
   /* Hero headline */
@@ -7782,6 +7806,22 @@ section,
 
   .logo-brand-name {
     font-size: 0.6rem !important;
+  }
+
+  .squircle-item {
+    width: 25px !important;
+    height: 25px !important;
+    font-size: 0.58rem !important;
+    border-radius: 7px !important;
+  }
+
+  .squircle-item i {
+    font-size: 0.6rem !important;
+  }
+
+  .capsule-item {
+    padding: 0.16rem 0.46rem !important;
+    font-size: 0.58rem !important;
   }
 }
 

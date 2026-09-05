@@ -184,6 +184,11 @@
       bodyItemPairs.length = 0;
 
       items.forEach((el, index) => {
+        // Skip elements hidden via CSS display: none on mobile
+        if (window.getComputedStyle(el).display === 'none' || el.offsetParent === null) {
+          return;
+        }
+
         el.style.touchAction = 'none';
         el.style.pointerEvents = 'auto';
         el.style.transform = 'none'; // Temporarily clear transforms to measure natural CSS box
@@ -195,25 +200,27 @@
 
         // Measure true unscaled CSS width and height
         const rect = el.getBoundingClientRect();
-        const elW = rect.width > 15 ? rect.width : (el.offsetWidth || (el.classList.contains('squircle-item') ? 44 : 120));
-        const elH = rect.height > 15 ? rect.height : (el.offsetHeight || (el.classList.contains('squircle-item') ? 44 : 38));
+        const isSquircle = el.classList.contains('squircle-item');
+        const defaultW = isSquircle ? (window.innerWidth <= 768 ? 28 : 44) : (window.innerWidth <= 768 ? 68 : 120);
+        const defaultH = isSquircle ? (window.innerWidth <= 768 ? 28 : 44) : (window.innerWidth <= 768 ? 24 : 38);
+        const elW = rect.width > 12 ? rect.width : (el.offsetWidth || defaultW);
+        const elH = rect.height > 12 ? rect.height : (el.offsetHeight || defaultH);
 
         let posX = (initXPercent / 100) * stageW;
         let posY = (initYPercent / 100) * stageH;
 
         if (window.innerWidth <= 768) {
           if (initXPercent < 50) {
-            posX = Math.max(elW / 2 + 10, Math.min(posX, stageW * 0.35));
+            posX = Math.max(elW / 2 + 8, Math.min(posX, stageW * 0.20));
           } else {
-            posX = Math.max(stageW * 0.65, Math.min(posX, stageW - elW / 2 - 10));
+            posX = Math.max(stageW * 0.80, Math.min(posX, stageW - elW / 2 - 8));
           }
         }
 
-        posX = Math.max(elW / 2 + 10, Math.min(posX, stageW - elW / 2 - 10));
-        posY = Math.max(elH / 2 + 10, Math.min(posY, stageH - elH / 2 - 10));
+        posX = Math.max(elW / 2 + 8, Math.min(posX, stageW - elW / 2 - 8));
+        posY = Math.max(elH / 2 + 8, Math.min(posY, stageH - elH / 2 - 8));
 
         const angleRad = (initRotDeg * Math.PI) / 180;
-        const isSquircle = el.classList.contains('squircle-item');
 
         const bodyW = elW * customScale;
         const bodyH = elH * customScale;
@@ -222,14 +229,15 @@
           ? createSquirclePhysicsBody(posX, posY, bodyW, bodyH, angleRad)
           : createCapsulePhysicsBody(posX, posY, bodyW, bodyH, angleRad);
 
-        // Gentle Initial Drift
+        // Gentle Initial Drift (Gentler on mobile to avoid rushing into the center)
+        const isMob = window.innerWidth <= 768;
         const angle = Math.random() * Math.PI * 2;
-        const speed = 0.35 + Math.random() * 0.35;
+        const speed = isMob ? (0.12 + Math.random() * 0.12) : (0.35 + Math.random() * 0.35);
         Body.setVelocity(body, {
           x: Math.cos(angle) * speed,
           y: Math.sin(angle) * speed
         });
-        Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.005);
+        Body.setAngularVelocity(body, (Math.random() - 0.5) * (isMob ? 0.002 : 0.005));
 
         World.add(engine.world, body);
 
@@ -341,24 +349,45 @@
     // Build initial bodies
     buildPairs();
 
-    // 5. Ambient Zero-G Micro-Forces
+    // 5. Ambient Zero-G Micro-Forces & Mobile Center Clearance Buffer
     let frameCount = 0;
     Events.on(engine, 'beforeUpdate', () => {
       frameCount++;
-      if (frameCount % 60 === 0) {
-        bodyItemPairs.forEach(pair => {
-          if (!pair.isDragging) {
-            const speed = Vector.magnitude(pair.body.velocity);
-            if (speed < 0.22) {
-              const nudgeAngle = Math.random() * Math.PI * 2;
+      const isMob = window.innerWidth <= 768;
+      const centerRepelX = stageW / 2;
+      const centerRepelY = stageH * 0.46; // Center of hero headline/CTA zone
+      const repelRadius = isMob ? Math.min(stageW * 0.42, 190) : 0;
+
+      bodyItemPairs.forEach(pair => {
+        if (!pair.isDragging) {
+          // On mobile, gently push elements away from the center text/CTA zone if they drift into it
+          if (isMob && repelRadius > 0) {
+            const dx = pair.body.position.x - centerRepelX;
+            const dy = pair.body.position.y - centerRepelY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < repelRadius && dist > 1) {
+              const pushFactor = (1 - dist / repelRadius) * 0.00015;
               Body.applyForce(pair.body, pair.body.position, {
-                x: Math.cos(nudgeAngle) * 0.0002,
-                y: Math.sin(nudgeAngle) * 0.0002
+                x: (dx / dist) * pushFactor,
+                y: (dy / dist) * pushFactor
               });
             }
           }
-        });
-      }
+
+          if (frameCount % 60 === 0) {
+            const speed = Vector.magnitude(pair.body.velocity);
+            const maxSpeed = isMob ? 0.15 : 0.22;
+            if (speed < maxSpeed) {
+              const nudgeAngle = Math.random() * Math.PI * 2;
+              const forceMag = isMob ? 0.00008 : 0.0002;
+              Body.applyForce(pair.body, pair.body.position, {
+                x: Math.cos(nudgeAngle) * forceMag,
+                y: Math.sin(nudgeAngle) * forceMag
+              });
+            }
+          }
+        }
+      });
     });
 
     // 6. Synchronize Physics to DOM Elements (Center-Aligned 1:1)
