@@ -81,6 +81,37 @@
       background-image: none !important;
     }
 
+    /* ── FAQ section adapts to the sky-blue blueprint background ── */
+    .faq-section {
+      background: transparent !important;
+      padding: 5rem 0 6rem;
+    }
+    /* Cards get a frosted-glass look on the blue canvas */
+    .faq-item {
+      background: rgba(255, 255, 255, 0.88) !important;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7) !important;
+      box-shadow: 0 4px 20px rgba(10, 45, 80, 0.1) !important;
+    }
+    .faq-group-label {
+      background: rgba(255, 255, 255, 0.75) !important;
+      border-color: rgba(255, 255, 255, 0.6) !important;
+    }
+    .faq-question:hover {
+      background: rgba(255, 255, 255, 0.45) !important;
+    }
+    .faq-item.is-open .faq-question {
+      background: rgba(255, 107, 0, 0.04) !important;
+    }
+    /* Title on the blue bg — keep dark so it reads against sky */
+    .faq-main-title {
+      color: #0A3D62 !important;
+    }
+    .faq-subtitle {
+      color: #2D4A66 !important;
+    }
+
     /* Antigravity Zero-G Stage confined strictly to top hero section */
     .contact-blueprint-section .hero-antigravity-container {
       position: absolute;
@@ -564,6 +595,141 @@
 
     </div>
   </main>
+
+  <!-- ==========================================================================
+       FAQ SECTION — "THE CURIOUS SECTION"
+       Reproduced below the contact form · Inherits GSAP engine from main.js
+       ========================================================================== -->
+  <section class="faq-section" id="faq" aria-label="Frequently Asked Questions">
+
+    <!-- Section Header -->
+    <div class="faq-header-wrap">
+      <div class="sec-tag faq-eyebrow">✦ Frequently Asked Questions</div>
+      <h2 class="section-h2 faq-main-title">The Curious <span class="serif-italic faq-title-accent">Section.</span></h2>
+      <p class="section-desc faq-subtitle">Everything you'd ask on a call — answered, upfront, no gatekeeping.</p>
+    </div>
+
+    <!-- FAQ Accordion Groups -->
+    <div class="faq-container" id="faqContainer">
+
+      <!-- GROUP 1: Process -->
+      <div class="faq-group">
+        <div class="faq-group-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9" rx="2" stroke="currentColor"/></svg>
+          PROCESS.FRAME
+        </div>
+
+        <div class="faq-item" data-faq-index="01">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">01</span>
+            <span class="faq-q-text">How does the design process actually work?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>We kick off with a discovery call to lock in your goals, brand voice, and timeline. From there I move into wireframes and design concepts, iterating with you at every checkpoint. <strong>No ghost deliveries</strong> — you see work-in-progress and approve before anything is finalised. Most projects wrap in 1–3 weeks depending on scope.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-index="02">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">02</span>
+            <span class="faq-q-text">Do you work on one project at a time or multiple simultaneously?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>I take on a limited client roster at any given time so your project gets focused attention — not split-focus multitasking. When you're onboarded, you're my priority. This is why I open availability in batches rather than always-on intake.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROUP 2: Deliverables -->
+      <div class="faq-group">
+        <div class="faq-group-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9" rx="2" stroke="currentColor"/></svg>
+          DELIVERABLES.FRAME
+        </div>
+
+        <div class="faq-item" data-faq-index="03">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">03</span>
+            <span class="faq-q-text">What exactly do I get when the project is done?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Depending on the engagement: <strong>brand projects</strong> come with source Figma files, export-ready print assets, and a brand usage guide. <strong>Web projects</strong> include clean, commented code, all source assets, and a handoff walkthrough video. Everything is yours — no vendor lock-in, no licensing clause on your own brand.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-index="04">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">04</span>
+            <span class="faq-q-text">Can you handle both design and web development together?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Yes — and this is where working with one person actually wins. The design and engineering brain are the same person, which means your Figma files and your live site stay in sync. No handoff friction, no "the dev changed it" surprises. Estilo Salon and Ace Gallera are both examples of full design-to-deployment projects.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROUP 3: Working Together -->
+      <div class="faq-group">
+        <div class="faq-group-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9" rx="2" stroke="currentColor"/></svg>
+          COLLABORATION.FRAME
+        </div>
+
+        <div class="faq-item" data-faq-index="05">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">05</span>
+            <span class="faq-q-text">What if I don't like the initial direction?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Every project includes structured revision rounds. If the first concept misses the mark, we debrief, I ask sharper questions, and present a revised direction. <strong>Good feedback is a gift</strong> — the more specific you are about what's off, the faster we land on what's right.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-index="06">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">06</span>
+            <span class="faq-q-text">How do I get started or check availability?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Just fill out the form above — drop a short description of what you need and your ideal timeline. I respond within 24 hours and we go from there. No lengthy intake processes, no sales funnel. Or reach me directly at <a href="mailto:benyaminnamtalashvili726@gmail.com" class="faq-inline-link">benyaminnamtalashvili726@gmail.com</a>.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End FAQ Container -->
+
+  </section>
 
   <!-- FIGMA DESIGNER FRAME FOOTER -->
   <div class="floating-footer-wrapper">

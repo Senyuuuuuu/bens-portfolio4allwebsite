@@ -607,112 +607,140 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 3.3 Smooth Text Slide & Fade on All Sections
-    const animSections = ['#featured-projects', '#selected-work', '#capabilities', '#reviews', '.reviews-section', '.clients-section', 'footer'];
-    animSections.forEach(secSelector => {
-      const sec = document.querySelector(secSelector);
-      if (sec) {
-        const textElements = sec.querySelectorAll('.sec-tag, .section-h2, .section-desc, .sec-title, .cta-banner-title, .cta-banner-desc');
-        if (textElements.length > 0) {
-          gsap.fromTo(textElements, 
+    // 3.2 Hero Exit Drift & Parallax Fade on Scroll Down
+    const heroSection = document.querySelector('.hero-section');
+    if (heroSection) {
+      gsap.to(heroSection, {
+        scrollTrigger: {
+          trigger: heroSection,
+          start: 'top top',
+          end: 'bottom 15%',
+          scrub: 1.2
+        },
+        y: -45,
+        opacity: 0.2,
+        ease: 'power2.out'
+      });
+    }
+
+    // 3.3 Section-by-Section Bidirectional Viewport Appear & Fade In / Out
+    const contentSections = [
+      {
+        selector: '#featured-projects',
+        header: '.featured-header-container, .featured-header-meta, .sec-tag, .section-h2, .section-desc',
+        children: '.portfolio-card-item, .brand-real-card',
+        stagger: 0.07
+      },
+      {
+        selector: '#capabilities',
+        header: '.capabilities-bento-section .sec-tag, .capabilities-bento-section .section-h2, .capabilities-bento-section .section-desc',
+        children: '.bento-card',
+        stagger: 0.08
+      },
+      {
+        selector: '#testimonials',
+        header: '.testimonials-header, .testimonials-header .sec-tag, .testimonials-header .section-h2, .testimonials-header .section-desc',
+        children: '.testimonials-stage',
+        stagger: 0.1
+      },
+      {
+        selector: '#faq',
+        header: '.faq-header-wrap, .faq-header-wrap .sec-tag, .faq-header-wrap .section-h2, .faq-header-wrap .section-desc',
+        children: '.faq-group',
+        stagger: 0.08
+      },
+      {
+        selector: '.cta-banner-section',
+        header: '.cta-banner-title, .cta-banner-desc',
+        children: '.cta-masterpiece-banner',
+        stagger: 0.08
+      },
+      {
+        selector: '.floating-footer-wrapper',
+        header: '.footer-frame-top',
+        children: '.designer-footer-main, .footer-giant-email-wrap',
+        stagger: 0.08
+      },
+      {
+        selector: '.contact-blueprint-section',
+        header: '.contact-hero-header',
+        children: '.contact-card, .blueprint-card',
+        stagger: 0.08
+      }
+    ];
+
+    contentSections.forEach(secConfig => {
+      const sec = document.querySelector(secConfig.selector);
+      if (!sec) return;
+
+      // Master Section Viewport Entrance & Fade-Out on Scroll Beyond
+      gsap.fromTo(sec,
+        {
+          y: 40,
+          opacity: 0,
+          scale: 0.985
+        },
+        {
+          scrollTrigger: {
+            trigger: sec,
+            start: 'top 88%',
+            end: 'bottom 12%',
+            toggleActions: 'play reverse play reverse'
+          },
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.85,
+          ease: 'power3.out'
+        }
+      );
+
+      // Coordinated Header Staggered Entrance & Reversal
+      if (secConfig.header) {
+        const headerElems = sec.querySelectorAll(secConfig.header);
+        if (headerElems.length > 0) {
+          gsap.fromTo(headerElems,
             { y: 25, opacity: 0 },
             {
               scrollTrigger: {
                 trigger: sec,
-                start: 'top 95%',
-                toggleActions: 'play none none none'
+                start: 'top 85%',
+                toggleActions: 'play reverse play reverse'
               },
               y: 0,
               opacity: 1,
               duration: 0.75,
               stagger: 0.08,
-              ease: 'power3.out',
-              clearProps: 'opacity,transform'
+              ease: 'power3.out'
+            }
+          );
+        }
+      }
+
+      // Internal Cards / Bento / Items Staggered Reveal & Reversal
+      if (secConfig.children) {
+        const childElems = sec.querySelectorAll(secConfig.children);
+        if (childElems.length > 0) {
+          gsap.fromTo(childElems,
+            { y: 30, opacity: 0 },
+            {
+              scrollTrigger: {
+                trigger: sec,
+                start: 'top 80%',
+                toggleActions: 'play reverse play reverse'
+              },
+              y: 0,
+              opacity: 1,
+              duration: 0.7,
+              stagger: secConfig.stagger || 0.08,
+              ease: 'power3.out'
             }
           );
         }
       }
     });
 
-    // 3.4 Selected Works Cards Fade-In & Scale
-    if (document.querySelector('.portfolio-grid')) {
-      gsap.fromTo('.portfolio-card-item', 
-        { y: 35, opacity: 0, scale: 0.98 },
-        {
-          scrollTrigger: {
-            trigger: '.portfolio-grid',
-            start: 'top 92%',
-          },
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: 'power3.out',
-          clearProps: 'opacity,transform'
-        }
-      );
-    }
-
-    // 3.5 Capabilities Cards Fade-In
-    if (document.querySelector('.capabilities-grid') || document.querySelector('.capabilities-dark-grid')) {
-      gsap.fromTo('.capability-card, .cap-dark-card', 
-        { y: 35, opacity: 0, scale: 0.98 },
-        {
-          scrollTrigger: {
-            trigger: '.capabilities-grid, .capabilities-dark-grid',
-            start: 'top 92%',
-          },
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.7,
-          stagger: 0.1,
-          ease: 'power3.out',
-          clearProps: 'opacity,transform'
-        }
-      );
-    }
-
-    // 3.6 Past Client Reviews Fade-In
-    if (document.querySelector('.reviews-grid')) {
-      gsap.fromTo('.review-card', 
-        { y: 25, opacity: 0 },
-        {
-          scrollTrigger: {
-            trigger: '.reviews-grid',
-            start: 'top 92%',
-          },
-          y: 0,
-          opacity: 1,
-          duration: 0.65,
-          stagger: 0.08,
-          ease: 'power3.out',
-          clearProps: 'opacity,transform'
-        }
-      );
-    }
-
-    // 3.7 Masterpiece CTA Banner Reveal
-    if (document.querySelector('.cta-masterpiece-banner')) {
-      gsap.fromTo('.cta-masterpiece-banner', 
-        { y: 35, opacity: 0, scale: 0.98 },
-        {
-          scrollTrigger: {
-            trigger: '.cta-masterpiece-banner',
-            start: 'top 92%',
-          },
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          clearProps: 'opacity,transform'
-        }
-      );
-    }
-
-    // 3.8 Case Study Elements Scroll Reveal & Parallax
+    // 3.4 Case Study Elements Scroll Reveal & Parallax
     if (document.querySelector('.case-study-hero-stage') || document.querySelector('.case-study-device-frame')) {
       gsap.fromTo('.case-study-breadcrumb, .case-study-hero-stage .hero-rating-pill, .case-study-hero-stage .hero-title, .case-study-hero-stage .hero-lead, .case-study-spec-bento',
         { y: 25, opacity: 0 },
@@ -727,7 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollTrigger: {
               trigger: deviceFrame,
               start: 'top 92%',
-              toggleActions: 'play none none none'
+              toggleActions: 'play reverse play reverse'
             },
             y: 0,
             opacity: 1,
@@ -748,7 +776,7 @@ document.addEventListener('DOMContentLoaded', () => {
               scrollTrigger: {
                 trigger: card,
                 start: 'top 90%',
-                toggleActions: 'play none none none'
+                toggleActions: 'play reverse play reverse'
               },
               y: 0,
               opacity: 1,
@@ -1325,6 +1353,563 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // =========================================================================
+  // TACTILE 3D "SKILL COMPARISON" GSAP PINNED STACKING DECK ENGINE
+  // Phase 3: Pinned ScrollTrigger -> Sticky Stacking Deck -> Scale Down & Dim
+  // =========================================================================
+  function initSkillComparisonAnimation() {
+    const section = document.querySelector('#skill-comparison');
+    if (!section) return;
+
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    const layers = gsap.utils.toArray(section.querySelectorAll('.stack-card-layer'));
+    if (!layers.length) return;
+
+    const header = section.querySelector('.tactile-header');
+    const timeline = section.querySelector('#tactileTimelineDeck');
+    const axisLine = section.querySelector('#tactileAxisLine');
+    const rightCards = section.querySelectorAll('.tactile-card-right');
+
+    // Force GPU hardware acceleration on all animatable layer elements
+    gsap.set(layers, {
+      force3D: true,
+      willChange: 'transform, opacity, filter'
+    });
+
+    // Initial state: Layer 0 sits at center; Layers 1..N start translated down offscreen
+    layers.forEach((layer, i) => {
+      if (i === 0) {
+        gsap.set(layer, {
+          yPercent: 0,
+          opacity: 1,
+          scale: 1,
+          filter: 'brightness(1)'
+        });
+      } else {
+        gsap.set(layer, {
+          yPercent: 120,
+          opacity: 0,
+          scale: 1,
+          filter: 'brightness(1)'
+        });
+      }
+    });
+
+    // === HEADER EXIT ANIMATION ===
+    // Fade + slide the header up and out as user scrolls toward the cards
+    // Triggers when the section enters the upper 30% of viewport
+    if (header) {
+      gsap.to(header, {
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 30%',
+          end: 'top -5%',
+          scrub: 0.6,
+          invalidateOnRefresh: true
+        },
+        y: -40,
+        opacity: 0,
+        scale: 0.97,
+        ease: 'none'
+      });
+    }
+
+    // === PINNED STACKING DECK ===
+    // Pin the card DECK (tactile-timeline) when IT reaches the top of the viewport.
+    // By that point, the header text has already scrolled off-screen naturally.
+    const pinTarget = timeline || section;
+    const pinTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: pinTarget,
+        start: 'top top',           // deck top hits viewport top = header already gone
+        end: `+=${(layers.length - 1) * 800}`,  // ~800px scroll per card transition
+        pin: true,
+        pinSpacing: true,
+        scrub: 0.85,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onEnter: () => {
+          // Optionally lock scroll offset so header space is respected
+          if (header) gsap.set(header, { visibility: 'hidden' });
+        },
+        onLeaveBack: () => {
+          if (header) gsap.set(header, { visibility: 'visible' });
+        }
+      }
+    });
+
+    // 1. Central axis line smooth progression
+    if (axisLine) {
+      pinTl.fromTo(
+        axisLine,
+        { scaleY: 0.4, transformOrigin: 'top center' },
+        { scaleY: 1, duration: 0.4, ease: 'none' },
+        0
+      );
+    }
+
+    // 2. Cascade through each remaining card layer (Index 1 to 4)
+    layers.forEach((layer, i) => {
+      if (i === 0) return;
+
+      const stepTime = (i - 1) * 1.5;
+
+      // Current incoming card slides up into pinned center position
+      pinTl.to(layer, {
+        yPercent: 0,
+        opacity: 1,
+        duration: 1.2,
+        ease: 'power2.out'
+      }, stepTime);
+
+      // Previous cards in the stack scale down & subtly darken
+      for (let j = 0; j < i; j++) {
+        const prevLayer = layers[j];
+        const depth = i - j;
+        const targetScale = Math.max(0.85, 1 - depth * 0.045);
+        const targetY = -depth * 14;
+        const targetBrightness = Math.max(0.68, 1 - depth * 0.08);
+
+        pinTl.to(prevLayer, {
+          scale: targetScale,
+          y: targetY,
+          filter: `brightness(${targetBrightness})`,
+          duration: 1.2,
+          ease: 'power2.out'
+        }, stepTime);
+      }
+    });
+
+    // 3. Interactive Physical 3D Hover State for "My Capabilities" cards
+    rightCards.forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        gsap.to(card, {
+          y: -4,
+          boxShadow: '0 4px 8px rgba(0,0,0,0.03), 0 16px 36px -4px rgba(0,0,0,0.11), 0 24px 48px -12px rgba(0,0,0,0.06), inset 0 1.5px 1px 0 rgba(255,255,255,0.95)',
+          duration: 0.25,
+          ease: 'power2.out'
+        });
+      });
+
+      card.addEventListener('mouseleave', () => {
+        gsap.to(card, {
+          y: 0,
+          boxShadow: '0 2px 4px rgba(0,0,0,0.025), 0 8px 24px -4px rgba(0,0,0,0.06), 0 18px 42px -8px rgba(0,0,0,0.05), inset 0 1.5px 1px 0 rgba(255,255,255,0.95)',
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+    });
+  }
+
+
+  // =========================================================================
+  // FAQ ACCORDION + GSAP MOTION ENGINE — "The Curious Section"
+  // Architecture: initFaqAccordion (toggle + hover) · initFaqGsapAnimations (scroll-in + parallax)
+  // =========================================================================
+
+  function initFaqAccordion() {
+    const items = document.querySelectorAll('.faq-item');
+    if (!items.length) return;
+
+    // Set initial hidden state via GSAP (replaces CSS opacity:0 / translateY)
+    if (!prefersReducedMotion) {
+      gsap.set(items, { opacity: 0, y: 22, scale: 0.985 });
+    }
+
+    items.forEach(item => {
+      const btn     = item.querySelector('.faq-question');
+      const answer  = item.querySelector('.faq-answer');
+      const toggle  = item.querySelector('.faq-toggle');
+      const num     = item.querySelector('.faq-num');
+      const plusIcon  = item.querySelector('.faq-icon-plus');
+      const minusIcon = item.querySelector('.faq-icon-minus');
+      if (!btn || !answer) return;
+
+      // ── Hover: magnetic lift + number spring scale ──
+      item.addEventListener('mouseenter', () => {
+        if (item.classList.contains('is-open')) return; // open state owns transform
+        if (prefersReducedMotion) return;
+        gsap.to(item, {
+          y: -4,
+          boxShadow: '0 8px 40px rgba(255,107,0,0.14), 0 2px 8px rgba(0,0,0,0.05)',
+          borderColor: 'rgba(255,107,0,0.35)',
+          duration: 0.35,
+          ease: 'power3.out'
+        });
+        if (num) {
+          gsap.to(num, { scale: 1.25, color: '#FF4500', duration: 0.25, ease: 'back.out(2)' });
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        if (item.classList.contains('is-open')) return;
+        if (prefersReducedMotion) return;
+        gsap.to(item, {
+          y: 0,
+          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+          borderColor: 'rgba(0,0,0,0.09)',
+          duration: 0.45,
+          ease: 'power3.out'
+        });
+        if (num) {
+          gsap.to(num, { scale: 1, color: 'var(--apple-blue)', duration: 0.25, ease: 'power2.out' });
+        }
+      });
+
+      // ── Click: open / close accordion ──
+      btn.addEventListener('click', () => {
+        const isCurrentlyOpen = item.classList.contains('is-open');
+
+        // Close ALL items first
+        items.forEach(other => {
+          if (other === item) return;
+          if (!other.classList.contains('is-open')) return;
+
+          const otherAnswer  = other.querySelector('.faq-answer');
+          const otherToggle  = other.querySelector('.faq-toggle');
+          const otherPlusIcon  = other.querySelector('.faq-icon-plus');
+          const otherMinusIcon = other.querySelector('.faq-icon-minus');
+          const otherBtn = other.querySelector('.faq-question');
+
+          other.classList.remove('is-open');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+
+          // Close animation
+          if (!prefersReducedMotion) {
+            if (otherAnswer) {
+              gsap.to(otherAnswer, { height: 0, opacity: 0, paddingBottom: 0, duration: 0.38, ease: 'power3.inOut' });
+            }
+            if (otherToggle) {
+              gsap.to(otherToggle, { rotation: 0, backgroundColor: 'var(--canvas-parchment)', borderColor: 'rgba(0,0,0,0.09)', color: 'var(--ink-secondary)', duration: 0.4, ease: 'power3.inOut' });
+            }
+            if (otherPlusIcon)  gsap.to(otherPlusIcon,  { opacity: 1, duration: 0.2 });
+            if (otherMinusIcon) gsap.to(otherMinusIcon, { opacity: 0, duration: 0.2 });
+            gsap.to(other, {
+              boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+              borderColor: 'rgba(0,0,0,0.09)',
+              y: 0,
+              duration: 0.35,
+              ease: 'power3.out'
+            });
+          } else {
+            // Reduced motion: instant state
+            if (otherAnswer) gsap.set(otherAnswer, { height: 0, opacity: 0, paddingBottom: 0 });
+          }
+        });
+
+        if (!isCurrentlyOpen) {
+          // ── OPEN ──
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded', 'true');
+
+          if (!prefersReducedMotion) {
+            // Precise height animation
+            gsap.set(answer, { height: 'auto', opacity: 1, paddingBottom: '1.5rem' });
+            const targetHeight = answer.offsetHeight;
+            gsap.set(answer, { height: 0, opacity: 0, paddingBottom: 0 });
+            gsap.to(answer, {
+              height: targetHeight,
+              opacity: 1,
+              paddingBottom: '1.5rem',
+              duration: 0.5,
+              ease: 'power3.inOut'
+            });
+
+            // Toggle icon spring rotation + colour swap
+            if (toggle) {
+              gsap.to(toggle, { rotation: 180, backgroundColor: '#FF6B00', borderColor: '#FF6B00', color: '#fff', duration: 0.45, ease: 'back.out(1.4)' });
+            }
+            if (plusIcon)  gsap.to(plusIcon,  { opacity: 0, duration: 0.2 });
+            if (minusIcon) gsap.to(minusIcon, { opacity: 1, duration: 0.2 });
+
+            // Number pulse
+            if (num) {
+              gsap.fromTo(num,
+                { scale: 1 },
+                { scale: 1.18, duration: 0.18, ease: 'power2.out', yoyo: true, repeat: 1 }
+              );
+            }
+
+            // Card orange glow lift
+            gsap.to(item, {
+              boxShadow: '0 0 0 1.5px rgba(255,107,0,0.4), 0 14px 48px rgba(255,107,0,0.16)',
+              y: -3,
+              duration: 0.4,
+              ease: 'power3.out'
+            });
+          } else {
+            gsap.set(answer, { height: 'auto', opacity: 1, paddingBottom: '1.5rem' });
+            if (toggle) gsap.set(toggle, { rotation: 180, backgroundColor: '#FF6B00', borderColor: '#FF6B00', color: '#fff' });
+            if (plusIcon)  gsap.set(plusIcon,  { opacity: 0 });
+            if (minusIcon) gsap.set(minusIcon, { opacity: 1 });
+          }
+
+        } else {
+          // ── CLOSE ──
+          item.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+
+          if (!prefersReducedMotion) {
+            gsap.to(answer, { height: 0, opacity: 0, paddingBottom: 0, duration: 0.38, ease: 'power3.inOut' });
+            if (toggle) {
+              gsap.to(toggle, { rotation: 0, backgroundColor: 'var(--canvas-parchment)', borderColor: 'rgba(0,0,0,0.09)', color: 'var(--ink-secondary)', duration: 0.4, ease: 'power3.inOut' });
+            }
+            if (plusIcon)  gsap.to(plusIcon,  { opacity: 1, duration: 0.2 });
+            if (minusIcon) gsap.to(minusIcon, { opacity: 0, duration: 0.2 });
+            gsap.to(item, {
+              boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+              borderColor: 'rgba(0,0,0,0.09)',
+              y: 0,
+              duration: 0.35,
+              ease: 'power3.out'
+            });
+          } else {
+            gsap.set(answer, { height: 0, opacity: 0, paddingBottom: 0 });
+            if (toggle) gsap.set(toggle, { rotation: 0, backgroundColor: 'var(--canvas-parchment)', borderColor: 'rgba(0,0,0,0.09)', color: 'var(--ink-secondary)' });
+            if (plusIcon)  gsap.set(plusIcon,  { opacity: 1 });
+            if (minusIcon) gsap.set(minusIcon, { opacity: 0 });
+          }
+        }
+      });
+
+      // Keyboard passthrough (native <button> handles Enter/Space, explicit for clarity)
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+      });
+    });
+  }
+
+
+  function initFaqGsapAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    const section = document.querySelector('.faq-section');
+    if (!section) return;
+
+    // Reduced motion: show everything instantly
+    if (prefersReducedMotion) {
+      gsap.set('.faq-header-wrap > *', { opacity: 1, y: 0 });
+      gsap.set('.faq-group-label',     { opacity: 1, x: 0 });
+      gsap.set('.faq-item',            { opacity: 1, y: 0, scale: 1 });
+      return;
+    }
+
+    // ── 1. Section Header: staggered cascade ──
+    const headerChildren = section.querySelectorAll('.faq-eyebrow, .faq-serif-script, .faq-main-title, .faq-subtitle');
+    gsap.set(headerChildren, { opacity: 0, y: 24 });
+
+    gsap.to(headerChildren, {
+      opacity: 1,
+      y: 0,
+      duration: 0.75,
+      ease: 'power3.out',
+      stagger: 0.13,
+      scrollTrigger: {
+        trigger: '.faq-header-wrap',
+        start: 'top 82%',
+        once: true
+      }
+    });
+
+    // ── 2. Header parallax scrub ──
+    gsap.to('.faq-header-wrap', {
+      y: -30,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.faq-section',
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    });
+
+    // ── 3. Group labels + items: per-group cascade ──
+    const groups = section.querySelectorAll('.faq-group');
+    groups.forEach((group, gi) => {
+      const label = group.querySelector('.faq-group-label');
+      const items = group.querySelectorAll('.faq-item');
+
+      // Group label slides in from left
+      if (label) {
+        gsap.set(label, { opacity: 0, x: -14 });
+        gsap.to(label, {
+          opacity: 1,
+          x: 0,
+          duration: 0.55,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: group,
+            start: 'top 85%',
+            once: true
+          }
+        });
+      }
+
+      // Items cascade in
+      if (items.length) {
+        gsap.to(items, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.65,
+          ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          stagger: 0.09,
+          scrollTrigger: {
+            trigger: group,
+            start: 'top 80%',
+            once: true
+          }
+        });
+      }
+    });
+  }
+
+
+  // =========================================================================
+  // GSAP NUMBER SCALING & COUNT-UP ANIMATION SYSTEM
+  // Bidirectional ScrollTrigger · Elastic Spring Bloom · Micro-Interactions
+  // =========================================================================
+  function initNumberScalingAnimations() {
+    if (typeof gsap === 'undefined' || prefersReducedMotion) return;
+
+    // 1. Proof Bar Numbers: 30+, 5/5, 100% (Scale Bloom + Numeric Count-Up)
+    const proofBar = document.querySelector('.testimonials-proof-bar');
+    const proofNums = document.querySelectorAll('.proof-bar-num');
+    if (proofBar && proofNums.length > 0) {
+      // Elastic Scale Bloom
+      gsap.fromTo(proofNums,
+        {
+          scale: 0.25,
+          opacity: 0,
+          y: 20
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          stagger: 0.14,
+          ease: 'back.out(2)',
+          scrollTrigger: {
+            trigger: proofBar,
+            start: 'top 88%',
+            toggleActions: 'play reverse play reverse'
+          }
+        }
+      );
+
+      // Numeric counting animation synchronized with scale
+      proofNums.forEach(numEl => {
+        const originalText = numEl.textContent.trim();
+        if (originalText.includes('30+')) {
+          const obj = { val: 0 };
+          gsap.to(obj, {
+            val: 30,
+            duration: 1.5,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: proofBar,
+              start: 'top 88%',
+              toggleActions: 'play reverse play reverse'
+            },
+            onUpdate: () => {
+              numEl.textContent = Math.round(obj.val) + '+';
+            }
+          });
+        } else if (originalText.includes('5/5')) {
+          const obj = { val: 0 };
+          gsap.to(obj, {
+            val: 5,
+            duration: 1.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: proofBar,
+              start: 'top 88%',
+              toggleActions: 'play reverse play reverse'
+            },
+            onUpdate: () => {
+              numEl.textContent = Math.round(obj.val) + '/5';
+            }
+          });
+        } else if (originalText.includes('100%')) {
+          const obj = { val: 0 };
+          gsap.to(obj, {
+            val: 100,
+            duration: 1.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: proofBar,
+              start: 'top 88%',
+              toggleActions: 'play reverse play reverse'
+            },
+            onUpdate: () => {
+              numEl.textContent = Math.round(obj.val) + '%';
+            }
+          });
+        }
+      });
+    }
+
+    // 2. FAQ Numbers (01 - 06): Elastic Spring Scale on Viewport Scroll
+    const faqNums = document.querySelectorAll('.faq-num');
+    if (faqNums.length > 0) {
+      const faqSection = document.querySelector('.faq-section') || document.querySelector('.faq-container');
+      if (faqSection) {
+        gsap.fromTo(faqNums,
+          {
+            scale: 0.15,
+            opacity: 0,
+            rotation: -18
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            rotation: 0,
+            duration: 0.75,
+            stagger: 0.08,
+            ease: 'back.out(2.2)',
+            scrollTrigger: {
+              trigger: faqSection,
+              start: 'top 84%',
+              toggleActions: 'play reverse play reverse'
+            }
+          }
+        );
+      }
+    }
+
+    // 3. Featured Index ("01 — 18"): Spring Pop
+    const featuredIndex = document.querySelector('.featured-index-mono');
+    if (featuredIndex) {
+      gsap.fromTo(featuredIndex,
+        {
+          scale: 0.4,
+          opacity: 0,
+          x: 15
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          x: 0,
+          duration: 0.8,
+          ease: 'back.out(1.8)',
+          scrollTrigger: {
+            trigger: '.featured-header-container',
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse'
+          }
+        }
+      );
+    }
+  }
+
   initFloatingDarkFooter();
   initModelingBurstButton();
+  initSkillComparisonAnimation();
+  initFaqAccordion();
+  initFaqGsapAnimations();
+  initNumberScalingAnimations();
 });
+

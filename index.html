@@ -218,6 +218,7 @@
         <a href="#featured-projects" class="btn-pill-primary">
           <span>Explore Featured Works</span>
           <i class="fa-solid fa-arrow-right" style="font-size: 0.85rem;"></i>
+        </a>
         <a href="about.html" class="btn-pill-outline" id="heroResumeBtn" aria-label="View Benyamin's Full Resume and Credentials">
           <span class="resume-dot-pulse"></span>
           <span class="resume-text">View Full Resume</span>
@@ -1067,7 +1068,7 @@
           <span class="bento-card-tag">BRAYNE_DIGITAL</span>
           <div class="bento-review-stars">★★★★★</div>
           <p class="bento-review-text">
-            "Benyamin spearheaded product design and front-end web development across our company's client accounts. His ability to craft high-converting UX and work directly with stakeholders was outstanding."
+            "Working with Ben was a seamless experience. His ability to merge creativity with functionality resulted in designs that not only looked stunning but also drove meaningful engagement. Highly recommended!"
           </p>
           <div class="bento-author-row">
             <img src="assets/brayne-digital-logo-review.png" alt="Brayne Digital Logo" class="bento-author-avatar" style="width: 28px; height: 28px; border-radius: 6px; object-fit: contain; background: #000; border: 1px solid rgba(255,255,255,0.1);"/>
@@ -1078,161 +1079,106 @@
     </div>
   </section>
 
+
   <!-- ==========================================================================
-       CUSTOMER STORIES (THREE-TIER HORIZONTAL SCROLLING MASONRY GRID)
-       Phase 1: Pure White (#FFFFFF) Canvas + 50px Engineering Grid (#F0F0F0)
-       Phase 2: Varied-Height Cards (5 Gold Stars, Quote, Circular Avatar + Author Meta)
-       Phase 3: GSAP Hardware-Accelerated 3-Row Infinite Marquee (Left - Right - Left)
-                Synchronized Hover-Pause Across All 3 Rows + 1.03 Scale Elevation
+       TESTIMONIALS — PREMIUM THREE-ROW MARQUEE
+       Apple-meets-Portfolio aesthetic · Infinite CSS scroll · Hover pause
        ========================================================================== -->
-  <!-- Preserved in file, hidden from live display per instructions -->
-  <section class="customer-stories-section" id="reviews" style="display: none !important;" aria-hidden="true">
-    <!-- Header Block -->
-    <div class="customer-stories-header">
-      <div class="stories-overline">— CUSTOMER STORIES</div>
-      <h2 class="stories-headline">
-        We let our customers <span class="stories-accent-serif">speak</span> for us.
+  <section class="testimonials-section" id="testimonials" aria-label="Client Testimonials">
+
+    <!-- Section Header -->
+    <div class="testimonials-header">
+      <div class="sec-tag">✦ Client Stories</div>
+      <h2 class="section-h2">
+        What clients <span class="serif-italic">say.</span>
       </h2>
+      <p class="section-desc">
+        Real feedback from founders, CTOs, and creative directors who shipped with Benyamin.
+      </p>
     </div>
 
-    <!-- 3-Tier Horizontal Scrolling Stage with Edge Gradient Vignette Masks -->
-    <div class="customer-stories-stage" id="customerStoriesStage">
-      
-      <!-- Tier 1 (Top): Leftward Continuous Infinite Pan -->
-      <div class="stories-marquee-row stories-row-left" id="storiesRowTop">
-        <div class="stories-track-group">
-          
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Benyamin completely re-engineered our web application architecture and automated our entire customer onboarding pipeline in under two weeks. The performance bump was immediate—sub-50ms response times globally."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/avatar.jpg" alt="David Sterling standing casually leaning against a textured studio wall with natural window lighting" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">David Sterling</span>
-                <span class="story-author-title">Founder &amp; CEO · Hyperscale AI</span>
+    <!-- Marquee Stage with Edge Gradient Masks -->
+    <div class="testimonials-stage" id="testimonialsStage">
+
+      <!-- Row 1 — Scrolls Left -->
+      <div class="testimonials-row testimonials-row--left">
+        <div class="testimonials-track" id="testimonialsRow1">
+
+          <article class="testi-card testi-card--featured">
+            <div class="testi-badge">Top Review</div>
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Ben's strategic approach to design brought our brand vision to life. The Website models and brand elements he developed elevated our aesthetic and aligned perfectly with our sustainability values."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-global-gems-ph.png" alt="Global Gems PH Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Global Gems PH</span>
+                <span class="testi-role">Sustainable Luxury &amp; Jewelry</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "From atomic design systems in Figma to robust, clean frontend components, the speed and obsessive precision were extraordinary. Our team velocity doubled overnight."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/team1.jpg" alt="Elena Rostova comfortably seated at a minimal oak desk, candid profile with soft ambient light" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Elena Rostova</span>
-                <span class="story-author-title">VP of Product · Avenue SaaS</span>
+          <article class="testi-card testi-card--accent">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Benyamin did an incredible job with both our in-store posters and our new website. He captured the modern aesthetic of our salon perfectly, making it simple for our clients to explore our services online. Having someone who can handle both print marketing and web design under one roof made the entire process seamless."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">ES</div>
+              <div class="testi-author">
+                <span class="testi-name">Estilo Salon</span>
+                <span class="testi-role">Modern Salon · Web &amp; Print Marketing</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Working with Benyamin was by far our highest-yield investment. The custom interactive elements and fluid animations gave our brand the presence of a Fortune 500 firm."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/team2.jpg" alt="Marcus Vance sitting casually across a wooden workshop table with authentic natural lighting" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Marcus Vance</span>
-                <span class="story-author-title">Co-Founder · Seoul Tokki Apparel</span>
+          <article class="testi-card">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Building a portfolio site for the music industry isn't easy, but Benyamin nailed it. The website he developed is responsive, sleek, and handles all my media embeds, mixes, and gig dates effortlessly. He really understood the vibe I wanted as a DJ and turned it into an interactive online presence that helps me book shows."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">AG</div>
+              <div class="testi-author">
+                <span class="testi-name">Ace Gallera</span>
+                <span class="testi-role">DJ &amp; Music Producer</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Autonomous webhook triggers and backend sync reduced our manual ops by 90%. Exceptional problem solver who writes production code that never breaks."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/team3.jpg" alt="Sarah Lin standing with relaxed posture near an architectural glass partition in daylight" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Sarah Lin</span>
-                <span class="story-author-title">Chief of Staff · Veloce Labs</span>
+          <!-- Duplicate set for seamless loop -->
+          <article class="testi-card testi-card--featured">
+            <div class="testi-badge">Top Review</div>
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Ben's strategic approach to design brought our brand vision to life. The Website models and brand elements he developed elevated our aesthetic and aligned perfectly with our sustainability values."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-global-gems-ph.png" alt="Global Gems PH Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Global Gems PH</span>
+                <span class="testi-role">Sustainable Luxury &amp; Jewelry</span>
               </div>
             </div>
           </article>
 
-        </div>
-      </div>
-
-      <!-- Tier 2 (Middle): Rightward Continuous Infinite Pan -->
-      <div class="stories-marquee-row stories-row-right" id="storiesRowMiddle">
-        <div class="stories-track-group">
-          
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "The rare engineer who possesses museum-tier visual taste paired with deep full-stack and systems competence. He delivered our client portal days ahead of schedule."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/port2.jpg" alt="Arthur Pendelton leaning comfortably on a studio railing with unretouched editorial lighting" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Arthur Pendelton</span>
-                <span class="story-author-title">CTO · Bryance Digital</span>
+          <article class="testi-card testi-card--accent">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Benyamin did an incredible job with both our in-store posters and our new website. He captured the modern aesthetic of our salon perfectly, making it simple for our clients to explore our services online. Having someone who can handle both print marketing and web design under one roof made the entire process seamless."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">ES</div>
+              <div class="testi-author">
+                <span class="testi-name">Estilo Salon</span>
+                <span class="testi-role">Modern Salon · Web &amp; Print Marketing</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Our user conversion rates increased by 140% in the first 48 hours post-launch. The micro-interactions and instant page transitions keep users locked in."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/stats-team.jpg" alt="Claire Montagu seated at a modern collaborative workstation with gentle directional window light" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Claire Montagu</span>
-                <span class="story-author-title">Managing Director · Apex Ventures</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Shipped an enterprise-grade web application with custom video and audio streaming components with absolute zero fuss. A joy to collaborate with."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/port3.jpg" alt="Devon Zhao standing in an open creative space with candid natural rim lighting" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Devon Zhao</span>
-                <span class="story-author-title">Head of Product · Estilo Luxe</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "The automated n8n workflows and Supabase integrations have run completely error-free for six straight months. Truly top 1% execution."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/hero.jpg" alt="Amara Okafor seated relaxed at an agency drafting table in warm morning ambient light" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Amara Okafor</span>
-                <span class="story-author-title">Founder · White Claw Prestige</span>
+          <article class="testi-card">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Building a portfolio site for the music industry isn't easy, but Benyamin nailed it. The website he developed is responsive, sleek, and handles all my media embeds, mixes, and gig dates effortlessly. He really understood the vibe I wanted as a DJ and turned it into an interactive online presence that helps me book shows."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">AG</div>
+              <div class="testi-author">
+                <span class="testi-name">Ace Gallera</span>
+                <span class="testi-role">DJ &amp; Music Producer</span>
               </div>
             </div>
           </article>
@@ -1240,70 +1186,93 @@
         </div>
       </div>
 
-      <!-- Tier 3 (Bottom): Leftward Continuous Infinite Pan -->
-      <div class="stories-marquee-row stories-row-left" id="storiesRowBottom">
-        <div class="stories-track-group">
-          
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Unbelievable attention to typographical rhythm and responsive layout physics. What usually takes a whole team of 4 was delivered by one person with higher fidelity."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/avatar.jpg" alt="Julian Thorne standing beside an exposed concrete wall in candid three-quarter angle" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Julian Thorne</span>
-                <span class="story-author-title">Design Director · Studio Kroma</span>
+      <!-- Row 2 — Scrolls Right -->
+      <div class="testimonials-row testimonials-row--right">
+        <div class="testimonials-track" id="testimonialsRow2">
+
+          <article class="testi-card testi-card--featured">
+            <div class="testi-badge">Top Review</div>
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Working with Ben was a seamless experience. His ability to merge creativity with functionality resulted in designs that not only looked stunning but also drove meaningful engagement. Highly recommended!"</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brayne-digital-logo-review.png" alt="Brayne Digital Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Brayne Digital</span>
+                <span class="testi-role">Product &amp; Creative Agency</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Benyamin's ability to translate high-level business goals into slick, lightning-fast UI is unmatched. We saw an immediate 3x spike in qualified leads."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/team1.jpg" alt="Maya Lin sitting at a light-wood drafting table looking thoughtfully toward natural light" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Maya Lin</span>
-                <span class="story-author-title">Head of Growth · Nexa Dynamics</span>
+          <article class="testi-card testi-card--accent">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"The UI/UX work Benyamin delivered for the Tugon app exceeded our expectations. Designing an on-demand local service platform comes with a lot of complex user flows, but he broke down the booking, search, and checkout steps into an intuitive, clean interface. The wireframes and UI components were sharp and easy for our development team to follow."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-tugon-service.png" alt="Tugon App Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Tugon App</span>
+                <span class="testi-role">On-Demand Local Services Platform</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
-            </div>
-            <p class="story-card-text">
-              "Fast, communicative, and technically brilliant. He took our legacy clunky codebase and turned it into a modern, responsive showcase in record time."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/team2.jpg" alt="Nathan Drake standing outdoors in soft overcast daylight with relaxed authentic smile" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Nathan Drake</span>
-                <span class="story-author-title">VP Engineering · Orbit Platform</span>
+          <article class="testi-card">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Benyamin was dependable, fast, and extremely consistent with our brand guidelines. The promotional banners and Instagram ad creatives he produced helped elevate our visual presence and drove clear engagement to our e-commerce store. He communicated clearly and met every single deadline ahead of schedule."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-the-aviator-store.png" alt="The Aviator Store Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">The Aviator Store</span>
+                <span class="testi-role">Aviation Apparel &amp; E-Commerce</span>
               </div>
             </div>
           </article>
 
-          <article class="story-card">
-            <div class="story-card-rating" aria-label="5 stars rating">
-              <span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span><span class="story-star">★</span>
+          <!-- Duplicate set for seamless loop -->
+          <article class="testi-card testi-card--featured">
+            <div class="testi-badge">Top Review</div>
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Working with Ben was a seamless experience. His ability to merge creativity with functionality resulted in designs that not only looked stunning but also drove meaningful engagement. Highly recommended!"</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brayne-digital-logo-review.png" alt="Brayne Digital Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Brayne Digital</span>
+                <span class="testi-role">Product &amp; Creative Agency</span>
+              </div>
             </div>
-            <p class="story-card-text">
-              "Every single interaction feels weighted and delightful. Our customers constantly praise how smooth and responsive our new product platform feels."
-            </p>
-            <div class="story-card-footer">
-              <img src="assets/team3.jpg" alt="Sofia Ramos seated casually on a studio bench in clean natural fill lighting" class="story-avatar-img" loading="lazy" />
-              <div class="story-author-info">
-                <span class="story-author-name">Sofia Ramos</span>
-                <span class="story-author-title">Operations Lead · Galera Audio</span>
+          </article>
+
+          <article class="testi-card testi-card--accent">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"The UI/UX work Benyamin delivered for the Tugon app exceeded our expectations. Designing an on-demand local service platform comes with a lot of complex user flows, but he broke down the booking, search, and checkout steps into an intuitive, clean interface. The wireframes and UI components were sharp and easy for our development team to follow."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-tugon-service.png" alt="Tugon App Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Tugon App</span>
+                <span class="testi-role">On-Demand Local Services Platform</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi-card">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Benyamin was dependable, fast, and extremely consistent with our brand guidelines. The promotional banners and Instagram ad creatives he produced helped elevate our visual presence and drove clear engagement to our e-commerce store. He communicated clearly and met every single deadline ahead of schedule."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-the-aviator-store.png" alt="The Aviator Store Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">The Aviator Store</span>
+                <span class="testi-role">Aviation Apparel &amp; E-Commerce</span>
               </div>
             </div>
           </article>
@@ -1311,10 +1280,248 @@
         </div>
       </div>
 
+      <!-- Row 3 — Scrolls Left -->
+      <div class="testimonials-row testimonials-row--left">
+        <div class="testimonials-track" id="testimonialsRow3">
+
+          <article class="testi-card testi-card--featured">
+            <div class="testi-badge">Top Review</div>
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Benyamin’s combination of Photoshop precision and generative AI tools saved us weeks of production time. He created realistic bag mockups that captured the exact textures, hardware, and stitching of our physical products. The output looked like high-end studio photography."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">RR</div>
+              <div class="testi-author">
+                <span class="testi-name">R. Riveter</span>
+                <span class="testi-role">American Heritage Handbags &amp; 3D Mockups</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi-card testi-card--accent">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Working with Benyamin was instrumental in bringing the Crystal White Claw brand to life. He handled everything from our logo design to hyper-realistic product mockups and our launch Instagram feed. The visual identity he built gave our brand instant credibility and a cohesive look across all channels."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">CW</div>
+              <div class="testi-author">
+                <span class="testi-name">Crystal White Claw</span>
+                <span class="testi-role">Luxury Brand Identity &amp; 3D Design</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi-card">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"During his time working with us on the Qonek app, Benyamin proved to be a versatile asset across both design and front-end implementation. He delivered clean UI layouts and backed them up with solid, responsive front-end code, ensuring the user experience was fast and engaging."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-brayne-digital.png" alt="Bryance Digital Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Bryance Digital</span>
+                <span class="testi-role">Qonek App · UI/UX &amp; Frontend</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Duplicate set for seamless loop -->
+          <article class="testi-card testi-card--featured">
+            <div class="testi-badge">Top Review</div>
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Benyamin’s combination of Photoshop precision and generative AI tools saved us weeks of production time. He created realistic bag mockups that captured the exact textures, hardware, and stitching of our physical products. The output looked like high-end studio photography."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">RR</div>
+              <div class="testi-author">
+                <span class="testi-name">R. Riveter</span>
+                <span class="testi-role">American Heritage Handbags &amp; 3D Mockups</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi-card testi-card--accent">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"Working with Benyamin was instrumental in bringing the Crystal White Claw brand to life. He handled everything from our logo design to hyper-realistic product mockups and our launch Instagram feed. The visual identity he built gave our brand instant credibility and a cohesive look across all channels."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar" aria-hidden="true">CW</div>
+              <div class="testi-author">
+                <span class="testi-name">Crystal White Claw</span>
+                <span class="testi-role">Luxury Brand Identity &amp; 3D Design</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi-card">
+            <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi-quote">"During his time working with us on the Qonek app, Benyamin proved to be a versatile asset across both design and front-end implementation. He delivered clean UI layouts and backed them up with solid, responsive front-end code, ensuring the user experience was fast and engaging."</p>
+            <div class="testi-footer">
+              <div class="testi-avatar testi-avatar--has-img" aria-hidden="true">
+                <img src="assets/brand-brayne-digital.png" alt="Bryance Digital Logo" class="testi-avatar-img">
+              </div>
+              <div class="testi-author">
+                <span class="testi-name">Bryance Digital</span>
+                <span class="testi-role">Qonek App · UI/UX &amp; Frontend</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+    </div><!-- /testimonials-stage -->
+
+    <!-- Social Proof Bar -->
+    <div class="testimonials-proof-bar">
+      <div class="proof-bar-item">
+        <span class="proof-bar-num">30+</span>
+        <span class="proof-bar-label">Venture CEOs &amp; Brands</span>
+      </div>
+      <div class="proof-bar-sep" aria-hidden="true">·</div>
+      <div class="proof-bar-item">
+        <span class="proof-bar-num">5/5</span>
+        <span class="proof-bar-label">Average Rating</span>
+      </div>
+      <div class="proof-bar-sep" aria-hidden="true">·</div>
+      <div class="proof-bar-item">
+        <span class="proof-bar-num">100%</span>
+        <span class="proof-bar-label">Project Completion</span>
+      </div>
     </div>
+
   </section>
 
-  
+  <!-- ==========================================================================
+       FAQ SECTION — "THE CURIOUS SECTION"
+       Figma-frame grouped accordion · Spring physics · Orange accent on open
+       ========================================================================== -->
+  <section class="faq-section" id="faq" aria-label="Frequently Asked Questions">
+
+    <!-- Section Header -->
+    <div class="faq-header-wrap">
+      <div class="sec-tag faq-eyebrow">✦ Frequently Asked Questions</div>
+      <h2 class="section-h2 faq-main-title">The Curious <span class="serif-italic faq-title-accent">Section.</span></h2>
+      <p class="section-desc faq-subtitle">Everything you'd ask on a call — answered, upfront, no gatekeeping.</p>
+    </div>
+
+    <!-- FAQ Accordion Groups -->
+    <div class="faq-container" id="faqContainer">
+
+      <!-- GROUP 1: Process -->
+      <div class="faq-group">
+        <div class="faq-group-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9" rx="2" stroke="currentColor"/></svg>
+          PROCESS.FRAME
+        </div>
+
+        <div class="faq-item" data-faq-index="01">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">01</span>
+            <span class="faq-q-text">How does the design process actually work?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>We kick off with a discovery call to lock in your goals, brand voice, and timeline. From there I move into wireframes and design concepts, iterating with you at every checkpoint. <strong>No ghost deliveries</strong> — you see work-in-progress and approve before anything is finalised. Most projects wrap in 1–3 weeks depending on scope.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-index="02">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">02</span>
+            <span class="faq-q-text">Do you work on one project at a time or multiple simultaneously?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>I take on a limited client roster at any given time so your project gets focused attention — not split-focus multitasking. When you're onboarded, you're my priority. This is why I open availability in batches rather than always-on intake.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROUP 2: Deliverables -->
+      <div class="faq-group">
+        <div class="faq-group-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9" rx="2" stroke="currentColor"/></svg>
+          DELIVERABLES.FRAME
+        </div>
+
+        <div class="faq-item" data-faq-index="03">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">03</span>
+            <span class="faq-q-text">What exactly do I get when the project is done?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Depending on the engagement: <strong>brand projects</strong> come with source Figma files, export-ready print assets, and a brand usage guide. <strong>Web projects</strong> include clean, commented code, all source assets, and a handoff walkthrough video. Everything is yours — no vendor lock-in, no licensing clause on your own brand.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-index="04">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">04</span>
+            <span class="faq-q-text">Can you handle both design and web development together?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Yes — and this is where working with one person actually wins. The design and engineering brain are the same person, which means your Figma files and your live site stay in sync. No handoff friction, no "the dev changed it" surprises. Estilo Salon and Ace Gallera are both examples of full design-to-deployment projects.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- GROUP 3: Working Together -->
+      <div class="faq-group">
+        <div class="faq-group-label">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><rect x="0.5" y="0.5" width="9" height="9" rx="2" stroke="currentColor"/></svg>
+          COLLABORATION.FRAME
+        </div>
+
+        <div class="faq-item" data-faq-index="05">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">05</span>
+            <span class="faq-q-text">What if I don't like the initial direction?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Every project includes structured revision rounds. If the first concept misses the mark, we debrief, I ask sharper questions, and present a revised direction. <strong>Good feedback is a gift</strong> — the more specific you are about what's off, the faster we land on what's right.</p>
+          </div>
+        </div>
+
+        <div class="faq-item" data-faq-index="06">
+          <button class="faq-question" aria-expanded="false">
+            <span class="faq-num">06</span>
+            <span class="faq-q-text">How do I get started or check availability?</span>
+            <span class="faq-toggle" aria-hidden="true">
+              <svg class="faq-icon-plus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="faq-icon-minus" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer" role="region">
+            <span class="faq-answer-label">ANSWER</span>
+            <p>Hit the <strong>Get in Touch</strong> button or reach out via email at <a href="mailto:benyaminnamtalashvili726@gmail.com" class="faq-inline-link">benyaminnamtalashvili726@gmail.com</a>. Drop a short description of what you need and your ideal timeline. I respond within 24 hours and we go from there — no lengthy forms, no sales funnel.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- End FAQ Container -->
+
+  </section>
 
   <!-- ==========================================================================
        FLOATING DARK-MODE FOOTER CARD

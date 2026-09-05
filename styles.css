@@ -8731,8 +8731,1195 @@ a:active,
   }
 }
 
+/* ==========================================================================
+   TACTILE 3D "SKILL COMPARISON" SECTION (STICKY STACKING DECK ENGINE)
+   Physical Paper Background · Central Axis · VS Precision Dials · 3D Pastel Cards
+   ========================================================================== */
+.tactile-comparison-section {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5rem 0 0;
+  position: relative;
+  background-color: #F8F9FA;
+  background-image: 
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.038) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+  background-size: 100% 28px, 28px 100%;
+  overflow: visible;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+.tactile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2.2rem;
+  position: relative;
+  z-index: 20;
+}
+
+/* Column Header Legend Labels (Desktop) */
+.tactile-column-labels {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 3rem;
+  width: 100%;
+  max-width: 1080px;
+  margin-top: 1.8rem;
+  padding: 0.65rem 1.5rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(10px);
+}
+
+.col-label-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #64748B;
+  letter-spacing: 0.04em;
+}
+
+.label-ghost-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #CBD5E1;
+  border: 1.5px solid #94A3B8;
+}
+
+.col-label-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label-vs-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #18181B;
+  background: #E2E8F0;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.05em;
+}
+
+.col-label-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #FF4500;
+  letter-spacing: 0.04em;
+}
+
+.label-tactile-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #FF4500;
+  box-shadow: 0 0 6px rgba(255, 69, 0, 0.4);
+}
+
+/* Timeline Central Axis Container & Stacking Stage */
+.tactile-timeline {
+  position: relative;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  height: 520px;
+  padding-bottom: 3rem;
+}
+
+/* Thin 1px Center Line */
+.tactile-axis-line {
+  position: absolute;
+  top: -20px;
+  bottom: -20px;
+  left: 50%;
+  width: 1px;
+  background: #E2E8F0;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  z-index: 1;
+}
+
+/* Pinned Stacking Deck Layer Wrapper */
+.stack-card-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  will-change: transform, opacity, filter;
+  transform-origin: center top;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Timeline Skill Row inside each Layer */
+.tactile-skill-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5.5rem;
+  position: relative;
+  align-items: stretch;
+}
+
+/* Central VS Precision Dial Node */
+.tactile-dial-node {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.07),
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    inset 0 1.5px 0 #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  will-change: transform;
+}
+
+.dial-bezel-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dial-node-core {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FF4500;
+  font-size: 1.05rem;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.tactile-dial-node:hover .dial-node-core {
+  transform: scale(1.1);
+  color: #E03E00;
+}
+
+.dial-vs-tag {
+  position: absolute;
+  bottom: -7px;
+  background: #18181B;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.06em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 4;
+}
+
+/* ==========================================================================
+   LEFT CARD: INDUSTRY STANDARD (Flat / Wireframe / Ghost Style)
+   ========================================================================== */
+.tactile-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 1.85rem 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  will-change: transform, box-shadow;
+}
+
+.tactile-card-left {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1.5px dashed #CBD5E1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  backdrop-filter: blur(8px);
+}
+
+.ghost-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.ghost-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94A3B8;
+  letter-spacing: 0.05em;
+}
+
+.ghost-metric {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #64748B;
+  background: rgba(148, 163, 184, 0.12);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-pill);
+}
+
+.ghost-card-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #475569;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.1rem;
+}
+
+.ghost-card-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0;
+  margin: 0;
+}
+
+.ghost-card-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.88rem;
+  color: #64748B;
+  line-height: 1.45;
+}
+
+.ghost-card-list li i {
+  color: #EF4444;
+  font-size: 0.88rem;
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   RIGHT CARD: MY CAPABILITIES (3D Tactile Floating Cards + Realistic Pins)
+   ========================================================================== */
+.tactile-card-right {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  /* Multi-Layered Natural Diffused Studio Lighting Shadows */
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.025),
+    0 8px 24px -4px rgba(0, 0, 0, 0.06),
+    0 18px 42px -8px rgba(0, 0, 0, 0.05),
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+/* Realistic 3D Push-Pin Element */
+.tactile-push-pin {
+  position: absolute;
+  top: -9px;
+  right: 22px;
+  width: 18px;
+  height: 18px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.push-pin-head {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.pin-glint {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.push-pin-shadow {
+  position: absolute;
+  bottom: -6px;
+  right: -5px;
+  width: 16px;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 50%;
+  transform: rotate(25deg);
+  filter: blur(2px);
+  z-index: -1;
+}
+
+/* Push Pin Colors by Competency */
+.pin-peach .push-pin-head { background: radial-gradient(circle at 35% 35%, #FF7A45 0%, #E03E00 100%); }
+.pin-lavender .push-pin-head { background: radial-gradient(circle at 35% 35%, #A78BFA 0%, #7C3AED 100%); }
+.pin-mint .push-pin-head { background: radial-gradient(circle at 35% 35%, #34D399 0%, #059669 100%); }
+.pin-amber .push-pin-head { background: radial-gradient(circle at 35% 35%, #FBBF24 0%, #D97706 100%); }
+.pin-sky .push-pin-head { background: radial-gradient(circle at 35% 35%, #38BDF8 0%, #0284C7 100%); }
+
+.tactile-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.tactile-status-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #FF4500;
+  letter-spacing: 0.05em;
+}
+
+.tactile-score-badge {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #059669;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-pill);
+}
+
+.tactile-card-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #18181B;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.25rem;
+}
+
+/* Soft Muted Pastel Background Content Blocks */
+.tactile-pastel-block {
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  margin-top: 0.85rem;
+}
+
+.pastel-peach .tactile-pastel-block {
+  background: #FFF7ED;
+  border: 1px solid #FED7AA;
+}
+
+.pastel-lavender .tactile-pastel-block {
+  background: #F5F3FF;
+  border: 1px solid #DDD6FE;
+}
+
+.pastel-mint .tactile-pastel-block {
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+}
+
+.pastel-amber .tactile-pastel-block {
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+}
+
+.pastel-sky .tactile-pastel-block {
+  background: #F0F9FF;
+  border: 1px solid #BAE6FD;
+}
+
+.tactile-summary {
+  font-size: 0.87rem;
+  color: #334155;
+  line-height: 1.52;
+  margin-bottom: 0.8rem;
+}
+
+.tactile-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.tactile-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #1E293B;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* ==========================================================================
+   MOBILE & VERTICAL SCREEN (9:16) RESPONSIVENESS
+   Single cohesive vertical block per skill with far-left axis line & node
+   ========================================================================== */
+@media (max-width: 768px) {
+  .tactile-comparison-section {
+    padding: 3.5rem 0 4.5rem;
+    min-height: auto;
+    justify-content: flex-start;
+  }
+
+  .tactile-header {
+    margin-bottom: 2rem;
+  }
+
+  .tactile-column-labels {
+    display: none;
+  }
+
+  .tactile-timeline {
+    height: 610px;
+  }
+
+  /* Shift vertical axis line to the far left */
+  .tactile-axis-line {
+    left: 18px;
+    transform: none;
+  }
+
+  /* Single-column stacked layout inside each layer */
+  .tactile-skill-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-left: 42px;
+  }
+
+  /* Pin dial node directly onto the far-left vertical line */
+  .tactile-dial-node {
+    left: -24px;
+    top: 20px;
+    transform: none;
+    width: 44px;
+    height: 44px;
+  }
+
+  .dial-node-core {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .dial-vs-tag {
+    font-size: 0.52rem;
+    padding: 0.05rem 0.35rem;
+    bottom: -5px;
+  }
+
+  .tactile-card {
+    padding: 1.15rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .ghost-card-title,
+  .tactile-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .ghost-card-list {
+    gap: 0.45rem;
+  }
+
+  .ghost-card-list li {
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .tactile-summary {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin-bottom: 0.65rem;
+  }
+
+  .tactile-pastel-block {
+    padding: 0.85rem 1rem;
+    margin-top: 0.65rem;
+  }
+
+  .tactile-push-pin {
+    top: -7px;
+    right: 12px;
+    width: 15px;
+    height: 15px;
+  }
+}
 
 
+/* ==========================================================================
+   TESTIMONIALS — PREMIUM THREE-ROW MARQUEE SECTION
+   White canvas · Apple glassmorphism cards · CSS infinite scroll
+   ========================================================================== */
 
+/* CSS Keyframes for infinite marquee scroll */
+@keyframes marquee-left {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-right {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
 
+.testimonials-section {
+  width: 100%;
+  padding: 7rem 0 5rem;
+  position: relative;
+  background: transparent;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
 
+/* Section Header */
+.testimonials-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+/* Marquee Stage */
+.testimonials-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  padding: 0.5rem 0;
+  mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+}
+
+/* Each Row */
+.testimonials-row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  user-select: none;
+}
+
+.testimonials-row--left .testimonials-track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+  flex-shrink: 0;
+  animation: marquee-left 60s linear infinite;
+}
+
+.testimonials-row--right .testimonials-track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+  flex-shrink: 0;
+  animation: marquee-right 55s linear infinite;
+}
+
+/* Pause on hover — on any row within the stage */
+.testimonials-stage:hover .testimonials-track {
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   TESTIMONIAL CARD — BASE
+   ========================================================================== */
+.testi-card {
+  position: relative;
+  width: 380px;
+  max-width: 80vw;
+  flex-shrink: 0;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 20px;
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.05),
+    0 20px 40px rgba(0, 0, 0, 0.03);
+  padding: 1.85rem 2rem 1.65rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 240px;
+  cursor: default;
+  will-change: transform, box-shadow;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.testi-card:hover {
+  transform: translateY(-4px) scale(1.015);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.04),
+    0 16px 38px rgba(0, 0, 0, 0.1),
+    0 32px 60px rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+
+/* Accent variant — warm orange tint */
+.testi-card--accent {
+  background: #FFFBF8;
+  border-color: #FDBA74;
+}
+
+/* Featured variant — highlighted with orange accent border */
+.testi-card--featured {
+  background: #FFFFFF;
+  border: 1.5px solid #FF4500;
+  box-shadow:
+    0 2px 6px rgba(255, 69, 0, 0.08),
+    0 12px 36px rgba(255, 69, 0, 0.06),
+    0 24px 48px rgba(0, 0, 0, 0.04);
+}
+
+/* Featured Badge */
+.testi-badge {
+  position: absolute;
+  top: -11px;
+  left: 1.5rem;
+  background: #FF4500;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.22rem 0.7rem;
+  border-radius: 99px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.35);
+}
+
+/* Star Rating */
+.testi-stars {
+  font-size: 1rem;
+  color: #FFD700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.95rem;
+  filter: drop-shadow(0 1px 2px rgba(255, 215, 0, 0.2));
+}
+
+/* Quote Text */
+.testi-quote {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: #27272A;
+  font-weight: 500;
+  margin: 0 0 1.5rem;
+  flex-grow: 1;
+}
+
+/* Footer Row: Avatar + Author Meta */
+.testi-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+/* Avatar: Monogram circle */
+.testi-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF4500 0%, #FF7A3D 100%);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.25);
+}
+
+.testi-avatar img,
+.testi-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.testi-avatar--has-img {
+  background: #0D0D11 !important;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.testi-author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.testi-name {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: 0.93rem;
+  font-weight: 700;
+  color: #111111;
+}
+
+.testi-role {
+  font-family: 'Space Mono', 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #71717A;
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   SOCIAL PROOF BAR
+   ========================================================================== */
+.testimonials-proof-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  padding: 2.5rem 1.5rem 0;
+  margin-top: 1rem;
+}
+
+.proof-bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.proof-bar-num {
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  color: #18181B;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  display: inline-block;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  transition: color 0.25s ease;
+}
+
+.proof-bar-item:hover .proof-bar-num {
+  color: #FF4500;
+}
+
+.proof-bar-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #71717A;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.proof-bar-sep {
+  font-size: 2rem;
+  color: #D4D4D8;
+  font-weight: 300;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+@media (max-width: 768px) {
+  .testimonials-section {
+    padding: 5rem 0 4rem;
+  }
+
+  .testimonials-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .testi-card {
+    width: 300px;
+    padding: 1.5rem 1.5rem 1.35rem;
+    min-height: 210px;
+    border-radius: 16px;
+  }
+
+  .testi-quote {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+  }
+
+  .testimonials-proof-bar {
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding-top: 2rem;
+  }
+
+  .proof-bar-sep {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   FAQ SECTION — "THE CURIOUS SECTION"
+   Figma-frame grouped accordion · Spring physics · Orange accent on open
+   ========================================================================== */
+
+.faq-section {
+  padding: 7rem 0 8rem;
+  background: transparent;
+  position: relative;
+}
+
+/* ── Header ── */
+.faq-header-wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+  margin: 0 auto 5rem;
+  padding: 0 2rem;
+  text-align: center;
+}
+
+.faq-eyebrow {
+  margin-bottom: 0.6rem;
+}
+
+/* Cursive "got questions?" — mirrors the "ask away" italic script from inspiration */
+.faq-serif-script {
+  font-family: var(--font-serif) !important;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--apple-blue);
+  letter-spacing: 0.01em;
+}
+
+.faq-main-title {
+  font-family: var(--font-display) !important;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800 !important;
+  letter-spacing: -0.035em !important;
+  color: #18181B !important;
+  line-height: 1.15 !important;
+  margin-bottom: 1rem;
+}
+
+/* The ".Section." word takes the Playfair Display italic orange accent matching "What clients say." */
+.faq-title-accent {
+  font-family: var(--font-serif) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  color: #FF4500 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.faq-subtitle {
+  font-family: var(--font-display) !important;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ── Container ── */
+.faq-container {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Figma-Frame Group ── */
+.faq-group {
+  margin-bottom: 0.5rem;
+}
+
+/* The Figma-frame label above each group — monospace, small caps, with a square icon */
+.faq-group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-tertiary);
+  background: var(--canvas-parchment);
+  border: 1px solid var(--hairline-light);
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-xs);
+  margin-bottom: 0.4rem;
+  margin-left: 0; /* left-aligned like the inspiration's .FRAME tag */
+  transition: color 0.2s var(--ease-apple);
+}
+
+.faq-group-label svg {
+  color: var(--apple-blue);
+  flex-shrink: 0;
+}
+
+/* ── Accordion Item ── */
+/* NOTE: transform / opacity / box-shadow / border-color are all GSAP-owned */
+.faq-item {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: var(--radius-lg);
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+/* ── Question Button ── */
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1.35rem 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s var(--ease-apple);
+}
+
+.faq-question:hover {
+  background: var(--canvas-parchment);
+}
+
+.faq-item.is-open .faq-question {
+  background: rgba(255, 107, 0, 0.03);
+}
+
+/* Monospace number — "01", "02" etc. */
+.faq-num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--apple-blue);
+  flex-shrink: 0;
+  width: 2.2ch;
+  display: inline-block;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  letter-spacing: 0.04em;
+}
+
+.featured-index-mono {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  display: inline-block;
+  transform-origin: center center;
+  will-change: transform, opacity;
+  letter-spacing: 0.06em;
+}
+
+/* Question text */
+.faq-q-text {
+  font-family: var(--font-display) !important;
+  font-size: 1.07rem;
+  font-weight: 700 !important;
+  color: var(--ink-primary);
+  line-height: 1.35;
+  flex: 1;
+  letter-spacing: -0.02em;
+  transition: color 0.2s var(--ease-apple);
+}
+
+.faq-item.is-open .faq-q-text {
+  color: var(--apple-blue);
+}
+
+/* Toggle icon container */
+.faq-toggle {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--canvas-parchment);
+  border: 1px solid var(--hairline-light);
+  color: var(--ink-secondary);
+  /* NOTE: background/color/transform owned by GSAP */
+  transition: background 0.2s var(--ease-apple), color 0.2s var(--ease-apple);
+}
+
+/* Plus / Minus icon swap — GSAP controls opacity */
+.faq-icon-plus,
+.faq-icon-minus {
+  position: absolute;
+}
+
+.faq-toggle {
+  position: relative;
+}
+
+.faq-item .faq-icon-minus { opacity: 0; }
+.faq-item .faq-icon-plus  { opacity: 1; }
+
+/* ── Answer Panel — GSAP owns height / opacity / padding ── */
+.faq-answer {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  padding: 0 1.5rem;
+}
+
+/* "ANSWER" label — mirrors the design's metadata micro-label */
+.faq-answer-label {
+  display: block;
+  font-family: var(--font-mono) !important;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ink-tertiary);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  padding-left: 3.2rem;
+}
+
+.faq-answer p {
+  font-family: var(--font-display) !important;
+  font-size: 0.96rem;
+  font-weight: 400;
+  color: var(--ink-secondary);
+  line-height: 1.7;
+  padding-left: 3.2rem;
+  max-width: 64ch;
+}
+
+.faq-answer p strong {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+
+/* Inline link inside answers */
+.faq-inline-link {
+  color: var(--apple-blue);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 107, 0, 0.35);
+  transition: border-color 0.2s var(--ease-apple), color 0.2s var(--ease-apple);
+}
+
+.faq-inline-link:hover {
+  color: var(--apple-blue-hover);
+  border-color: var(--apple-blue-hover);
+}
+
+/* Scroll-in / hover / open states all owned by GSAP — CSS classes removed */
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .faq-section {
+    padding: 5rem 0 6rem;
+  }
+
+  .faq-header-wrap {
+    margin-bottom: 3rem;
+    padding: 0 1.25rem;
+  }
+
+  .faq-main-title {
+    font-size: 2.2rem;
+  }
+
+  .faq-container {
+    padding: 0 1.25rem;
+  }
+
+  .faq-question {
+    padding: 1.1rem 1.2rem;
+    gap: 0.85rem;
+  }
+
+  .faq-q-text {
+    font-size: 0.96rem;
+  }
+
+  .faq-answer-label,
+  .faq-answer p {
+    padding-left: 2.8rem;
+  }
+}
+
+/* ==========================================================================
+   SECTION-BY-SECTION GSAP SCROLL ANIMATION ACCELERATION
+   Compositor-thread isolation · Zero-jank transforms · Backface visibility
+   ========================================================================== */
+.hero-section,
+.featured-projects-section,
+.capabilities-bento-section,
+.testimonials-section,
+.faq-section,
+.cta-banner-section,
+.floating-footer-wrapper,
+.contact-blueprint-section {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section,
+  .featured-projects-section,
+  .capabilities-bento-section,
+  .testimonials-section,
+  .faq-section,
+  .cta-banner-section,
+  .floating-footer-wrapper,
+  .contact-blueprint-section {
+    will-change: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
