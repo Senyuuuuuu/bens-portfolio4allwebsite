@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof gsap !== 'undefined') {
     if (typeof ScrollTrigger !== 'undefined') {
       gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.config({ ignoreMobileResize: true });
     }
   }
 
@@ -555,18 +556,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // =========================================================================
   // 3. HERO & SECTION SCROLL REVEAL ANIMATIONS (GSAP ScrollTrigger)
-  // =========================================================================
-  // =========================================================================
-  // 3. HERO & SECTION SCROLL REVEAL ANIMATIONS (GSAP ScrollTrigger)
+  // Mobile-Optimized · Hardware Accelerated · Zero Vanishing
   // =========================================================================
   function initScrollAnimations() {
     if (typeof gsap === 'undefined' || prefersReducedMotion) return;
+
+    const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window && window.innerWidth <= 1024);
 
     // 3.1 Hero Text Entrance Animation (Instant on page load)
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
       gsap.fromTo(['.hero-rating-pill', '.hero-title', '.hero-lead', '.hero-actions-row'],
-        { y: 25, opacity: 0 },
+        { y: isMobile ? 16 : 25, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.75, stagger: 0.1, ease: 'power3.out', clearProps: 'opacity,transform' }
       );
     }
@@ -578,38 +579,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const deviceStage = document.querySelector('.hero-device-stage');
 
     if (stageWrap && deviceStage) {
-      // Set initial 3D transform, scale down, and subtle blur
-      gsap.set(deviceStage, {
-        transformPerspective: 1200,
-        transformOrigin: "center top",
-        rotateX: 18,
-        scale: 0.88,
-        y: 60,
-        opacity: 0.25,
-        filter: 'blur(8px)'
-      });
+      if (isMobile) {
+        // Mobile: Gentle fade-in without extreme 3D rotations for instant GPU clarity
+        gsap.fromTo(deviceStage,
+          { y: 20, opacity: 0.8 },
+          {
+            scrollTrigger: {
+              trigger: stageWrap,
+              start: 'top 92%',
+              toggleActions: 'play none none none',
+              once: true
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.65,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform'
+          }
+        );
+      } else {
+        // Desktop: Full 4K 3D unfold perspective
+        gsap.set(deviceStage, {
+          transformPerspective: 1200,
+          transformOrigin: "center top",
+          rotateX: 18,
+          scale: 0.88,
+          y: 60,
+          opacity: 0.25,
+          filter: 'blur(8px)'
+        });
 
-      // ScrollTrigger to unfold and scale into full 4K view
-      gsap.to(deviceStage, {
-        scrollTrigger: {
-          trigger: stageWrap,
-          start: 'top 92%',
-          end: 'top 45%',
-          scrub: 1.2,
-          toggleActions: 'play none none reverse'
-        },
-        rotateX: 0,
-        scale: 1.0,
-        y: 0,
-        opacity: 1,
-        filter: 'blur(0px)',
-        ease: 'power2.out'
-      });
+        gsap.to(deviceStage, {
+          scrollTrigger: {
+            trigger: stageWrap,
+            start: 'top 92%',
+            end: 'top 45%',
+            scrub: 1.2,
+            toggleActions: 'play none none reverse'
+          },
+          rotateX: 0,
+          scale: 1.0,
+          y: 0,
+          opacity: 1,
+          filter: 'blur(0px)',
+          ease: 'power2.out'
+        });
+      }
     }
 
-    // 3.2 Hero Exit Drift & Parallax Fade on Scroll Down
+    // 3.3 Hero Exit Drift & Parallax (Desktop Only — disabled on mobile to prevent vanishing)
     const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
+    if (heroSection && !isMobile) {
       gsap.to(heroSection, {
         scrollTrigger: {
           trigger: heroSection,
@@ -617,13 +637,15 @@ document.addEventListener('DOMContentLoaded', () => {
           end: 'bottom 15%',
           scrub: 1.2
         },
-        y: -45,
-        opacity: 0.2,
+        y: -40,
+        opacity: 0.4,
         ease: 'power2.out'
       });
     }
 
-    // 3.3 Section-by-Section Bidirectional Viewport Appear & Fade In / Out
+    // 3.4 Section-by-Section Viewport Appear & Fade In
+    // Mobile: Reveal once and STAY visible (never vanish on scroll)
+    // Desktop: Smooth reveal without abrupt bottom-cut reversals
     const contentSections = [
       {
         selector: '#featured-projects',
@@ -645,20 +667,14 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       {
         selector: '#faq',
-        header: '.faq-header-wrap, .faq-header-wrap .sec-tag, .faq-header-wrap .section-h2, .faq-header-wrap .section-desc',
-        children: '.faq-group',
+        header: '.faq-header-wrap .sec-tag, .faq-header-wrap .section-h2, .faq-header-wrap .section-desc',
+        children: null,
         stagger: 0.08
       },
       {
         selector: '.cta-banner-section',
         header: '.cta-banner-title, .cta-banner-desc',
         children: '.cta-masterpiece-banner',
-        stagger: 0.08
-      },
-      {
-        selector: '.floating-footer-wrapper',
-        header: '.footer-frame-top',
-        children: '.designer-footer-main, .footer-giant-email-wrap',
         stagger: 0.08
       },
       {
@@ -673,89 +689,164 @@ document.addEventListener('DOMContentLoaded', () => {
       const sec = document.querySelector(secConfig.selector);
       if (!sec) return;
 
-      // Master Section Viewport Entrance & Fade-Out on Scroll Beyond
-      gsap.fromTo(sec,
-        {
-          y: 40,
-          opacity: 0,
-          scale: 0.985
-        },
-        {
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top 88%',
-            end: 'bottom 12%',
-            toggleActions: 'play reverse play reverse'
-          },
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.85,
-          ease: 'power3.out'
-        }
-      );
-
-      // Coordinated Header Staggered Entrance & Reversal
-      if (secConfig.header) {
-        const headerElems = sec.querySelectorAll(secConfig.header);
-        if (headerElems.length > 0) {
-          gsap.fromTo(headerElems,
-            { y: 25, opacity: 0 },
-            {
-              scrollTrigger: {
-                trigger: sec,
-                start: 'top 85%',
-                toggleActions: 'play reverse play reverse'
-              },
-              y: 0,
-              opacity: 1,
-              duration: 0.75,
-              stagger: 0.08,
-              ease: 'power3.out'
+      if (isMobile) {
+        // MOBILE: Fast, reliable entrance that clears inline styles and NEVER reverses or hides
+        gsap.fromTo(sec,
+          { y: 16, opacity: 0 },
+          {
+            scrollTrigger: {
+              trigger: sec,
+              start: 'top 94%',
+              toggleActions: 'play none none none',
+              once: true
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            ease: 'power3.out',
+            onComplete: () => {
+              gsap.set(sec, { clearProps: 'opacity,transform,scale' });
             }
-          );
-        }
-      }
+          }
+        );
 
-      // Internal Cards / Bento / Items Staggered Reveal & Reversal
-      if (secConfig.children) {
-        const childElems = sec.querySelectorAll(secConfig.children);
-        if (childElems.length > 0) {
-          gsap.fromTo(childElems,
-            { y: 30, opacity: 0 },
-            {
-              scrollTrigger: {
-                trigger: sec,
-                start: 'top 80%',
-                toggleActions: 'play reverse play reverse'
-              },
-              y: 0,
-              opacity: 1,
-              duration: 0.7,
-              stagger: secConfig.stagger || 0.08,
-              ease: 'power3.out'
+        if (secConfig.header) {
+          const headerElems = sec.querySelectorAll(secConfig.header);
+          if (headerElems.length > 0) {
+            gsap.fromTo(headerElems,
+              { y: 12, opacity: 0 },
+              {
+                scrollTrigger: {
+                  trigger: sec,
+                  start: 'top 92%',
+                  toggleActions: 'play none none none',
+                  once: true
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.55,
+                stagger: 0.05,
+                ease: 'power3.out',
+                onComplete: () => {
+                  gsap.set(headerElems, { clearProps: 'opacity,transform' });
+                }
+              }
+            );
+          }
+        }
+
+        if (secConfig.children) {
+          const childElems = sec.querySelectorAll(secConfig.children);
+          if (childElems.length > 0) {
+            gsap.fromTo(childElems,
+              { y: 16, opacity: 0 },
+              {
+                scrollTrigger: {
+                  trigger: sec,
+                  start: 'top 90%',
+                  toggleActions: 'play none none none',
+                  once: true
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.55,
+                stagger: 0.05,
+                ease: 'power3.out',
+                onComplete: () => {
+                  gsap.set(childElems, { clearProps: 'opacity,transform' });
+                }
+              }
+            );
+          }
+        }
+      } else {
+        // DESKTOP: Apple-caliber entrance, staying permanently visible as user scrolls through
+        gsap.fromTo(sec,
+          { y: 35, opacity: 0, scale: 0.99 },
+          {
+            scrollTrigger: {
+              trigger: sec,
+              start: 'top 86%',
+              toggleActions: 'play none none reverse'
+            },
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            onComplete: () => {
+              gsap.set(sec, { clearProps: 'opacity,transform,scale' });
             }
-          );
+          }
+        );
+
+        if (secConfig.header) {
+          const headerElems = sec.querySelectorAll(secConfig.header);
+          if (headerElems.length > 0) {
+            gsap.fromTo(headerElems,
+              { y: 22, opacity: 0 },
+              {
+                scrollTrigger: {
+                  trigger: sec,
+                  start: 'top 84%',
+                  toggleActions: 'play none none reverse'
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                stagger: 0.07,
+                ease: 'power3.out',
+                onComplete: () => {
+                  gsap.set(headerElems, { clearProps: 'opacity,transform' });
+                }
+              }
+            );
+          }
+        }
+
+        if (secConfig.children) {
+          const childElems = sec.querySelectorAll(secConfig.children);
+          if (childElems.length > 0) {
+            gsap.fromTo(childElems,
+              { y: 25, opacity: 0 },
+              {
+                scrollTrigger: {
+                  trigger: sec,
+                  start: 'top 82%',
+                  toggleActions: 'play none none reverse'
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                stagger: secConfig.stagger || 0.08,
+                ease: 'power3.out',
+                onComplete: () => {
+                  gsap.set(childElems, { clearProps: 'opacity,transform' });
+                }
+              }
+            );
+          }
         }
       }
     });
 
-    // 3.4 Case Study Elements Scroll Reveal & Parallax
+    // 3.5 Case Study Elements Scroll Reveal & Parallax
     if (document.querySelector('.case-study-hero-stage') || document.querySelector('.case-study-device-frame')) {
       gsap.fromTo('.case-study-breadcrumb, .case-study-hero-stage .hero-rating-pill, .case-study-hero-stage .hero-title, .case-study-hero-stage .hero-lead, .case-study-spec-bento',
-        { y: 25, opacity: 0 },
+        { y: isMobile ? 14 : 25, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.75, stagger: 0.08, ease: 'power3.out', clearProps: 'opacity,transform' }
       );
 
       const deviceFrame = document.querySelector('.case-study-device-frame');
       if (deviceFrame) {
         gsap.fromTo(deviceFrame,
-          { y: 35, opacity: 0.85, scale: 0.98 },
+          { y: isMobile ? 18 : 35, opacity: 0.85, scale: isMobile ? 1 : 0.98 },
           {
             scrollTrigger: {
               trigger: deviceFrame,
               start: 'top 92%',
-              toggleActions: 'play reverse play reverse'
+              toggleActions: isMobile ? 'play none none none' : 'play none none reverse',
+              once: isMobile
             },
             y: 0,
             opacity: 1,
@@ -771,12 +862,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (sectionCards.length > 0) {
         sectionCards.forEach(card => {
           gsap.fromTo(card,
-            { y: 30, opacity: 0 },
+            { y: isMobile ? 16 : 30, opacity: 0 },
             {
               scrollTrigger: {
                 trigger: card,
                 start: 'top 90%',
-                toggleActions: 'play reverse play reverse'
+                toggleActions: isMobile ? 'play none none none' : 'play none none reverse',
+                once: isMobile
               },
               y: 0,
               opacity: 1,
@@ -789,8 +881,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-
-  initScrollAnimations();
 
   // =========================================================================
   // 4. HERO STAGE VIDEO PLAYER & INTERACTIVE TAB CONTROLLER
@@ -1769,10 +1859,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // =========================================================================
   // GSAP NUMBER SCALING & COUNT-UP ANIMATION SYSTEM
-  // Bidirectional ScrollTrigger · Elastic Spring Bloom · Micro-Interactions
+  // Mobile-Resilient · Spring Bloom · Permanent Visibility · Micro-Interactions
   // =========================================================================
   function initNumberScalingAnimations() {
     if (typeof gsap === 'undefined' || prefersReducedMotion) return;
+
+    const isMobile = window.innerWidth <= 768 || ('ontouchstart' in window && window.innerWidth <= 1024);
+    const toggleBehavior = isMobile ? 'play none none none' : 'play none none reverse';
 
     // 1. Proof Bar Numbers: 30+, 5/5, 100% (Scale Bloom + Numeric Count-Up)
     const proofBar = document.querySelector('.testimonials-proof-bar');
@@ -1781,21 +1874,25 @@ document.addEventListener('DOMContentLoaded', () => {
       // Elastic Scale Bloom
       gsap.fromTo(proofNums,
         {
-          scale: 0.25,
+          scale: isMobile ? 0.7 : 0.25,
           opacity: 0,
-          y: 20
+          y: isMobile ? 10 : 20
         },
         {
           scale: 1,
           opacity: 1,
           y: 0,
-          duration: 0.9,
-          stagger: 0.14,
+          duration: 0.85,
+          stagger: 0.12,
           ease: 'back.out(2)',
           scrollTrigger: {
             trigger: proofBar,
-            start: 'top 88%',
-            toggleActions: 'play reverse play reverse'
+            start: 'top 92%',
+            toggleActions: toggleBehavior,
+            once: isMobile
+          },
+          onComplete: () => {
+            gsap.set(proofNums, { clearProps: 'transform,scale,opacity' });
           }
         }
       );
@@ -1807,45 +1904,57 @@ document.addEventListener('DOMContentLoaded', () => {
           const obj = { val: 0 };
           gsap.to(obj, {
             val: 30,
-            duration: 1.5,
+            duration: 1.4,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: proofBar,
-              start: 'top 88%',
-              toggleActions: 'play reverse play reverse'
+              start: 'top 92%',
+              toggleActions: toggleBehavior,
+              once: isMobile
             },
             onUpdate: () => {
               numEl.textContent = Math.round(obj.val) + '+';
+            },
+            onComplete: () => {
+              numEl.textContent = '30+';
             }
           });
         } else if (originalText.includes('5/5')) {
           const obj = { val: 0 };
           gsap.to(obj, {
             val: 5,
-            duration: 1.2,
+            duration: 1.1,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: proofBar,
-              start: 'top 88%',
-              toggleActions: 'play reverse play reverse'
+              start: 'top 92%',
+              toggleActions: toggleBehavior,
+              once: isMobile
             },
             onUpdate: () => {
               numEl.textContent = Math.round(obj.val) + '/5';
+            },
+            onComplete: () => {
+              numEl.textContent = '5/5';
             }
           });
         } else if (originalText.includes('100%')) {
           const obj = { val: 0 };
           gsap.to(obj, {
             val: 100,
-            duration: 1.6,
+            duration: 1.5,
             ease: 'power2.out',
             scrollTrigger: {
               trigger: proofBar,
-              start: 'top 88%',
-              toggleActions: 'play reverse play reverse'
+              start: 'top 92%',
+              toggleActions: toggleBehavior,
+              once: isMobile
             },
             onUpdate: () => {
               numEl.textContent = Math.round(obj.val) + '%';
+            },
+            onComplete: () => {
+              numEl.textContent = '100%';
             }
           });
         }
@@ -1859,21 +1968,25 @@ document.addEventListener('DOMContentLoaded', () => {
       if (faqSection) {
         gsap.fromTo(faqNums,
           {
-            scale: 0.15,
+            scale: isMobile ? 0.75 : 0.2,
             opacity: 0,
-            rotation: -18
+            rotation: isMobile ? 0 : -14
           },
           {
             scale: 1,
             opacity: 1,
             rotation: 0,
-            duration: 0.75,
-            stagger: 0.08,
-            ease: 'back.out(2.2)',
+            duration: 0.7,
+            stagger: 0.07,
+            ease: 'back.out(2)',
             scrollTrigger: {
               trigger: faqSection,
-              start: 'top 84%',
-              toggleActions: 'play reverse play reverse'
+              start: 'top 88%',
+              toggleActions: toggleBehavior,
+              once: isMobile
+            },
+            onComplete: () => {
+              gsap.set(faqNums, { clearProps: 'transform,scale,opacity' });
             }
           }
         );
@@ -1885,24 +1998,63 @@ document.addEventListener('DOMContentLoaded', () => {
     if (featuredIndex) {
       gsap.fromTo(featuredIndex,
         {
-          scale: 0.4,
+          scale: 0.5,
           opacity: 0,
-          x: 15
+          x: 10
         },
         {
           scale: 1,
           opacity: 1,
           x: 0,
-          duration: 0.8,
+          duration: 0.75,
           ease: 'back.out(1.8)',
           scrollTrigger: {
             trigger: '.featured-header-container',
-            start: 'top 85%',
-            toggleActions: 'play reverse play reverse'
+            start: 'top 88%',
+            toggleActions: toggleBehavior,
+            once: isMobile
+          },
+          onComplete: () => {
+            gsap.set(featuredIndex, { clearProps: 'transform,scale,opacity' });
           }
         }
       );
     }
+  }
+
+  // =========================================================================
+  // TESTIMONIALS MOBILE INTERACTION CONTROLLER
+  // Smooth Touch-to-Pause, Pan-Y pass-through, Active Reader Feedback
+  // =========================================================================
+  function initTestimonialsMobileInteraction() {
+    const stage = document.getElementById('testimonialsStage');
+    if (!stage) return;
+
+    let touchTimer = null;
+
+    stage.addEventListener('touchstart', () => {
+      clearTimeout(touchTimer);
+      stage.classList.add('is-touch-paused');
+    }, { passive: true });
+
+    stage.addEventListener('touchend', () => {
+      touchTimer = setTimeout(() => {
+        stage.classList.remove('is-touch-paused');
+      }, 700);
+    }, { passive: true });
+
+    stage.addEventListener('touchcancel', () => {
+      stage.classList.remove('is-touch-paused');
+    }, { passive: true });
+
+    const cards = stage.querySelectorAll('.testi-card');
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          stage.classList.toggle('is-touch-paused');
+        }
+      });
+    });
   }
 
   initFloatingDarkFooter();
@@ -1911,5 +2063,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initFaqGsapAnimations();
   initNumberScalingAnimations();
+  initTestimonialsMobileInteraction();
 });
 
